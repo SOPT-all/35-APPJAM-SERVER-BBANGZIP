@@ -1,0 +1,15 @@
+dependencies {
+    implementation project(':bbangzip-domain')
+    implementation project(':bbangzip-common')
+    implementation project(':bbangzip-auth')
+    implementation project(':bbangzip-external')
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    // health check
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // database
+    runtimeOnly 'com.mysql:mysql-connector-j'
+}
