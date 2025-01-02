@@ -1,0 +1,10 @@
+bootJar { enabled = false }
+jar { enabled = true }
+
+dependencies {
+    // Domain module
+    implementation project(':bbangzip-auth')
+    implementation project(':bbangzip-common')
+    implementation project(':bbangzip-external')
+
+}
