@@ -42,7 +42,7 @@ jobs:
       - name: login docker hub
         uses: docker/login-action@v2.2.0
         with:
-          username: ${{ secrets.BBANGZIP_DOCKER_LOGIN_ACCESSTOKEN }}
+          username: ${{ secrets.BBANGZIP_DOCKER_LOGIN_USERNAME }}
           password: ${{ secrets.BBANGZIP_DOCKER_LOGIN_ACCESSTOKEN }}
 
       - name: docker image 빌드 및 푸시
