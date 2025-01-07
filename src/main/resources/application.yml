@@ -1,0 +1,24 @@
+spring:
+  web:
+    resources:
+      add-mappings: false # Disable static resource mapping (For NoHandlerFoundException)
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:mysql://bakeryserverdb.chem0wowwomv.ap-northeast-2.rds.amazonaws.com:3306/Bakeryserver
+    username: root
+    password: root1234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  data:
+    redis:
+      host: n-redis
+      port: 6379
