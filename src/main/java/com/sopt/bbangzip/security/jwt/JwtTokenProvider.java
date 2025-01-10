@@ -70,7 +70,6 @@ public class JwtTokenProvider implements InitializingBean {
                 .compact();
     }
 
-
     // 토큰을 파싱하고 JWS 검증, JWT의 클레임 반환
     public Claims getBody(final String token) {
         return Jwts.parserBuilder()
