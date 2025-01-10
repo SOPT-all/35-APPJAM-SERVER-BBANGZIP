@@ -6,6 +6,7 @@ public class AuthConstant {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String ANONYMOUS_USER = "anonymousUser";
     public static final String CHARACTER_TYPE = "utf-8";
+    public static final String CONTENT_TYPE = "application/json";
 
     /*
     인증(회원가입, 로그인) 전 단계의 API 들을 화이트리스트에 등록.
