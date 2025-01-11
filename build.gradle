@@ -28,8 +28,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
     // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
 
     // lombok
     compileOnly 'org.projectlombok:lombok'
@@ -38,6 +42,17 @@ dependencies {
     // database
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //JWT
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+    //Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
