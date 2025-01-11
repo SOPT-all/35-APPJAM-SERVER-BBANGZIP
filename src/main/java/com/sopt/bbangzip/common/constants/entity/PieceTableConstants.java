@@ -9,6 +9,8 @@ public class PieceTableConstants {
     public static final String COLUMN_FINISH_PAGE = "finish_page";
     public static final String COLUMN_DEADLINE = "deadline";
     public static final String COLUMN_IS_FINISHED = "is_finished";
+    public static final String COLUMN_IS_VISIBLE = "is_visible";
+    public static final String COLUMN_PAGE_AMOUNT = "page_amount";
     public static final String COLUMN_CREATED_AT = "created_at";
     public static final String COLUMN_UPDATED_AT = "updated_at";
 }

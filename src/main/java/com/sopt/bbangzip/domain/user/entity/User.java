@@ -1,8 +1,7 @@
 package com.sopt.bbangzip.domain.user.entity;
 
 import com.sopt.bbangzip.common.constants.entity.UserTableConstants;
-import com.sopt.bbangzip.domain.badge.entity.Badge;
-import com.sopt.bbangzip.domain.subject.entity.Subject;
+import com.sopt.bbangzip.domain.userSubject.entity.UserSubject;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,29 +24,18 @@ public class User {
     @Column(name = UserTableConstants.COLUMN_NICKNAME)
     private String nickname;
 
-    @Column(name = UserTableConstants.COLUMN_YEAR)
-    private Integer year;
-
-    @Column(name = UserTableConstants.COLUMN_SEMESTER)
-    private Integer semester;
-
     @Column(name = UserTableConstants.COLUMN_IS_ONBOARDING_COMPLETE, nullable = false)
     private Boolean isOnboardingComplete;
 
-    @Column(name = UserTableConstants.COLUMN_USER_LEVEL)
+    @Column(name = UserTableConstants.COLUMN_USER_LEVEL, nullable = false)
     private Long userLevel;
 
-    @Column(name = UserTableConstants.COLUMN_CREATED_AT, nullable = false)
+    @Column(name = UserTableConstants.COLUMN_CREATED_AT, nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = UserTableConstants.COLUMN_UPDATED_AT)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Badge> badges;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Subject> subjects;
-
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserSubject> userSubjects;
 }
