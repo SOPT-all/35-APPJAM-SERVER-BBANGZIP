@@ -14,7 +14,8 @@ public class AuthConstant {
     현재는 구현 중이기 때문에, 모든 경로에 대해서 허용해 준 상태입니다!
      */
     public static final String[] AUTH_WHITE_LIST = {
-            "/api/v1/**"
+            "/api/v1/**",
+            "/actuator/health"
     };
 
     private AuthConstant() { // 이 클래스의 인스턴스 생성을 막기 위해 private 생성자
