@@ -1,5 +1,11 @@
 package com.sopt.bbangzip.common.constants.entity;
 
 public class SubjectTableConstants {
-    // 도메인 엔티티의 db 에서의 이름 설정 시 @Column(name = ???) 에서 ???에 하드코딩 대신 쓰일 상수들을 모아놓은 클래스입니다.
+    public static final String TABLE_SUBJECT = "subject";
+    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_USER_SUBJECT_ID = "user_subject_id";
+    public static final String COLUMN_SUBJECT_NAME = "subject_name";
+    public static final String COLUMN_MOTIVATION_MESSAGE = "motivation_message";
+    public static final String COLUMN_CREATED_AT = "created_at";
+    public static final String COLUMN_UPDATED_AT = "updated_at";
 }
