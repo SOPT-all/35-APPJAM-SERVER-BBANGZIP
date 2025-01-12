@@ -3,10 +3,14 @@ package com.sopt.bbangzip.domain.exam.entity;
 import com.sopt.bbangzip.common.constants.entity.ExamTableConstants;
 import com.sopt.bbangzip.domain.subject.entity.Subject;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = ExamTableConstants.TABLE_EXAM)
+@NoArgsConstructor(access= AccessLevel.PROTECTED)
 public class Exam {
 
     @Id

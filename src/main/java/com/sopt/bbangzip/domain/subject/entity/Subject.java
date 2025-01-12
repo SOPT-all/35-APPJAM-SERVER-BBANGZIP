@@ -4,11 +4,15 @@ import com.sopt.bbangzip.common.constants.entity.SubjectTableConstants;
 import com.sopt.bbangzip.domain.userSubject.entity.UserSubject;
 import com.sopt.bbangzip.domain.exam.entity.Exam;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = SubjectTableConstants.TABLE_SUBJECT)
+@NoArgsConstructor(access= AccessLevel.PROTECTED)
 public class Subject {
 
     @Id

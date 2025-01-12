@@ -3,10 +3,14 @@ package com.sopt.bbangzip.domain.piece.entity;
 import com.sopt.bbangzip.common.constants.entity.PieceTableConstants;
 import com.sopt.bbangzip.domain.study.entity.Study;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = PieceTableConstants.TABLE_PIECE)
+@NoArgsConstructor(access= AccessLevel.PROTECTED)
 public class Piece {
 
     @Id

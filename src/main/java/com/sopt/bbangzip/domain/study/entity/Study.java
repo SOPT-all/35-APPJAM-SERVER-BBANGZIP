@@ -4,11 +4,15 @@ import com.sopt.bbangzip.common.constants.entity.StudyTableConstants;
 import com.sopt.bbangzip.domain.exam.entity.Exam;
 import com.sopt.bbangzip.domain.piece.entity.Piece;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = StudyTableConstants.TABLE_STUDY)
+@NoArgsConstructor(access= AccessLevel.PROTECTED)
 public class Study {
 
     @Id

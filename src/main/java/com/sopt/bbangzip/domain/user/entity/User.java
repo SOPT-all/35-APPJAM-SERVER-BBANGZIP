@@ -3,11 +3,15 @@ package com.sopt.bbangzip.domain.user.entity;
 import com.sopt.bbangzip.common.constants.entity.UserTableConstants;
 import com.sopt.bbangzip.domain.userSubject.entity.UserSubject;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = UserTableConstants.TABLE_USER)
+@NoArgsConstructor(access= AccessLevel.PROTECTED)
 public class User {
 
     @Id
