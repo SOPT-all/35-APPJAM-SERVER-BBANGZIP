@@ -26,6 +26,7 @@ public enum ErrorCode implements BbangzipErrorCode{
 
     // 404
     NOT_FOUND_END_POINT(HttpStatus.NOT_FOUND, "error", "존재하지 않는 API입니다."),
+    NOT_FOUND_USER(HttpStatus.NOT_FOUND,"error","존재하지 않는 사용자입니다."),
 
     // 500
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "error", "서버 내부 오류입니다."),
