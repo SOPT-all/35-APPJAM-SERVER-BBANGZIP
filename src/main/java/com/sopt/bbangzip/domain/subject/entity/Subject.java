@@ -41,11 +41,6 @@ public class Subject {
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     private List<Exam> exams = new ArrayList<>();
 
-    public Subject(String subjectName, UserSubject userSubject) {
-        this.subjectName = subjectName;
-        this.userSubject = userSubject;
-    }
-
     @Builder
     public Subject(UserSubject userSubject, String subjectName, String motivationMessage) {
         this.userSubject = userSubject;
@@ -54,6 +49,4 @@ public class Subject {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
-
-
 }
