@@ -19,25 +19,13 @@ public class SubjectController {
 
     private final SubjectService subjectService;
 
+    // 과목 추가하기 API
     @PostMapping("/subjects")
     public ResponseEntity<ResponseDto<Void>> createSubject(
             @UserId final Long userId,
             @RequestBody @Valid final SubjectCreateDto subjectCreateDto
     ) {
-
-        try {
-            subjectService.createSubject(userId, subjectCreateDto);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body(ResponseDto.success(null)); // 성공 시 204
-        } catch (NotFoundException e) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(ResponseDto.fail(e.getErrorCode())); // 404 에러
-        } catch (DuplicateSubjectException e) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(ResponseDto.fail(e.getErrorCode())); // 400 에러
-        }
+        subjectService.createSubject(userId, subjectCreateDto);
+        return ResponseEntity.noContent().build();
     }
-
 }
