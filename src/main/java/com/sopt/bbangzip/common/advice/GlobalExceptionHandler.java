@@ -1,9 +1,6 @@
 package com.sopt.bbangzip.common.advice;
 
-import com.sopt.bbangzip.common.exception.base.BusinessException;
-import com.sopt.bbangzip.common.exception.base.ForbiddenException;
-import com.sopt.bbangzip.common.exception.base.NotFoundException;
-import com.sopt.bbangzip.common.exception.base.UnAuthorizedException;
+import com.sopt.bbangzip.common.exception.base.*;
 import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +34,7 @@ public class GlobalExceptionHandler {
 
     // DB 에서 데이터를 찾지 못한 경우
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorCode> handleNotFoundException(NotFoundException e){
+    public ResponseEntity<ErrorCode> handleNotFoundException(NotFoundException e) {
         log.error("GlobalExceptionHandler catch NotFoundException : {}", e.getErrorCode().getMessage());
         return ResponseEntity
                 .status(e.getErrorCode().getHttpStatus())
@@ -72,11 +69,21 @@ public class GlobalExceptionHandler {
     }
 
     // 존재하지 않는 요청에 대한 예외
-    @ExceptionHandler(value={NoHandlerFoundException.class, HttpRequestMethodNotSupportedException.class})
+    @ExceptionHandler(value = {NoHandlerFoundException.class, HttpRequestMethodNotSupportedException.class})
     public ResponseEntity<ErrorCode> handleNoPageFoundException(Exception e) {
         log.error("GlobalExceptionHandler catch NoHandlerFoundException : {}", e.getMessage());
         return ResponseEntity
                 .status(ErrorCode.NOT_FOUND_END_POINT.getHttpStatus())
                 .body(ErrorCode.NOT_FOUND_END_POINT);
     }
+
+    @ExceptionHandler(DuplicateSubjectException.class)
+    public ResponseEntity<ErrorCode> handleDuplicateException(DuplicateSubjectException e) {
+        log.error(e.getMessage(), e);
+        return ResponseEntity
+                .status(ErrorCode.DUPLICATED_SUBJECT.getHttpStatus())
+                .body(ErrorCode.DUPLICATED_SUBJECT);
+    }
+
+
 }
