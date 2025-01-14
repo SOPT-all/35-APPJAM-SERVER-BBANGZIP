@@ -45,10 +45,11 @@ public class JwtTokenProvider implements InitializingBean {
     }
 
     // accessToken, RefreshToken 만들어서 반환 !!
-    public JwtTokensDto issueTokens(final long userId) {
+    public JwtTokensDto issueTokens(final long userId, final boolean isOnboardingComplete) {
         return JwtTokensDto.builder()
                 .accessToken(generateToken(userId, ACCESS_TOKEN_EXPIRE_TIME))
                 .refreshToken(generateToken(userId, REFRESH_TOKEN_EXPIRE_TIME))
+                .isOnboardingComplete(isOnboardingComplete)
                 .build();
     }
 

@@ -15,7 +15,9 @@ public class AuthConstant {
      */
     public static final String[] AUTH_WHITE_LIST = {
             "/api/v1/**",
-            "/actuator/health"
+            "/actuator/health",
+            "/api/v1/user/auth/signin",
+            "/callback"
     };
 
     private AuthConstant() { // 이 클래스의 인스턴스 생성을 막기 위해 private 생성자
