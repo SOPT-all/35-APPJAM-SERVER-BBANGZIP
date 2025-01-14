@@ -54,6 +54,9 @@ dependencies {
     //Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
+    // Open Feign
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.2.0'
+
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
