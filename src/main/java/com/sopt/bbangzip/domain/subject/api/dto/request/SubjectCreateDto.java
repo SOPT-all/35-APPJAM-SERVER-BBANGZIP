@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record SubjectCreateDto(
-        @NotBlank int year, // 년도
+        @NotNull int year, // 년도
         @NotBlank String semester, // 학기 (1, 2 등)
         @NotBlank String subjectName // 과목명
 ) {}
