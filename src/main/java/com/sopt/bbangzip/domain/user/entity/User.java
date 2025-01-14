@@ -35,7 +35,7 @@ public class User {
     private Long userLevel;
 
     @Column(name = UserTableConstants.COLUMN_CREATED_AT, nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = UserTableConstants.COLUMN_UPDATED_AT)
     private LocalDateTime updatedAt;

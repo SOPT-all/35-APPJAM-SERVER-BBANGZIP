@@ -29,6 +29,6 @@ public class Exam {
     private LocalDateTime examDate;
 
     @Column(name = ExamTableConstants.COLUMN_CREATED_AT, nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
 }

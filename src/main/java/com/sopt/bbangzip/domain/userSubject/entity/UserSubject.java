@@ -4,10 +4,18 @@ import com.sopt.bbangzip.common.constants.entity.UserSubjectTableConstants;
 import com.sopt.bbangzip.domain.user.entity.User;
 import com.sopt.bbangzip.domain.subject.entity.Subject;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter @Setter
 @Table(name = UserSubjectTableConstants.TABLE_USER_SUBJECT)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserSubject {
 
     @Id
@@ -16,16 +24,20 @@ public class UserSubject {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = UserSubjectTableConstants.COLUMN_USER_ID, nullable = false)
     private User user;
 
     @Column(name = UserSubjectTableConstants.COLUMN_YEAR, nullable = false)
-    private Integer year;
+    private int year;
 
     @Column(name = UserSubjectTableConstants.COLUMN_SEMESTER, nullable = false)
     private String semester;
 
-    @OneToMany(mappedBy = "userSubject", cascade = CascadeType.ALL)
-    private List<Subject> subjects;
+    @OneToMany(mappedBy = "userSubject", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Subject> subjects = new ArrayList<>();
 
+    public UserSubject(User user, int year, String semester) {
+        this.user = user;
+        this.year = year;
+        this.semester = semester;
+    }
 }
