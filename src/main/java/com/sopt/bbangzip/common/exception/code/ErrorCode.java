@@ -12,6 +12,7 @@ public enum ErrorCode implements BbangzipErrorCode{
     // 400
     INVALID_ARGUMENTS(HttpStatus.BAD_REQUEST, "error", "인자의 형식이 올바르지 않습니다."),
     WRONG_ENTRY_POINT(HttpStatus.BAD_REQUEST, "error", "잘못된 요청입니다."),
+    NOT_FOUND_SUBJECT(HttpStatus.NOT_FOUND, "error", "해당 학기에 과목명이 중복됩니다."),
 
     // 401
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "error", "인증되지 않은 사용자입니다."),

@@ -1,16 +1,18 @@
 package com.sopt.bbangzip.domain.subject.entity;
 
 import com.sopt.bbangzip.common.constants.entity.SubjectTableConstants;
+import com.sopt.bbangzip.domain.user.entity.User;
 import com.sopt.bbangzip.domain.userSubject.entity.UserSubject;
 import com.sopt.bbangzip.domain.exam.entity.Exam;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 @Table(name = SubjectTableConstants.TABLE_SUBJECT)
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
 public class Subject {
@@ -37,6 +39,21 @@ public class Subject {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
-    private List<Exam> exams;
+    private List<Exam> exams = new ArrayList<>();
+
+    public Subject(String subjectName, UserSubject userSubject) {
+        this.subjectName = subjectName;
+        this.userSubject = userSubject;
+    }
+
+    @Builder
+    public Subject(UserSubject userSubject, String subjectName, String motivationMessage) {
+        this.userSubject = userSubject;
+        this.subjectName = subjectName;
+        this.motivationMessage = motivationMessage;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
 
 }
