@@ -1,6 +1,6 @@
 package com.sopt.bbangzip.domain.user.service;
 
-import com.sopt.bbangzip.common.exception.base.NotfoundException;
+import com.sopt.bbangzip.common.exception.base.NotFoundException;
 import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.user.entity.User;
 import com.sopt.bbangzip.domain.user.repository.UserRepository;
@@ -15,7 +15,7 @@ public class UserRetriever {
 
     public User findByUserId(final long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new NotfoundException(ErrorCode.NOT_FOUND_USER));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER));
     }
 
     public User findByPlatformUserId(final Long platformUserId) {
