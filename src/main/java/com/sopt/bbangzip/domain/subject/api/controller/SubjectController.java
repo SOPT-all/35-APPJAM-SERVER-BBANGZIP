@@ -22,7 +22,8 @@ public class SubjectController {
     @PostMapping("/subjects")
     public ResponseEntity<ResponseDto<Void>> createSubject(
             @UserId final Long userId,
-            @RequestBody @Valid final SubjectCreateDto subjectCreateDto) {
+            @RequestBody @Valid final SubjectCreateDto subjectCreateDto
+    ) {
 
         try {
             subjectService.createSubject(userId, subjectCreateDto);

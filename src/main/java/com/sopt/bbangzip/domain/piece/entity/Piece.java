@@ -44,7 +44,7 @@ public class Piece {
     private Integer pageAmount;
 
     @Column(name = PieceTableConstants.COLUMN_CREATED_AT, nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @Column(name = PieceTableConstants.COLUMN_UPDATED_AT)
     private LocalDateTime updatedAt;

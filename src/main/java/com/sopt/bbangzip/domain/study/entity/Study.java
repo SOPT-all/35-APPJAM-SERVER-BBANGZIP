@@ -28,7 +28,7 @@ public class Study {
     private String studyContents;
 
     @Column(name = StudyTableConstants.COLUMN_CREATED_AT, nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();;
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "study", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Piece> pieces;

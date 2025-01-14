@@ -12,10 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
 @Table(name = SubjectTableConstants.TABLE_SUBJECT)
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Subject {
 
     @Id
@@ -34,7 +33,7 @@ public class Subject {
     private String motivationMessage;
 
     @Column(name = SubjectTableConstants.COLUMN_CREATED_AT, nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @Column(name = SubjectTableConstants.COLUMN_UPDATED_AT)
     private LocalDateTime updatedAt;
@@ -46,5 +45,15 @@ public class Subject {
         this.subjectName = subjectName;
         this.userSubject = userSubject;
     }
+
+    @Builder
+    public Subject(UserSubject userSubject, String subjectName, String motivationMessage) {
+        this.userSubject = userSubject;
+        this.subjectName = subjectName;
+        this.motivationMessage = motivationMessage;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
 
 }
