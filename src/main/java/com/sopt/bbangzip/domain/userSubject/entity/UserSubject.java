@@ -4,10 +4,7 @@ import com.sopt.bbangzip.common.constants.entity.UserSubjectTableConstants;
 import com.sopt.bbangzip.domain.user.entity.User;
 import com.sopt.bbangzip.domain.subject.entity.Subject;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +32,7 @@ public class UserSubject {
     @OneToMany(mappedBy = "userSubject", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Subject> subjects = new ArrayList<>();
 
+    @Builder
     public UserSubject(User user, int year, String semester) {
         this.user = user;
         this.year = year;
