@@ -7,6 +7,7 @@ import com.sopt.bbangzip.domain.token.service.TokenRemover;
 import com.sopt.bbangzip.domain.token.service.TokenRetriever;
 import com.sopt.bbangzip.domain.token.service.TokenSaver;
 import com.sopt.bbangzip.domain.user.entity.User;
+import com.sopt.bbangzip.domain.user.service.UserRemover;
 import com.sopt.bbangzip.domain.user.service.UserRetriever;
 import com.sopt.bbangzip.fegin.kakao.dto.KakaoUserInfoResponse;
 import com.sopt.bbangzip.fegin.kakao.service.KakaoService;
@@ -37,6 +38,7 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
 
     private final UserRetriever userRetriever;
+    private final UserRemover userRemover;
 
     private final TokenRetriever tokenRetriever;
     private final TokenSaver tokenSaver;
@@ -88,7 +90,13 @@ public class AuthService {
     }
 
     @Transactional
-    public void unlink(final long userId) {
-        return;
+    public void withdraw(final long userId) {
+        // 토큰 삭제하고
+        Token refreshToken = tokenRetriever.findById(userId);
+        tokenRemover.deleteToken(refreshToken);
+
+        // 유저 정보까지 삭제
+        User user = userRetriever.findByUserId(userId);
+        userRemover.removeUser(user);
     }
 }
