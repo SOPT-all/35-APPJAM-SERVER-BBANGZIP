@@ -5,6 +5,7 @@ import com.sopt.bbangzip.common.exception.base.InvalidOptionsException;
 import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectCreateDto;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectDeleteDto;
+import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectNameOrMotivationMessageDto;
 import com.sopt.bbangzip.domain.subject.entity.Subject;
 import com.sopt.bbangzip.domain.user.entity.User;
 import com.sopt.bbangzip.domain.user.service.UserRetriever;
@@ -14,7 +15,6 @@ import com.sopt.bbangzip.domain.userSubject.service.UserSubjectSaver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class SubjectService {
 
     private final UserSubjectRetriever userSubjectRetriever;
     private final UserSubjectSaver userSubjectSaver;
-    private final SubjectUpdator subjectUpdator;
+    private final SubjectUpdater subjectUpdater;
 
     public void createSubject(Long userId, SubjectCreateDto subjectCreateDto) {
 
@@ -71,15 +71,13 @@ public class SubjectService {
     }
 
     public void updateSubjectNameOrMotivationMessage(Long userId, Long subjectId, String options, String value) {
-        // 사용자 검증
         userRetriever.findByUserId(userId);
-
-        // 과목 조회
         Subject subject = subjectRetriever.findById(subjectId);
-
-        subjectUpdator.updateSubjectField(subject, options, value);
-
-        subjectSaver.save(subject); // 수정 후 저장
+        switch (options) {
+            case "subjectName" -> subjectUpdater.updateSubjectName(subject, value);
+            case "motivationMessage" -> subjectUpdater.updateMotivationMessage(subject, value);
+            default -> throw new InvalidOptionsException(ErrorCode.INVALID_OPTION);
+        }
     }
 
 }
