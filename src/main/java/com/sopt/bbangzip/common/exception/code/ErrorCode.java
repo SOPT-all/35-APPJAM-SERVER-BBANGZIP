@@ -12,12 +12,14 @@ public enum ErrorCode implements BbangzipErrorCode{
     // 400
     INVALID_ARGUMENTS(HttpStatus.BAD_REQUEST, "error", "인자의 형식이 올바르지 않습니다."),
     WRONG_ENTRY_POINT(HttpStatus.BAD_REQUEST, "error", "잘못된 요청입니다."),
+    INVALID_TOKEN(HttpStatus.BAD_REQUEST, "error", "올바르지 않은 형식의 토큰입니다"),
 
     // 401
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "error", "인증되지 않은 사용자입니다."),
     MALFORMED_JWT_TOKEN(HttpStatus.BAD_REQUEST, "error", "잘못된 형식의 토큰입니다."),
     TYPE_ERROR_JWT_TOKEN(HttpStatus.BAD_REQUEST, "error", "올바른 타입의 JWT 토큰이 아닙니다."),
     EXPIRED_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "error", "만료된 토큰입니다."),
+    EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "error", "유효하지 않은 리프레시 토큰입니다."),
     UNSUPPORTED_JWT_TOKEN(HttpStatus.BAD_REQUEST, "error", "지원하지 않는 형식의 토큰입니다."),
     UNKNOWN_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "error", "알 수 없는 인증 토큰 오류가 발생했습니다."),
 

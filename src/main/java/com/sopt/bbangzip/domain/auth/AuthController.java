@@ -1,8 +1,12 @@
 package com.sopt.bbangzip.domain.auth;
 
 import com.sopt.bbangzip.common.annotation.UserId;
+import com.sopt.bbangzip.common.exception.base.NotFoundException;
+import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.token.api.JwtTokensDto;
 import com.sopt.bbangzip.domain.token.api.ReissueJwtTokensDto;
+import com.sopt.bbangzip.security.jwt.JwtTokenProvider;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     // 소셜 로그인 API
     @PostMapping("/user/auth/signin")
@@ -25,9 +30,14 @@ public class AuthController {
     // 리프레시 토큰 재발급 API
     @PostMapping("/user/auth/re-issue")
     public ResponseEntity<ReissueJwtTokensDto> reissueToken(
-            @UserId final long userId
+            @UserId final long userId,
+            HttpServletRequest request
     ){
-        return ResponseEntity.ok(authService.reissueToken(userId));
+        String refreshToken = jwtTokenProvider.getJwtFromRequest(request);
+        if (refreshToken == null) {
+            throw new NotFoundException(ErrorCode.INVALID_TOKEN);
+        }
+        return ResponseEntity.ok(authService.reissueToken(userId, refreshToken));
     }
 
     // 로그아웃 API (진행중)

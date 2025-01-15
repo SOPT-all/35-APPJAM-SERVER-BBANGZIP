@@ -9,4 +9,8 @@ import org.springframework.stereotype.Component;
 public class TokenRemover {
 
     private final TokenRepository tokenRepository;
+
+    public void removeRefreshToken(final String refreshToken) {
+        tokenRepository.findByRefreshToken(refreshToken).ifPresent(tokenRepository::delete);
+    }
 }
