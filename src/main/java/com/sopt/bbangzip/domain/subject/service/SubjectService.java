@@ -29,6 +29,7 @@ public class SubjectService {
 
     private final UserSubjectRetriever userSubjectRetriever;
     private final UserSubjectSaver userSubjectSaver;
+    private final SubjectUpdator subjectUpdator;
 
     public void createSubject(Long userId, SubjectCreateDto subjectCreateDto) {
 
@@ -66,4 +67,18 @@ public class SubjectService {
         // SubjectRemover를 통해 삭제 처리
         subjectRemover.removeSubjects(subjects);
     }
+
+
+    public void updateSubjectNameOrMotivationMessage(Long userId, Long subjectId, String options, String value) {
+        // 사용자 검증
+        userRetriever.findByUserId(userId);
+
+        // 과목 조회
+        Subject subject = subjectRetriever.findById(subjectId);
+
+        subjectUpdator.updateSubjectField(subject, options, value);
+
+        subjectSaver.save(subject); // 수정 후 저장
+    }
+
 }
