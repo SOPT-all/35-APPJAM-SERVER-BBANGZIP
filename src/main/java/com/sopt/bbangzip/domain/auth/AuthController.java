@@ -52,14 +52,12 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
-    /**
-     * 회원 탈퇴 API
-     * 일단 임시니까 나중에 바꾸세용가리 (진행중)
-     */
+    // 회원 탈퇴 API
     @DeleteMapping("/user/auth/withdraw")
     public ResponseEntity<Void> withdraw(
             @UserId final long userId
     ){
+        authService.withdraw(userId);
         return  ResponseEntity.noContent().build();
     }
 }
