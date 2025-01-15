@@ -24,13 +24,13 @@ public class SubjectRetriever {
     }
 
     // UserSubject 조회
-    public UserSubject findByUserIdAndYearAndSemester(Long userId, int year, String semester) {
+    public final UserSubject findByUserIdAndYearAndSemester(Long userId, int year, String semester) {
         return userSubjectRepository.findByUserIdAndYearAndSemester(userId, year, semester)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER_SUBJECT));
     }
 
     // 과목 조회
-    public List<Subject> findByIdInAndUserSubjectId(List<Long> subjectIds, Long userSubjectId) {
+    public final List<Subject> findByIdInAndUserSubjectId(List<Long> subjectIds, Long userSubjectId) {
         List<Subject> subjects = subjectRepository.findByIdInAndUserSubjectId(subjectIds, userSubjectId);
         if (subjects.isEmpty()) {
             throw new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT);
