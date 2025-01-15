@@ -1,5 +1,7 @@
 package com.sopt.bbangzip.domain.auth;
 
+import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectCreateDto;
+import com.sopt.bbangzip.domain.subject.service.SubjectService;
 import com.sopt.bbangzip.domain.token.api.JwtTokensDto;
 import com.sopt.bbangzip.domain.token.api.ReissueJwtTokensDto;
 import com.sopt.bbangzip.domain.token.entity.Token;
@@ -9,6 +11,7 @@ import com.sopt.bbangzip.domain.token.service.TokenSaver;
 import com.sopt.bbangzip.domain.user.entity.User;
 import com.sopt.bbangzip.domain.user.service.UserRemover;
 import com.sopt.bbangzip.domain.user.service.UserRetriever;
+import com.sopt.bbangzip.domain.user.service.UserUpdater;
 import com.sopt.bbangzip.fegin.kakao.dto.KakaoUserInfoResponse;
 import com.sopt.bbangzip.fegin.kakao.service.KakaoService;
 import com.sopt.bbangzip.fegin.kakao.dto.KakaoTokenResponse;
@@ -39,12 +42,15 @@ public class AuthService {
 
     private final UserRetriever userRetriever;
     private final UserRemover userRemover;
+    private final UserUpdater userUpdater;
 
     private final TokenRetriever tokenRetriever;
     private final TokenSaver tokenSaver;
     private final TokenRemover tokenRemover;
 
     private final KakaoService kakaoService;
+
+    private final SubjectService subjectService;
 
     @Transactional
     public JwtTokensDto kakaoLogin(final String code) {
@@ -98,5 +104,27 @@ public class AuthService {
         // 유저 정보까지 삭제
         User user = userRetriever.findByUserId(userId);
         userRemover.removeUser(user);
+    }
+
+    @Transactional
+    public void onboarding(
+            final long userId,
+            final OnboardingRequestDto onboardingRequestDto
+    ) {
+        // 유저의 온보딩 여부 수정
+        User user = userRetriever.findByUserId(userId);
+        userUpdater.registerUser(user, onboardingRequestDto);
+
+        // 유저의 해당 년도, 학기에 과목 추가
+        int year = onboardingRequestDto.year();
+        String semester = onboardingRequestDto.semester();
+        String subjectName = onboardingRequestDto.subjectName();
+
+        SubjectCreateDto subjectCreateDto = SubjectCreateDto.builder()
+                .year(year)
+                .semester(semester)
+                .subjectName(subjectName)
+                .build();
+        subjectService.createSubject(userId,subjectCreateDto);
     }
 }
