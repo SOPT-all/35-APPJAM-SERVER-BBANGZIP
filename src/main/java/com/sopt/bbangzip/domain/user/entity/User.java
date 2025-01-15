@@ -56,4 +56,13 @@ public class User {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
+
+    public void updateUser(String nickname, Boolean isOnboardingComplete) {
+        if (nickname != null && !nickname.isEmpty()) {
+            this.nickname = nickname;
+        }
+        if(isOnboardingComplete != null) {
+            this.isOnboardingComplete = isOnboardingComplete;
+        }
+    }
 }
