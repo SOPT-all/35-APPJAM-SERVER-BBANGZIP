@@ -9,18 +9,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class SubjectUpdator {
+public class SubjectUpdater {
 
     private final SubjectRepository subjectRepository;
 
-    public void updateSubjectField(Subject subject, String options, String value) {
+    public void updateSubjectName(Subject subject, String newName) {
+        subject.updateSubjectName(newName);
+        subjectRepository.save(subject);
+    }
 
-        switch (options) {
-            case "subjectName" -> subject.updateSubjectName(value);
-            case "motivationMessage" -> subject.updateMotivationMessage(value);
-            default -> throw new InvalidOptionsException(ErrorCode.INVALID_OPTION);
-        }
-
+    public void updateMotivationMessage(Subject subject, String newMessage) {
+        subject.updateMotivationMessage(newMessage);
         subjectRepository.save(subject);
     }
 }
