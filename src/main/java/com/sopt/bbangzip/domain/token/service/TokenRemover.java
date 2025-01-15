@@ -1,5 +1,6 @@
 package com.sopt.bbangzip.domain.token.service;
 
+import com.sopt.bbangzip.domain.token.entity.Token;
 import com.sopt.bbangzip.domain.token.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,5 +13,9 @@ public class TokenRemover {
 
     public void removeRefreshToken(final String refreshToken) {
         tokenRepository.findByRefreshToken(refreshToken).ifPresent(tokenRepository::delete);
+    }
+
+    public void deleteToken(final Token token) {
+        tokenRepository.delete(token);
     }
 }

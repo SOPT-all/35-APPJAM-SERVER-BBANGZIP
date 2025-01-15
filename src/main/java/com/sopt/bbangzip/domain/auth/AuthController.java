@@ -42,7 +42,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.reissueToken(userId, refreshToken));
     }
 
-    // 로그아웃 API (진행중)
+    // 로그아웃 API
     @DeleteMapping("/user/auth/siginout")
     public ResponseEntity<Void> logout(
             @UserId final long userId
