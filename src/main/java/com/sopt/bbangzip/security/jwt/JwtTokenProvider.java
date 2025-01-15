@@ -1,7 +1,10 @@
 package com.sopt.bbangzip.security.jwt;
 
 import com.sopt.bbangzip.common.constants.AuthConstant;
+import com.sopt.bbangzip.common.exception.base.NotFoundException;
+import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.token.api.JwtTokensDto;
+import com.sopt.bbangzip.domain.token.api.ReissueJwtTokensDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -44,25 +47,53 @@ public class JwtTokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // accessToken, RefreshToken 만들어서 반환 !!
+    // accessToken, RefreshToken 만들어서 반환
     public JwtTokensDto issueTokens(final long userId, final boolean isOnboardingComplete) {
         return JwtTokensDto.builder()
-                .accessToken(generateToken(userId, ACCESS_TOKEN_EXPIRE_TIME))
-                .refreshToken(generateToken(userId, REFRESH_TOKEN_EXPIRE_TIME))
+                .accessToken(generateToken(userId, ACCESS_TOKEN_EXPIRE_TIME, "ACCESS_TOKEN"))
+                .refreshToken(generateToken(userId, REFRESH_TOKEN_EXPIRE_TIME, "REFRESH_TOKEN"))
                 .isOnboardingComplete(isOnboardingComplete)
                 .build();
     }
 
+    // 재발급
+    public ReissueJwtTokensDto reissueTokens(final long userId) {
+        return ReissueJwtTokensDto.builder()
+                .accessToken(generateToken(userId, ACCESS_TOKEN_EXPIRE_TIME, "ACCESS_TOKEN"))
+                .refreshToken(generateToken(userId, REFRESH_TOKEN_EXPIRE_TIME, "REFRESH_TOKEN"))
+                .build();
+    }
+
+    public void validateRefreshToken(String token) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            // 토큰 타입이 REFRESH_TOKEN인지 확인
+            String tokenType = claims.get("type", String.class);
+            if (!"REFRESH_TOKEN".equals(tokenType)) {
+                throw new NotFoundException(ErrorCode.TYPE_ERROR_JWT_TOKEN);
+            }
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new NotFoundException(ErrorCode.EXPIRED_REFRESH_TOKEN);
+        }
+    }
+
     // JWT 토큰 생성
-    public String generateToken(final long userId, final long tokenExpirationTime) {
+    public String generateToken(final long userId, final long tokenExpirationTime, final String tokenType) {
         final Date now = new Date(System.currentTimeMillis());
-        final Date expirationTime = new Date(System.currentTimeMillis()+tokenExpirationTime);
+        final Date expirationTime = new Date(System.currentTimeMillis() + tokenExpirationTime);
 
         final Claims claims = Jwts.claims()
-                .setIssuedAt(now) // 토큰 발행 시간을 지금으로
-                .setExpiration(expirationTime); // 토큰 만료 시간
+                .setIssuedAt(now) // 토큰 발행 시간
+                .setExpiration(expirationTime) // 토큰 만료 시간
+                .setSubject(tokenType); // 토큰 타입 설정
 
-        claims.put(AuthConstant.USER_ID_CLAIM_NAME, userId);
+        claims.put(AuthConstant.USER_ID_CLAIM_NAME, userId); // 사용자 ID 추가
+        claims.put("type", tokenType); // "type" 클레임 추가
 
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)

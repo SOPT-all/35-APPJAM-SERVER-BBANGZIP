@@ -1,6 +1,7 @@
 package com.sopt.bbangzip.domain.auth;
 
 import com.sopt.bbangzip.domain.token.api.JwtTokensDto;
+import com.sopt.bbangzip.domain.token.api.ReissueJwtTokensDto;
 import com.sopt.bbangzip.domain.token.entity.Token;
 import com.sopt.bbangzip.domain.token.service.TokenRemover;
 import com.sopt.bbangzip.domain.token.service.TokenRetriever;
@@ -63,14 +64,29 @@ public class AuthService {
         return jwtTokensDto;
     }
 
-    public JwtTokensDto reissueToken(final long userId) {
-        return null;
+    @Transactional
+    public ReissueJwtTokensDto reissueToken(final long userId, final String refreshToken) {
+        // 리프레시 토큰인지 검증
+        jwtTokenProvider.validateRefreshToken(refreshToken);
+        if (tokenRetriever.findByRefreshToken(refreshToken).isEmpty()) {
+            throw new IllegalStateException("리프레시 토큰이 이미 사용되었거나 존재하지 않습니다.");
+        }
+
+        // 기존 리프레시 토큰 폐기
+        tokenRemover.removeRefreshToken(refreshToken);
+        // 새로운 엑세스 토큰, 리프레시 토큰 발급
+        ReissueJwtTokensDto tokensDto = jwtTokenProvider.reissueTokens(userId);
+        // 새로운 리프레시 토큰 저장 후 반환
+        tokenSaver.save(Token.builder().id(userId).refreshToken(tokensDto.refreshToken()).build());
+        return tokensDto;
     }
 
+    @Transactional
     public void logout(final long userId) {
         return;
     }
 
+    @Transactional
     public void unlink(final long userId) {
         return;
     }
