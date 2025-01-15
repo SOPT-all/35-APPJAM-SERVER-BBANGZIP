@@ -2,6 +2,7 @@ package com.sopt.bbangzip.domain.auth;
 
 import com.sopt.bbangzip.common.annotation.UserId;
 import com.sopt.bbangzip.domain.token.api.JwtTokensDto;
+import com.sopt.bbangzip.domain.token.api.ReissueJwtTokensDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,9 @@ public class AuthController {
         return ResponseEntity.ok(authService.kakaoLogin(code));
     }
 
-    // 리프레시 토큰 재발급 API (진행중)
+    // 리프레시 토큰 재발급 API
     @PostMapping("/user/auth/re-issue")
-    public ResponseEntity<JwtTokensDto> reissueToken(
+    public ResponseEntity<ReissueJwtTokensDto> reissueToken(
             @UserId final long userId
     ){
         return ResponseEntity.ok(authService.reissueToken(userId));

@@ -1,6 +1,7 @@
 package com.sopt.bbangzip.domain.auth;
 
 import com.sopt.bbangzip.domain.token.api.JwtTokensDto;
+import com.sopt.bbangzip.domain.token.api.ReissueJwtTokensDto;
 import com.sopt.bbangzip.domain.token.entity.Token;
 import com.sopt.bbangzip.domain.token.service.TokenRemover;
 import com.sopt.bbangzip.domain.token.service.TokenRetriever;
@@ -63,8 +64,11 @@ public class AuthService {
         return jwtTokensDto;
     }
 
-    public JwtTokensDto reissueToken(final long userId) {
-        return null;
+    @Transactional
+    public ReissueJwtTokensDto reissueToken(final long userId) {
+        ReissueJwtTokensDto tokensDto = jwtTokenProvider.reissueTokens(userId);
+        tokenSaver.save(Token.builder().id(userId).refreshToken(tokensDto.refreshToken()).build());
+        return tokensDto;
     }
 
     public void logout(final long userId) {

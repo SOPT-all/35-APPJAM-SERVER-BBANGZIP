@@ -2,6 +2,7 @@ package com.sopt.bbangzip.security.jwt;
 
 import com.sopt.bbangzip.common.constants.AuthConstant;
 import com.sopt.bbangzip.domain.token.api.JwtTokensDto;
+import com.sopt.bbangzip.domain.token.api.ReissueJwtTokensDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -44,12 +45,20 @@ public class JwtTokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // accessToken, RefreshToken 만들어서 반환 !!
+    // accessToken, RefreshToken 만들어서 반환
     public JwtTokensDto issueTokens(final long userId, final boolean isOnboardingComplete) {
         return JwtTokensDto.builder()
                 .accessToken(generateToken(userId, ACCESS_TOKEN_EXPIRE_TIME))
                 .refreshToken(generateToken(userId, REFRESH_TOKEN_EXPIRE_TIME))
                 .isOnboardingComplete(isOnboardingComplete)
+                .build();
+    }
+
+    // 재발급
+    public ReissueJwtTokensDto reissueTokens(final long userId) {
+        return ReissueJwtTokensDto.builder()
+                .accessToken(generateToken(userId, ACCESS_TOKEN_EXPIRE_TIME))
+                .refreshToken(generateToken(userId, REFRESH_TOKEN_EXPIRE_TIME))
                 .build();
     }
 
