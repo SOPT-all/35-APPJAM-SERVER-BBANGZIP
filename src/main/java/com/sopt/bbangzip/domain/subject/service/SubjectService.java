@@ -12,6 +12,7 @@ import com.sopt.bbangzip.domain.user.service.UserRetriever;
 import com.sopt.bbangzip.domain.userSubject.entity.UserSubject;
 import com.sopt.bbangzip.domain.userSubject.service.UserSubjectRetriever;
 import com.sopt.bbangzip.domain.userSubject.service.UserSubjectSaver;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -70,6 +71,7 @@ public class SubjectService {
         subjectRemover.removeSubjects(subjects);
     }
 
+    @Transactional
     public void updateSubjectNameOrMotivationMessage(Long userId, Long subjectId, String options, String value) {
         userRetriever.findByUserId(userId);
         Subject subject = subjectRetriever.findById(subjectId);
