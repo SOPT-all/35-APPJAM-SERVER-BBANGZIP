@@ -15,11 +15,9 @@ public class SubjectUpdater {
 
     public void updateSubjectName(Subject subject, String newName) {
         subject.updateSubjectName(newName);
-        subjectRepository.save(subject);
     }
 
     public void updateMotivationMessage(Subject subject, String newMessage) {
         subject.updateMotivationMessage(newMessage);
-        subjectRepository.save(subject);
     }
 }
