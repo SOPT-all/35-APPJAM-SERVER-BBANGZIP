@@ -3,6 +3,7 @@ package com.sopt.bbangzip.domain.subject.service;
 import com.sopt.bbangzip.common.exception.base.DuplicateSubjectException;
 import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectCreateDto;
+import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectDeleteDto;
 import com.sopt.bbangzip.domain.subject.entity.Subject;
 import com.sopt.bbangzip.domain.user.entity.User;
 import com.sopt.bbangzip.domain.user.service.UserRetriever;
@@ -22,6 +23,7 @@ public class SubjectService {
 
     private final SubjectRetriever subjectRetriever;
     private final SubjectSaver subjectSaver;
+    private final SubjectRemover subjectRemover;
 
     private final UserSubjectRetriever userSubjectRetriever;
     private final UserSubjectSaver userSubjectSaver;
@@ -48,4 +50,14 @@ public class SubjectService {
         // subject 자체를 넘겨줘서 저장하기
         subjectSaver.save(subject);
     }
+
+    public void deleteSubject(Long userId, SubjectDeleteDto subjectDeleteDto) {
+        // 유저 검증
+        userRetriever.findByUserId(userId);
+
+        // SubjectRemover를 통해 삭제 처리
+        subjectRemover.removeSubjects(userId, subjectDeleteDto);
+    }
+
+
 }

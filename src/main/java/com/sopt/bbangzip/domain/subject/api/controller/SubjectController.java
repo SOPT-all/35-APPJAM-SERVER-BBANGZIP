@@ -5,6 +5,7 @@ import com.sopt.bbangzip.common.dto.ResponseDto;
 import com.sopt.bbangzip.common.exception.base.DuplicateSubjectException;
 import com.sopt.bbangzip.common.exception.base.NotFoundException;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectCreateDto;
+import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectDeleteDto;
 import com.sopt.bbangzip.domain.subject.service.SubjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,16 @@ public class SubjectController {
             @RequestBody @Valid final SubjectCreateDto subjectCreateDto
     ) {
         subjectService.createSubject(userId, subjectCreateDto);
+        return ResponseEntity.noContent().build();
+    }
+
+    // 과목 삭제하기 API
+    @DeleteMapping("subjects")
+    public ResponseEntity<ResponseDto<Void>> deleteSubject(
+            @UserId final Long userId,
+            @RequestBody @Valid final SubjectDeleteDto subjectDeleteDto
+            ){
+        subjectService.deleteSubject(userId, subjectDeleteDto);
         return ResponseEntity.noContent().build();
     }
 }

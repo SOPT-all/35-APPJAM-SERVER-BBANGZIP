@@ -8,6 +8,14 @@ import java.util.Optional;
 
 @Repository
 public interface UserSubjectRepository extends JpaRepository<UserSubject, Long> {
+
+    // userId, year, semester를 통해 UserSubject 조회
     Optional<UserSubject> findByUserIdAndYearAndSemester(Long userId,  int year, String semester);
+
+    // userId와 userSubjectId로 UserSubject 조회
+    Optional<UserSubject> findByUserIdAndId(Long userId, Long userSubjectId);
+
+
+
 }
 
