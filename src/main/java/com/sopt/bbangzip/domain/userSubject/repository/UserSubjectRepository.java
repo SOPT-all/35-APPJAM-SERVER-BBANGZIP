@@ -14,8 +14,5 @@ public interface UserSubjectRepository extends JpaRepository<UserSubject, Long> 
 
     // userId와 userSubjectId로 UserSubject 조회
     Optional<UserSubject> findByUserIdAndId(Long userId, Long userSubjectId);
-
-
-
 }
 

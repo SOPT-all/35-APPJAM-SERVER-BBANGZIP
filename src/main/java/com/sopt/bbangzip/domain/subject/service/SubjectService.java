@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -55,9 +57,13 @@ public class SubjectService {
         // 유저 검증
         userRetriever.findByUserId(userId);
 
+        // 주어진 연도와 학기에 대한 UserSubject 조회
+        UserSubject userSubject = subjectRetriever.findByUserIdAndYearAndSemester(userId, subjectDeleteDto.year(), subjectDeleteDto.semester());
+
+        // 삭제할 과목 조회
+        List<Subject> subjects = subjectRetriever.findByIdInAndUserSubjectId(subjectDeleteDto.subjectIds(), userSubject.getId());
+
         // SubjectRemover를 통해 삭제 처리
-        subjectRemover.removeSubjects(userId, subjectDeleteDto);
+        subjectRemover.removeSubjects(subjects);
     }
-
-
 }

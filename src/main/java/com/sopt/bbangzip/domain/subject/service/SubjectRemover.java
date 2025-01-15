@@ -18,23 +18,9 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class SubjectRemover {
-
-
-    private final SubjectRetriever subjectRetriever;
     private final SubjectRepository subjectRepository;
 
-    private final UserSubjectRetriever userSubjectRetriever;
-    private final UserSubjectRepository userSubjectRepository;
-
-    @Transactional
-    public void removeSubjects(Long userId, SubjectDeleteDto subjectDeleteDto) {
-        // 주어진 연도와 학기에 대한 UserSubject 조회
-        UserSubject userSubject = subjectRetriever.findByUserIdAndYearAndSemester(userId, subjectDeleteDto.year(), subjectDeleteDto.semester());
-
-        // 삭제할 과목 조회
-        List<Subject> subjects = subjectRetriever.findByIdInAndUserSubjectId(subjectDeleteDto.subjectIds(), userSubject.getId());
-
-        // 과목 삭제
+    public void removeSubjects(List<Subject> subjects) {
         subjectRepository.deleteAll(subjects);
     }
 }

@@ -30,7 +30,4 @@ public class UserSubjectRetriever {
         return userSubjectRepository.findByUserIdAndId(userId, userSubjectId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER_SUBJECT));
     }
-
-
-
 }

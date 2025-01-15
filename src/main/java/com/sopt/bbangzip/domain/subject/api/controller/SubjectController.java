@@ -31,11 +31,11 @@ public class SubjectController {
     }
 
     // 과목 삭제하기 API
-    @DeleteMapping("subjects")
-    public ResponseEntity<ResponseDto<Void>> deleteSubject(
+    @DeleteMapping("/subjects")
+    public ResponseEntity<Void> deleteSubject(
             @UserId final Long userId,
             @RequestBody @Valid final SubjectDeleteDto subjectDeleteDto
-            ){
+    ) {
         subjectService.deleteSubject(userId, subjectDeleteDto);
         return ResponseEntity.noContent().build();
     }
