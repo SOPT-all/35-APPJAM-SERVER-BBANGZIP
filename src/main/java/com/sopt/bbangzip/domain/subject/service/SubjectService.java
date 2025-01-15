@@ -1,6 +1,7 @@
 package com.sopt.bbangzip.domain.subject.service;
 
 import com.sopt.bbangzip.common.exception.base.DuplicateSubjectException;
+import com.sopt.bbangzip.common.exception.base.InvalidOptionsException;
 import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectCreateDto;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectDeleteDto;
@@ -13,6 +14,7 @@ import com.sopt.bbangzip.domain.userSubject.service.UserSubjectSaver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -67,7 +69,6 @@ public class SubjectService {
         // SubjectRemover를 통해 삭제 처리
         subjectRemover.removeSubjects(subjects);
     }
-
 
     public void updateSubjectNameOrMotivationMessage(Long userId, Long subjectId, String options, String value) {
         // 사용자 검증

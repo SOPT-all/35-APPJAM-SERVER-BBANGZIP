@@ -14,6 +14,7 @@ public class SubjectUpdator {
     private final SubjectRepository subjectRepository;
 
     public void updateSubjectField(Subject subject, String options, String value) {
+
         switch (options) {
             case "subjectName" -> subject.updateSubjectName(value);
             case "motivationMessage" -> subject.updateMotivationMessage(value);

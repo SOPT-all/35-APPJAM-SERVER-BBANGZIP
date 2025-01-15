@@ -44,5 +44,4 @@ public class SubjectRetriever {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
     }
 
-
 }
