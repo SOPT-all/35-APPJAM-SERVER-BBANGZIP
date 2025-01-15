@@ -4,6 +4,7 @@ import com.sopt.bbangzip.common.annotation.UserId;
 import com.sopt.bbangzip.common.dto.ResponseDto;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectCreateDto;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectDeleteDto;
+import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectNameOrMotivationMessageDto;
 import com.sopt.bbangzip.domain.subject.service.SubjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -45,11 +46,10 @@ public class SubjectController {
             @UserId final Long userId,
             @PathVariable final Long subjectId,
             @PathVariable final String options,
-            @RequestBody  final Map<String, String> requestBody
-    ) {
-        String value = requestBody.get("value");
+            @RequestBody @Valid final SubjectNameOrMotivationMessageDto subjectNameOrMotivationMessageDto
+            ) {
 
-        subjectService.updateSubjectNameOrMotivationMessage(userId, subjectId, options, value);
+        subjectService.updateSubjectNameOrMotivationMessage(userId, subjectId, options, subjectNameOrMotivationMessageDto.value());
         return ResponseEntity.noContent().build();
     }
 

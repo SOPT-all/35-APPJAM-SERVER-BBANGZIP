@@ -8,5 +8,4 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class InvalidOptionsException extends RuntimeException {
     private final ErrorCode errorCode;
-
 }
