@@ -24,9 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class StudyService {
-
     private final PieceSaver pieceSaver;
-    private final ExamRetriever examRetriever;
     private final ExamSaver examSaver;
     private final StudySaver studySaver;
     private final SubjectRetriever subjectRetriever;
@@ -37,7 +35,12 @@ public class StudyService {
     public StudyCreateResponseDto createStudy(Long userId, StudyCreateRequestDto requestDto) {
 
         Subject subject = subjectRetriever.findByUserIdAndSubjectName(userId, requestDto.subjectId(), requestDto.subjectName());
-        Exam exam = examRetriever.findBySubjectIdAndExamNameAndExamDate(subject.getId(), requestDto.examName(), parseStringToLocalDate(requestDto.examDate()));
+
+        Exam exam = Exam.builder()
+                .examName(requestDto.examName())
+                .examDate(parseStringToLocalDate(requestDto.examDate()))
+                .subject(subject)
+                .build();
         examSaver.save(exam);
 
         Study study = Study.builder()
