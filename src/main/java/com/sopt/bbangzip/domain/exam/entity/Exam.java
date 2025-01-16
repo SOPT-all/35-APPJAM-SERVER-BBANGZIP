@@ -4,6 +4,7 @@ import com.sopt.bbangzip.common.constants.entity.ExamTableConstants;
 import com.sopt.bbangzip.domain.subject.entity.Subject;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,6 +35,7 @@ public class Exam {
     @Column(name = ExamTableConstants.COLUMN_CREATED_AT, nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Builder
     public Exam(Subject subject, String examName, LocalDate examDate) {
         this.subject = subject;
         this.examName = examName;
