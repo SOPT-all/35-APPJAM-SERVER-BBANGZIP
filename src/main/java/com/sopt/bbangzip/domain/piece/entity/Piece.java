@@ -42,10 +42,10 @@ public class Piece {
     private Boolean isFinished = false;
 
     @Column(name = PieceTableConstants.COLUMN_IS_VISIBLE, nullable = false)
-    private Boolean isVisible = true;
+    private Boolean isVisible = false;
 
     @Column(name = PieceTableConstants.COLUMN_PAGE_AMOUNT)
-    private Integer pageAmount;
+    private int pageAmount;
 
     @Column(name = PieceTableConstants.COLUMN_CREATED_AT, nullable = false, updatable = false)
     private LocalDateTime createdAt;
