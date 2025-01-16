@@ -1,31 +1,28 @@
 package com.sopt.bbangzip.domain.piece.service;
 
+import com.sopt.bbangzip.common.exception.base.NotFoundException;
+import com.sopt.bbangzip.common.exception.code.ErrorCode;
+import com.sopt.bbangzip.domain.piece.api.dto.PieceDeleteRequestDto;
 import com.sopt.bbangzip.domain.piece.entity.Piece;
-import com.sopt.bbangzip.domain.study.entity.Study;
-import com.sopt.bbangzip.domain.study.api.dto.request.StudyCreateRequestDto.PieceRequestDto;
+import com.sopt.bbangzip.domain.piece.repository.PieceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PieceService {
 
-    private final PieceSaver pieceSaver;
+    private final PieceRepository pieceRepository;
+    private final PieceRetriever pieceRetriever;
 
-    // Piece 생성 및 저장
-    public List<Piece> createAndSavePieces(Study study, List<PieceRequestDto> pieceRequestDtos) {
-        List<Piece> pieces = pieceRequestDtos.stream()
-                .map(pieceDto -> Piece.builder()
-                        .study(study)
-                        .startPage(pieceDto.startPage())
-                        .finishPage(pieceDto.finishPage())
-                        .deadline(pieceDto.deadline())
-                        .build()
-                )
-                .collect(Collectors.toList());
-        return pieceSaver.saveAll(pieces);
+    @Transactional
+    public void deletePieces(PieceDeleteRequestDto pieceDeleteRequestDto) {
+        List<Long> pieceIds = pieceDeleteRequestDto.pieceIds();
+        List<Piece> pieces = pieceRetriever.findAllByIds(pieceIds);
+        pieceRepository.deleteAll(pieces);
     }
+
 }
