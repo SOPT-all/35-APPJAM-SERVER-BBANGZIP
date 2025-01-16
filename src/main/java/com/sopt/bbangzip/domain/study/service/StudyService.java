@@ -1,12 +1,9 @@
 package com.sopt.bbangzip.domain.study.service;
 
 import com.sopt.bbangzip.domain.exam.entity.Exam;
-import com.sopt.bbangzip.domain.exam.service.ExamRetriever;
 import com.sopt.bbangzip.domain.exam.service.ExamSaver;
-import com.sopt.bbangzip.domain.exam.service.ExamService;
 import com.sopt.bbangzip.domain.piece.entity.Piece;
 import com.sopt.bbangzip.domain.piece.service.PieceSaver;
-import com.sopt.bbangzip.domain.piece.service.PieceService;
 import com.sopt.bbangzip.domain.study.api.dto.request.StudyCreateRequestDto;
 import com.sopt.bbangzip.domain.study.api.dto.response.StudyCreateResponseDto;
 import com.sopt.bbangzip.domain.study.entity.Study;
