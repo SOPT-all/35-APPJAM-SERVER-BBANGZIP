@@ -40,17 +40,16 @@ public class SubjectController {
         return ResponseEntity.noContent().build();
     }
 
-     // 과목명 및 과목 별 동기부여 메세지 작성 및 수정 API
+    // 과목명 및 과목 별 동기부여 메세지 작성 및 수정 API
     @PutMapping("/subjects/{subjectId}/{options}")
     public ResponseEntity<Void> updateMotivationMessage(
             @UserId final Long userId,
             @PathVariable final Long subjectId,
             @PathVariable final String options,
             @RequestBody @Valid final SubjectNameOrMotivationMessageDto subjectNameOrMotivationMessageDto
-            ) {
+    ) {
 
         subjectService.updateSubjectNameOrMotivationMessage(userId, subjectId, options, subjectNameOrMotivationMessageDto.value());
         return ResponseEntity.noContent().build();
     }
-
 }
