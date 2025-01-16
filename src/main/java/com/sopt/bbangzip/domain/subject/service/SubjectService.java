@@ -5,7 +5,6 @@ import com.sopt.bbangzip.common.exception.base.InvalidOptionsException;
 import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectCreateDto;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectDeleteDto;
-import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectNameOrMotivationMessageDto;
 import com.sopt.bbangzip.domain.subject.entity.Subject;
 import com.sopt.bbangzip.domain.user.entity.User;
 import com.sopt.bbangzip.domain.user.service.UserRetriever;
