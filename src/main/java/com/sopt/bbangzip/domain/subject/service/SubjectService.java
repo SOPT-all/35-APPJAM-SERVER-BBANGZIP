@@ -81,5 +81,4 @@ public class SubjectService {
             default -> throw new InvalidOptionsException(ErrorCode.INVALID_OPTION);
         }
     }
-
 }
