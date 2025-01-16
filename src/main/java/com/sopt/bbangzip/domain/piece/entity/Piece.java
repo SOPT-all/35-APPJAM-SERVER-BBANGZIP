@@ -4,6 +4,7 @@ import com.sopt.bbangzip.common.constants.entity.PieceTableConstants;
 import com.sopt.bbangzip.domain.study.entity.Study;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -55,12 +56,15 @@ public class Piece {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy년MM월dd일");
 
+    @Builder
     public Piece(Study study, int startPage, int finishPage, String deadline) {
         this.study = study;
         this.startPage = startPage;
         this.finishPage = finishPage;
+        this.pageAmount = finishPage - startPage + 1;
         this.deadline = parseStringToLocalDate(deadline);
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     // String 값을 LocalDate로 변환
