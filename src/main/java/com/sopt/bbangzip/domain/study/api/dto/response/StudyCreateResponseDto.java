@@ -8,6 +8,7 @@ import lombok.Builder;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Builder
 public record StudyCreateResponseDto(
         Long studyId,
         Long examId,
@@ -17,16 +18,6 @@ public record StudyCreateResponseDto(
         String examDate
 ) {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy년MM월dd일");
-
-    @Builder
-    public StudyCreateResponseDto(Long studyId, Long examId, String studyContents, int startPage, int finishPage, String examDate) {
-        this.studyId = studyId;
-        this.examId = examId;
-        this.studyContents = studyContents;
-        this.startPage = startPage;
-        this.finishPage = finishPage;
-        this.examDate = examDate;
-    }
 
     public static StudyCreateResponseDto from(Study study, Exam exam, List<Piece> pieces) {
         return StudyCreateResponseDto.builder()
