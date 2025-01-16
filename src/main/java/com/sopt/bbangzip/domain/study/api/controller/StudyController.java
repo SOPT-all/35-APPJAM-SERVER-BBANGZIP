@@ -21,11 +21,11 @@ public class StudyController {
     private final StudyService studyService;
 
     @PostMapping("/studies")
-    public ResponseEntity<ResponseDto<StudyCreateResponseDto>> createStudy(
+    public ResponseEntity<StudyCreateResponseDto> createStudy(
             @UserId final Long userId,
             @RequestBody @Valid final StudyCreateRequestDto studyCreateRequestDto
     ) {
         StudyCreateResponseDto responseDto = studyService.createStudy(userId, studyCreateRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDto.success(responseDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 }
