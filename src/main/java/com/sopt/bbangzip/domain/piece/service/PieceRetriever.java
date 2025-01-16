@@ -16,12 +16,6 @@ public class PieceRetriever {
 
     // 특정 ID 리스트에 해당하는 조각(Piece)들을 조회하는 메서드
     public List<Piece> findAllByIds(List<Long> pieceIds) {
-        List<Piece> pieces = pieceRepository.findAllById(pieceIds);
-
-        // 유효한 조각인지 검증
-        if (pieces.isEmpty() || pieces.size() != pieceIds.size()) {
-            throw new NotFoundException(ErrorCode.NOT_FOUND_PIECE);
-        }
-        return pieces;
+        return pieceRepository.findAllById(pieceIds);
     }
 }
