@@ -10,15 +10,20 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class ExamRetriever {
     private final ExamRepository examRepository;
 
-    public Exam findBySubjectIdAndExamNameAndExamDate(Long subjectId, String examName, LocalDate examDate) {
-        return examRepository.findBySubjectIdAndExamNameAndExamDate(subjectId, examName, examDate)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_EXAM));
+    //    public Exam findBySubjectIdAndExamNameAndExamDate(Long subjectId, String examName, LocalDate examDate) {
+//        return examRepository.findBySubjectIdAndExamNameAndExamDate(subjectId, examName, examDate)
+//                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_EXAM));
+//    }
+    public Optional<Exam> findBySubjectIdAndExamNameAndExamDate(Long subjectId, String examName, LocalDate examDate) {
+        return examRepository.findBySubjectIdAndExamNameAndExamDate(subjectId, examName, examDate);
     }
+
 }
 

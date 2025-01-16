@@ -2,8 +2,10 @@ package com.sopt.bbangzip.domain.study.service;
 
 import com.sopt.bbangzip.domain.exam.entity.Exam;
 import com.sopt.bbangzip.domain.exam.service.ExamSaver;
+import com.sopt.bbangzip.domain.exam.service.ExamService;
 import com.sopt.bbangzip.domain.piece.entity.Piece;
 import com.sopt.bbangzip.domain.piece.service.PieceSaver;
+import com.sopt.bbangzip.domain.piece.service.PieceService;
 import com.sopt.bbangzip.domain.study.api.dto.request.StudyCreateRequestDto;
 import com.sopt.bbangzip.domain.study.api.dto.response.StudyCreateResponseDto;
 import com.sopt.bbangzip.domain.study.entity.Study;
@@ -21,8 +23,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudyService {
 
-    private final PieceSaver pieceSaver;
-    private final ExamSaver examSaver;
+    private final PieceService pieceService;
+    private final ExamService examService;
     private final StudySaver studySaver;
     private final SubjectRetriever subjectRetriever;
 
@@ -38,7 +40,7 @@ public class StudyService {
         );
 
         // 2. 시험 저장 또는 가져오기
-        Exam exam = examSaver.saveExam(
+        Exam exam = examService.findOrCreateExam(
                 subject,
                 requestDto.examName(),
                 parseStringToLocalDate(requestDto.examDate())
@@ -48,14 +50,18 @@ public class StudyService {
         Study study = studySaver.saveStudy(exam, requestDto.studyContents());
 
         // 4. Piece 저장
-        List<Piece> pieces = pieceSaver.savePieces(study, requestDto.pieceList());
+        List<Piece> pieces = pieceService.createAndSavePieces(study, requestDto.pieceList());
 
-        return new StudyCreateResponseDto(
-                study,
-                exam,
-                pieces
-        );
+        return StudyCreateResponseDto.builder()
+                .studyId(study.getId())
+                .examId(exam.getId())
+                .studyContents(study.getStudyContents())
+                .startPage(pieces.stream().mapToInt(Piece::getStartPage).min().orElse(0))
+                .finishPage(pieces.stream().mapToInt(Piece::getFinishPage).max().orElse(0))
+                .examDate(exam.getExamDate().format(DATE_FORMATTER))
+                .build();
     }
+
 
     // 날짜 String을 LocalDateTime으로 변환
     private LocalDate parseStringToLocalDate(String date) {
