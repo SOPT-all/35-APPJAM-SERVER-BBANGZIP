@@ -5,12 +5,14 @@ import com.sopt.bbangzip.domain.exam.entity.Exam;
 import com.sopt.bbangzip.domain.piece.entity.Piece;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Getter
 @Table(name = StudyTableConstants.TABLE_STUDY)
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
 public class Study {
@@ -33,4 +35,9 @@ public class Study {
     @OneToMany(mappedBy = "study", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Piece> pieces;
 
+    public Study(Exam exam, String studyContents) {
+        this.exam = exam;
+        this.studyContents = studyContents;
+        this.createdAt = LocalDateTime.now();
+    }
 }
