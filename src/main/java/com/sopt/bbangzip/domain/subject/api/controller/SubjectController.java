@@ -43,8 +43,8 @@ public class SubjectController {
     // 과목명 및 과목 별 동기부여 메세지 작성 및 수정 API
     @PutMapping("/subjects/{subjectId}/{options}")
     public ResponseEntity<Void> updateMotivationMessage(
-            @UserId final Long userId,
-            @PathVariable final Long subjectId,
+            @UserId final long userId,
+            @PathVariable final long subjectId,
             @PathVariable final String options,
             @RequestBody @Valid final SubjectNameOrMotivationMessageDto subjectNameOrMotivationMessageDto
     ) {
