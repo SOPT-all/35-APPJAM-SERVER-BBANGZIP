@@ -12,11 +12,7 @@ public class StudySaver {
 
     private final StudyRepository studyRepository;
 
-    public Study saveStudy(Exam exam, String studyContents) {
-        Study study = new Study(
-                exam,
-                studyContents
-        );
+    public Study save(Study study) {
         return studyRepository.save(study);
     }
 }

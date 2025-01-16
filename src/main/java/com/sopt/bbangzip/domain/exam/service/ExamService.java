@@ -12,12 +12,5 @@ import java.time.LocalDate;
 @Service
 @RequiredArgsConstructor
 public class ExamService {
-    private final ExamRetriever examRetriever;
-    private final ExamSaver examSaver;
-
-    public Exam findOrCreateExam(Subject subject, String examName, LocalDate examDate) {
-        return examRetriever.findBySubjectIdAndExamNameAndExamDate(subject.getId(), examName, examDate)
-                .orElseGet(() -> examSaver.createAndSaveExam(subject, examName, examDate));
-    }
 }
 
