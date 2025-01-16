@@ -4,6 +4,7 @@ import com.sopt.bbangzip.common.constants.entity.PieceTableConstants;
 import com.sopt.bbangzip.domain.study.entity.Study;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = PieceTableConstants.TABLE_PIECE)
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
+@Getter
 public class Piece {
 
     @Id
@@ -35,10 +37,10 @@ public class Piece {
     private LocalDateTime deadline;
 
     @Column(name = PieceTableConstants.COLUMN_IS_FINISHED, nullable = false)
-    private Boolean isFinished;
+    private Boolean isFinished = false;
 
     @Column(name = PieceTableConstants.COLUMN_IS_VISIBLE, nullable = false)
-    private Boolean isVisible;
+    private Boolean isVisible = false;
 
     @Column(name = PieceTableConstants.COLUMN_PAGE_AMOUNT)
     private Integer pageAmount;
@@ -49,4 +51,8 @@ public class Piece {
     @Column(name = PieceTableConstants.COLUMN_UPDATED_AT)
     private LocalDateTime updatedAt;
 
+    public void updateStatus(Boolean isFinished) {
+        this.isFinished = isFinished;
+        this.updatedAt = LocalDateTime.now();
+    }
 }
