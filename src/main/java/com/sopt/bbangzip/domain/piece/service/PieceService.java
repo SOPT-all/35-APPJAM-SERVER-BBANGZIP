@@ -22,6 +22,11 @@ public class PieceService {
     public void deletePieces(PieceDeleteRequestDto pieceDeleteRequestDto) {
         List<Long> pieceIds = pieceDeleteRequestDto.pieceIds();
         List<Piece> pieces = pieceRetriever.findAllByIds(pieceIds);
+
+        // 유효한 조각인지 검증
+        if (pieces.isEmpty() || pieces.size() != pieceIds.size()) {
+            throw new NotFoundException(ErrorCode.NOT_FOUND_PIECE);
+        }
         pieceRepository.deleteAll(pieces);
     }
 
