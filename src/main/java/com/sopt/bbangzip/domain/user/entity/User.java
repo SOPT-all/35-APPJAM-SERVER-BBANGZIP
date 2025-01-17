@@ -121,4 +121,23 @@ public class User {
         this.todayStudyCompleteCount++;
         this.lastStudyCompletedDate = now;
     }
+
+    /**
+     * 뱃지 개수를 반환
+     */
+    public int getBadgeCount() {
+        int badgeCount = 0;
+        if (this.firstStudyCompletedAt != null) badgeCount++;
+        if (this.allTasksCompletedAt != null) badgeCount++;
+        if (this.hasMassBakingBreadBadge != null) badgeCount++;
+        return badgeCount;
+    }
+
+    // level 갱신
+    public void updateUserLevel(int newLevel) {
+        if (this.userLevel != newLevel) {
+            this.userLevel = newLevel;
+            this.updatedAt = LocalDateTime.now(); // 레벨 변경 시 updatedAt 갱신
+        }
+    }
 }
