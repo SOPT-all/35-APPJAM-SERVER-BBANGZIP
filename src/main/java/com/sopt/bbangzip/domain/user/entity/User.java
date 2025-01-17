@@ -72,10 +72,10 @@ public class User {
     /**
      * 뱃지 관련 필드들
      */
-    @Column(name = UserTableConstants.COLUMN_FIRST_STUDY_COMPLETED)
+    @Column(name = UserTableConstants.COLUMN_FIRST_STUDY_COMPLETED_AT)
     private LocalDateTime firstStudyCompletedAt = null; // 빵 굽기 시작 획득 여부 (맨 처음으로 '학습 완료')
 
-    @Column(name = UserTableConstants.COLUMN_FIRST_TODAY_TASKS_COMPLETED)
+    @Column(name = UserTableConstants.COLUMN_FIRST_TODAY_TASKS_COMPLETED_AT)
     private LocalDateTime allTasksCompletedAt = null; // 오늘의 빵 완판 획득 여부 (맨 처음으로 '오늘 할 일'을 모두 완료)
 
     @Column(name = UserTableConstants.COLUMN_HAS_MASS_BAKING_BREAD_BADGE)
