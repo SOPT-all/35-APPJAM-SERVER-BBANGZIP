@@ -30,7 +30,7 @@ public class UserSubject {
     private String semester;
 
     @OneToMany(mappedBy = "userSubject", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Subject> subjects = new ArrayList<>();
+    private List<Subject> subjects;
 
     @Builder
     public UserSubject(User user, int year, String semester) {

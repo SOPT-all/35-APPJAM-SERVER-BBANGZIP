@@ -34,6 +34,7 @@ public enum ErrorCode implements BbangzipErrorCode{
     NOT_FOUND_USER_SUBJECT(HttpStatus.NOT_FOUND,"error","해당 학기에 유저가 등록한 과목이 없습니다"),
     NOT_FOUND_SUBJECT(HttpStatus.NOT_FOUND, "error", "존재하지 않는 과목입니다."),
     NOT_FOUND_TOKEN(HttpStatus.NOT_FOUND, "error", "존재하지 않는 토큰입니다"),
+    NOT_FOUND_PIECE(HttpStatus.NOT_FOUND, "error", "존재하지 않는 Piece 입니다"),
     NOT_FOUND_STUDY(HttpStatus.NOT_FOUND, "error", "존재하지 않는 공부범위(교재)입니다"),
     NOT_FOUND_EXAM(HttpStatus.NOT_FOUND, "error", "존재하지 않는 시험입니다."),
     NOT_FOUND_PIECE(HttpStatus.NOT_FOUND, "error", "존재하지 않는 공부조각입니다."),
