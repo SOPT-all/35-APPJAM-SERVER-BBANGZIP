@@ -32,9 +32,10 @@ public class PieceController {
             @UserId final long userId,
             @PathVariable final long pieceId,
             @RequestBody @Valid IsFinishedDto isFinishedDto
-    )
-    {
+    ) {
         return ResponseEntity.ok(pieceService.updateStatus(userId, pieceId, isFinishedDto));
+    }
+
     @DeleteMapping("/studies/pieces")
     public ResponseEntity<Void> deletePieces(
             @UserId final Long userId,

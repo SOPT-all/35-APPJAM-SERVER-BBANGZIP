@@ -17,7 +17,6 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Table(name = PieceTableConstants.TABLE_PIECE)
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
-@Getter
 public class Piece {
 
     @Id
