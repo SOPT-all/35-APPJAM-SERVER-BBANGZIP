@@ -16,6 +16,12 @@ public class TodayBreadSoldOutBadge implements Badge{
         return user -> {
             // 아직 뱃지를 획득하지 않았고, 오늘 할 일이 0개일 때만 조건을 만족
             int todayCounts = pieceRetriever.countUnfinishedTodayPieces(user.getId());
+            int completeCounts = pieceRetriever.countFinishedTodayPieces(user.getId());
+
+            // 오늘 할 일이 할당되지 않았을 경우에는 뱃지 획득 못함
+            if (todayCounts + completeCounts == 0) {
+                return false;
+            }
             return user.getAllTasksCompletedAt() == null && todayCounts == 0;
         };
     }
