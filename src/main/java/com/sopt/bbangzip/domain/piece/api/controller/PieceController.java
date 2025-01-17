@@ -33,7 +33,18 @@ public class PieceController {
             @PathVariable final long pieceId,
             @RequestBody @Valid IsFinishedDto isFinishedDto
     ) {
-        return ResponseEntity.ok(pieceService.updateStatus(userId, pieceId, isFinishedDto));
+        return ResponseEntity.ok(pieceService.markDone(userId, pieceId, isFinishedDto));
+    }
+
+    // 공부 조각 미완료 체크하기 API
+    @PostMapping("/pieces/{pieceId}/mark-undone")
+    public ResponseEntity<Void> markUnDone(
+            @UserId final long userId,
+            @PathVariable final long pieceId,
+            @RequestBody @Valid IsFinishedDto isFinishedDto
+    ) {
+        pieceService.markUnDone(userId, pieceId,isFinishedDto);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/studies/pieces")

@@ -16,7 +16,7 @@ public class PieceUpdater {
 
     private final BadgeService badgeService;
 
-    public List<BadgeResponse> updateStatus(
+    public List<BadgeResponse> updateStatusDone(
             Piece piece,
             IsFinishedDto isFinished,
             User user
@@ -33,5 +33,13 @@ public class PieceUpdater {
         }
         // 상태가 완료로 변경되지 않았다면, 뱃지 반환하지 않음
         return null;
+    }
+
+    public void updateStatusUnDone(
+            Piece piece,
+            IsFinishedDto isFinished,
+            User user
+    ){
+        piece.updateStatus(isFinished.isFinished());
     }
 }
