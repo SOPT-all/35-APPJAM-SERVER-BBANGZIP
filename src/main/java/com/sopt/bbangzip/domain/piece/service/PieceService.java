@@ -12,7 +12,6 @@ import com.sopt.bbangzip.domain.user.service.UserRetriever;
 import com.sopt.bbangzip.common.exception.base.NotFoundException;
 import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.piece.api.dto.PieceDeleteRequestDto;
-import com.sopt.bbangzip.domain.piece.entity.Piece;
 import com.sopt.bbangzip.domain.piece.repository.PieceRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,6 @@ import java.util.List;
 public class PieceService {
 
     private final UserRetriever userRetriever;
-    private final BadgeService badgeService;
   
     private final PieceRetriever pieceRetriever;
     private final PieceUpdater pieceUpdater;
@@ -46,9 +44,8 @@ public class PieceService {
         pieceRepository.deleteAll(pieces);
     }
 
-
     @Transactional
-    public MarkDoneResponse updateStatus(
+    public MarkDoneResponse markDone(
             final Long userId,
             final Long pieceId,
             IsFinishedDto isFinishedDto
@@ -60,8 +57,7 @@ public class PieceService {
         // 2. 공부 조각을 상태를 완료로 바꾸면서,
         // 뱃지를 얻어야하는 상황인지 검증하고, 부여 까지 여기서 다 한다.
         // 얻은 뱃지가 있다면 뱃지 반환하고, 없다면 null 이 반환됨
-        List<BadgeResponse> newlyAwardedBadges = pieceUpdater.updateStatus(piece, isFinishedDto, user);
-
+        List<BadgeResponse> newlyAwardedBadges = pieceUpdater.updateStatusDone(piece, isFinishedDto, user);
 
         // 3. 오늘 남은 총 공부 개수 확인
         int todayCounts = pieceRetriever.countUnfinishedTodayPieces(userId);
@@ -83,5 +79,16 @@ public class PieceService {
                     .badges(newlyAwardedBadges) // 획득한 뱃지 목록 반환
                     .build();
         }
+    }
+
+    @Transactional
+    public void markUnDone(
+            final Long userId,
+            final Long pieceId,
+            IsFinishedDto isFinishedDto
+    ) {
+        Piece piece = pieceRetriever.findByPieceIdAndUserId(pieceId, userId);
+        User user = userRetriever.findByUserId(userId);
+        pieceUpdater.updateStatusUnDone(piece, isFinishedDto, user);
     }
 }
