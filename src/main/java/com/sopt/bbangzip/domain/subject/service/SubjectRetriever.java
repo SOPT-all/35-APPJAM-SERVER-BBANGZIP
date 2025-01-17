@@ -29,7 +29,7 @@ public class SubjectRetriever {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER_SUBJECT));
     }
 
-    // 과목 조회
+    // 과목 조회 (다건 조회)
     public final List<Subject> findByIdInAndUserSubjectId(List<Long> subjectIds, Long userSubjectId) {
         List<Subject> subjects = subjectRepository.findByIdInAndUserSubjectId(subjectIds, userSubjectId);
         if (subjects.isEmpty()) {
@@ -37,4 +37,27 @@ public class SubjectRetriever {
         }
         return subjects;
     }
+
+    // 과목 조회 (subjectId로 단건조회)
+    public Subject findById(Long subjectId) {
+        return subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
+    }
+
+    // UserId와 SubjectName으로 특정 과목(Subject) 조회
+    public Subject findByUserIdAndSubjectName(Long userId, int year, String semester, String subjectName) {
+        // UserSubject 조회
+        UserSubject userSubject = findByUserIdAndYearAndSemester(userId, year, semester);
+
+        // Subject 조회
+        return subjectRepository.findByUserSubjectAndSubjectName(userSubject, subjectName)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
+    }
+
+    // UserId 과목 ID, 과목 이름으로 과목을 조회하는 메서드
+    public Subject findByUserIdAndSubjectName(Long userId, Long subjectId, String subjectName) {
+        return subjectRepository.findByUserSubject_UserIdAndIdAndSubjectName(userId, subjectId, subjectName)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
+    }
+
 }

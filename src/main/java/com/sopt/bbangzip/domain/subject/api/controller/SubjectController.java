@@ -2,14 +2,12 @@ package com.sopt.bbangzip.domain.subject.api.controller;
 
 import com.sopt.bbangzip.common.annotation.UserId;
 import com.sopt.bbangzip.common.dto.ResponseDto;
-import com.sopt.bbangzip.common.exception.base.DuplicateSubjectException;
-import com.sopt.bbangzip.common.exception.base.NotFoundException;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectCreateDto;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectDeleteDto;
+import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectNameOrMotivationMessageDto;
 import com.sopt.bbangzip.domain.subject.service.SubjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +35,19 @@ public class SubjectController {
             @RequestBody @Valid final SubjectDeleteDto subjectDeleteDto
     ) {
         subjectService.deleteSubject(userId, subjectDeleteDto);
+        return ResponseEntity.noContent().build();
+    }
+
+    // 과목명 및 과목 별 동기부여 메세지 작성 및 수정 API
+    @PutMapping("/subjects/{subjectId}/{options}")
+    public ResponseEntity<Void> updateMotivationMessage(
+            @UserId final long userId,
+            @PathVariable final long subjectId,
+            @PathVariable final String options,
+            @RequestBody @Valid final SubjectNameOrMotivationMessageDto subjectNameOrMotivationMessageDto
+    ) {
+
+        subjectService.updateSubjectNameOrMotivationMessage(userId, subjectId, options, subjectNameOrMotivationMessageDto.value());
         return ResponseEntity.noContent().build();
     }
 }

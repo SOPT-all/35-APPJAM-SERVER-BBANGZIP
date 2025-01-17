@@ -49,4 +49,15 @@ public class Subject {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
+
+    public void updateSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void updateMotivationMessage(String motivationMessage) {
+        this.motivationMessage = motivationMessage;
+        this.updatedAt = LocalDateTime.now();
+    }
+
 }

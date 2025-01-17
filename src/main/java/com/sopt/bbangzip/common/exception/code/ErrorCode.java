@@ -13,6 +13,7 @@ public enum ErrorCode implements BbangzipErrorCode{
     INVALID_ARGUMENTS(HttpStatus.BAD_REQUEST, "error", "인자의 형식이 올바르지 않습니다."),
     WRONG_ENTRY_POINT(HttpStatus.BAD_REQUEST, "error", "잘못된 요청입니다."),
     INVALID_TOKEN(HttpStatus.BAD_REQUEST, "error", "올바르지 않은 형식의 토큰입니다"),
+    INVALID_OPTION(HttpStatus.BAD_REQUEST, "error", "올바르지 않은 옵션입니다."),
 
     // 401
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "error", "인증되지 않은 사용자입니다."),
@@ -34,6 +35,9 @@ public enum ErrorCode implements BbangzipErrorCode{
     NOT_FOUND_SUBJECT(HttpStatus.NOT_FOUND, "error", "존재하지 않는 과목입니다."),
     NOT_FOUND_TOKEN(HttpStatus.NOT_FOUND, "error", "존재하지 않는 토큰입니다"),
     NOT_FOUND_PIECE(HttpStatus.NOT_FOUND, "error", "존재하지 않는 Piece 입니다"),
+    NOT_FOUND_STUDY(HttpStatus.NOT_FOUND, "error", "존재하지 않는 공부범위(교재)입니다"),
+    NOT_FOUND_EXAM(HttpStatus.NOT_FOUND, "error", "존재하지 않는 시험입니다."),
+    NOT_FOUND_PIECE(HttpStatus.NOT_FOUND, "error", "존재하지 않는 공부조각입니다."),
 
     // 500
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "error", "서버 내부 오류입니다."),

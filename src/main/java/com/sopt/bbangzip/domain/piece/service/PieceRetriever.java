@@ -5,8 +5,10 @@ import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.piece.entity.Piece;
 import com.sopt.bbangzip.domain.piece.repository.PieceRepository;
 import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -26,5 +28,10 @@ public class PieceRetriever {
 
     public int countFinishedTodayPieces(final Long userId) {
         return pieceRepository.countFinishedTodayPieces(userId);
+    }
+  
+      // 특정 ID 리스트에 해당하는 조각(Piece)들을 조회하는 메서드
+    public List<Piece> findAllByIds(List<Long> pieceIds) {
+        return pieceRepository.findAllById(pieceIds);
     }
 }
