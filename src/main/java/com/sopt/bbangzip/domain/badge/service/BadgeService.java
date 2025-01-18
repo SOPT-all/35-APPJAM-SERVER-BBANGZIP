@@ -81,17 +81,16 @@ public class BadgeService {
      */
     public BadgeListResponse getBadgeList(Long userId) {
         User user = userRetriever.findByUserId(userId);
-        List<BadgeListResponse.Badge> badgeList = new ArrayList<>();
 
-        for (Badge badge : badges) {
-            boolean isLocked = isBadgeLocked(user, badge);
-            badgeList.add(new BadgeListResponse.Badge(
-                    badge.getCategory(),
-                    badge.getName(),
-                    isLocked,
-                    badge.getImage()
-            ));
-        }
+        List<BadgeListResponse.Badge> badgeList = badges.stream()
+                .map(badge -> new BadgeListResponse.Badge(
+                        badge.getCategory(),
+                        badge.getName(),
+                        isBadgeLocked(user, badge),
+                        badge.getImage()
+                ))
+                .toList();
+
         return new BadgeListResponse(badgeList);
     }
 
