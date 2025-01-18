@@ -31,8 +31,8 @@ public class PieceService {
     private final PieceUpdater pieceUpdater;
     private final PieceSaver pieceSaver;
   
-    private final PieceRepository pieceRepository;
-  
+    private final PieceRemover pieceRemover;
+
     @Transactional
     public void deletePieces(PieceDeleteRequestDto pieceDeleteRequestDto) {
         List<Long> pieceIds = pieceDeleteRequestDto.pieceIds();
@@ -42,7 +42,8 @@ public class PieceService {
         if (pieces.isEmpty() || pieces.size() != pieceIds.size()) {
             throw new NotFoundException(ErrorCode.NOT_FOUND_PIECE);
         }
-        pieceRepository.deleteAll(pieces);
+
+        pieceRemover.removePieces(pieces);
     }
 
     @Transactional
