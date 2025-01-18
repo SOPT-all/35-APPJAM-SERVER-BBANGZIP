@@ -5,8 +5,9 @@ import com.sopt.bbangzip.common.annotation.UserId;
 import com.sopt.bbangzip.domain.piece.api.dto.request.IsFinishedDto;
 import com.sopt.bbangzip.domain.piece.api.dto.response.MarkDoneResponse;
 
-import com.sopt.bbangzip.domain.piece.api.dto.PieceDeleteRequestDto;
+import com.sopt.bbangzip.domain.piece.api.dto.request.PieceDeleteRequestDto;
 
+import com.sopt.bbangzip.domain.piece.api.dto.response.TodoPiecesResponse;
 import com.sopt.bbangzip.domain.piece.service.PieceService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -54,5 +55,17 @@ public class PieceController {
     ) {
         pieceService.deletePieces(pieceDeleteRequestDto);
         return ResponseEntity.noContent().build();
+    }
+
+    // 오늘 할 일 view + 정렬 API
+    @GetMapping("/pieces/today/orders")
+    public ResponseEntity<TodoPiecesResponse> getTodoPieces(
+            @UserId final long userId,
+            @RequestParam String area, // todo 리스트인지, pending 리스트인지
+            @RequestParam int year,
+            @RequestParam String semester,
+            @RequestParam String sortOption
+    ){
+        return ResponseEntity.ok(pieceService.getPieces(userId, area, year,semester,sortOption));
     }
 }

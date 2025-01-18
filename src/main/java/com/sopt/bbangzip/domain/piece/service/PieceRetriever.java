@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 @Slf4j
@@ -29,7 +30,42 @@ public class PieceRetriever {
     public int countFinishedTodayPieces(final Long userId) {
         return pieceRepository.countFinishedTodayPieces(userId);
     }
-  
+
+    public int countPendingTodayPieces(final Long userId){
+        return pieceRepository.countPendingTodayPieces(userId);
+    }
+
+    /*
+    Todo
+     */
+    public List<Piece> findTodoPiecesByRecentOrder(Long userId, int year, String semester){
+        return  pieceRepository.findTodoPiecesByRecentOrder(userId, year, semester);
+    }
+
+    public List<Piece> findTodoPiecesByLeastVolumeOrder(Long userId, int year, String semester){
+        return pieceRepository.findTodoPiecesByLeastVolumeOrder(userId, year, semester);
+    }
+
+    public List<Piece> findTodoPiecesByNearestDeadlineOrder(Long userId, int year, String semester){
+        return pieceRepository.findTodoPiecesByNearestDeadlineOrder(userId, year, semester);
+    }
+
+    /*
+    Pending
+     */
+    public List<Piece> findPendingPiecesByRecentOrder(Long userId, int year, String semester){
+        return pieceRepository.findPendingPiecesByRecentOrder(userId, year, semester);
+    }
+
+    public List<Piece> findPendingPiecesByLeastVolumeOrder(Long userId, int year, String semester){
+        return pieceRepository.findPendingPiecesByLeastVolumeOrder(userId, year, semester);
+    }
+
+    public List<Piece> findPendingPiecesByNearestDeadlineOrder(Long userId, int year, String semester){
+        return pieceRepository.findPendingPiecesByNearestDeadlineOrder(userId, year, semester);
+    }
+
+
       // 특정 ID 리스트에 해당하는 조각(Piece)들을 조회하는 메서드
     public List<Piece> findAllByIds(List<Long> pieceIds) {
         return pieceRepository.findAllById(pieceIds);

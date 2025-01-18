@@ -1,24 +1,28 @@
 package com.sopt.bbangzip.domain.piece.service;
 
 
+
+import com.sopt.bbangzip.domain.badge.BadgeResponse;
 import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.request.IsFinishedDto;
+import com.sopt.bbangzip.domain.piece.api.dto.request.PieceDeleteRequestDto;
 import com.sopt.bbangzip.domain.piece.api.dto.response.MarkDoneResponse;
+import com.sopt.bbangzip.domain.piece.api.dto.response.TodoPiecesResponse;
 import com.sopt.bbangzip.domain.piece.entity.Piece;
 import com.sopt.bbangzip.domain.user.entity.User;
 import com.sopt.bbangzip.domain.user.service.UserRetriever;
 
 import com.sopt.bbangzip.common.exception.base.NotFoundException;
 import com.sopt.bbangzip.common.exception.code.ErrorCode;
-import com.sopt.bbangzip.domain.piece.api.dto.PieceDeleteRequestDto;
 import com.sopt.bbangzip.domain.piece.repository.PieceRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor
@@ -89,5 +93,71 @@ public class PieceService {
         Piece piece = pieceRetriever.findByPieceIdAndUserId(pieceId, userId);
         User user = userRetriever.findByUserId(userId);
         pieceUpdater.updateStatusUnDone(piece, isFinishedDto, user);
+    }
+
+    public TodoPiecesResponse getPieces(
+            final Long userId,
+            final String area, // "todo" 또는 "pending"
+            final int year,
+            final String semester,
+            final String sortOption
+    ) {
+        User user = userRetriever.findByUserId(userId);
+
+            /**
+             *  area 가 todo 라면 '오늘 할 일' 뷰
+             *  오늘 할 일 : is_visible 이 true 여야 됨
+             */
+        List<Piece> pieces;
+        if (area.equals("todo")) {
+            pieces = switch (sortOption) {
+                case "recent" -> pieceRetriever.findTodoPiecesByRecentOrder(userId, year, semester);
+                case "leastVolume" -> pieceRetriever.findTodoPiecesByLeastVolumeOrder(userId, year, semester);
+                case "nearestDeadline" -> pieceRetriever.findTodoPiecesByNearestDeadlineOrder(userId, year, semester);
+                default -> throw new IllegalArgumentException("Invalid sort option: " + sortOption);
+            };
+        } else {
+            /**
+             * area 가 pending 이라면 '밀린 일' 뷰
+             * 밀린 일 : is_visible 이 false 면서, is_finished 가 false 면서, 오늘 날짜가 piece 의 deadline 보다 이후인 piece 들
+             */
+            pieces = switch (sortOption) {
+                case "recent" -> pieceRetriever.findPendingPiecesByRecentOrder(userId, year, semester);
+                case "leastVolume" -> pieceRetriever.findPendingPiecesByLeastVolumeOrder(userId, year, semester);
+                case "nearestDeadline" -> pieceRetriever.findPendingPiecesByNearestDeadlineOrder(userId, year, semester);
+                default -> throw new IllegalArgumentException("Invalid sort option: " + sortOption);
+            };
+        }
+
+        int todayCount = pieceRetriever.countUnfinishedTodayPieces(userId);
+        int completedCount = pieceRetriever.countFinishedTodayPieces(userId);
+        int pendingCount = pieceRetriever.countPendingTodayPieces(userId);
+
+        // 5. Piece 데이터를 TodoPieceDto로 변환
+        List<TodoPiecesResponse.TodoPieceDto> todoPieceDtos = pieces.stream()
+                .map(piece -> TodoPiecesResponse.TodoPieceDto.builder()
+                        .pieceId(piece.getId())
+                        .subjectName(piece.getStudy().getExam().getSubject().getSubjectName())
+                        .examName(piece.getStudy().getExam().getExamName())
+                        .studyCounts(piece.getStudy().getStudyContents())
+                        .startPage(piece.getStartPage())
+                        .finishPage(piece.getFinishPage())
+                        .deadline(piece.getDeadline().toString())
+                        .remainingDays(calculateRemainingDays(piece.getDeadline()))
+                        .isFinished(piece.getIsFinished())
+                        .build())
+                .toList();
+
+        return TodoPiecesResponse.builder()
+                .toadyCount(area.equals("todo") ? todayCount : null) // "pending"일 경우 null
+                .completeCount(area.equals("todo") ? completedCount : null) // "pending"일 경우 null
+                .pendingCount(pendingCount)
+                .todoPieceStoList(todoPieceDtos)
+                .build();
+    }
+
+    private int calculateRemainingDays(LocalDate deadline) {
+        int remainingDays = (int) ChronoUnit.DAYS.between(LocalDate.now(), deadline);
+        return remainingDays >= 0 ? -remainingDays : Math.abs(remainingDays); // 밀린 일 양수, 남은 일 음수
     }
 }
