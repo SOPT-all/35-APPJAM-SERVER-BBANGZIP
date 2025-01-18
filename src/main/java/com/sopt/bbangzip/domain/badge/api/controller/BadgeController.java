@@ -22,16 +22,13 @@ public class BadgeController {
 
     @GetMapping
     public ResponseEntity<BadgeListResponse> getBadgeList(@UserId final Long userId) {
-        BadgeListResponse badgeList = badgeService.getBadgeList(userId);
-        return ResponseEntity.ok(badgeList);
+        return ResponseEntity.ok( badgeService.getBadgeList(userId));
     }
 
     @GetMapping("/{badgeName}")
     public ResponseEntity<BadgeDetailResponse> getBadgeDetails(
             @PathVariable String badgeName,
             @UserId final Long userId) {
-
-        BadgeDetailResponse badgeDetail = badgeService.getBadgeDetail(userId, badgeName);
-        return ResponseEntity.ok(badgeDetail);
+        return ResponseEntity.ok(badgeService.getBadgeDetail(userId, badgeName));
     }
 }
