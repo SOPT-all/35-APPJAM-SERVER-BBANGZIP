@@ -6,6 +6,7 @@ import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeListResponse;
 import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeResponse;
 import com.sopt.bbangzip.domain.piece.service.PieceRetriever;
 import com.sopt.bbangzip.domain.user.entity.User;
+import com.sopt.bbangzip.domain.user.service.UserLevelCalculator;
 import com.sopt.bbangzip.domain.user.service.UserRetriever;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ public class BadgeService {
     private final List<Badge> badges;
     private final PieceRetriever pieceRetriever;
     private final UserRetriever userRetriever;
+    private final UserLevelCalculator userLevelCalculator;
 
     /**
      * 조건에 맞는 모든 뱃지를 반환
@@ -47,7 +49,14 @@ public class BadgeService {
                 ));
             }
         }
+        updateUserLevel(user);
         return awardedBadges; // 조건에 맞는 모든 뱃지를 반환
+    }
+
+    private void updateUserLevel(User user) {
+        int currentPoints = user.getPoint();
+        int newLevel = userLevelCalculator.calculateLevel(currentPoints);
+        user.updateUserLevel(newLevel);
     }
 
     private boolean isBadgeAlreadyAwarded(User user, Badge badge) {
