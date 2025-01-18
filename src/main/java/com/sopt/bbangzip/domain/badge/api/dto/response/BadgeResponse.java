@@ -1,4 +1,4 @@
-package com.sopt.bbangzip.domain.badge;
+package com.sopt.bbangzip.domain.badge.api.dto.response;
 
 import java.util.List;
 
