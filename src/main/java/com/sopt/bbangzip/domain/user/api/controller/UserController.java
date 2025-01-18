@@ -16,7 +16,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/mypage")
-    public ResponseEntity<UserLevelResponseDto> getUserLevelStatus(
+    public ResponseEntity<UserLevelResponseDto> getMyPage(
             @UserId final Long userId
     ) {
         // 마이페이지 조회 시 유저 레벨 업데이트
