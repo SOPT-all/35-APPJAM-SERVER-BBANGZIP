@@ -17,7 +17,6 @@ public class BadgeRetriever {
     }
 
     public List<Badge> getBadges() {
-
         return badges;
     }
 }
