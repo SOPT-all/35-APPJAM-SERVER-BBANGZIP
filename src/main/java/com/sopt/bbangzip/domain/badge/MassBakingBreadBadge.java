@@ -43,4 +43,9 @@ public class MassBakingBreadBadge implements Badge{
         // 유저가 조건을 만족하면 잠금 해제
         return !getCondition().isEligible(user);
     }
+
+    @Override
+    public String getAchievementCondition(){
+        return "24시간 내 '학습 완료'를 3회 완료한 경우";
+    }
 }

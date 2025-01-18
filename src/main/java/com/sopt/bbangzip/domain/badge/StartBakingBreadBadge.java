@@ -43,4 +43,9 @@ public class StartBakingBreadBadge implements Badge{
         // 유저가 조건을 만족하면 잠금 해제
         return !getCondition().isEligible(user);
     }
+
+    @Override
+    public String getAchievementCondition(){
+        return "최초로 '학습완료'를 수행한 경우";
+    }
 }

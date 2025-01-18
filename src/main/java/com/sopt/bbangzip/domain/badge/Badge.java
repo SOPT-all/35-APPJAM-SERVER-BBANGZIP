@@ -12,4 +12,5 @@ public interface Badge {
     String getImage(); // 뱃지 이미지 반환
     String getCategory(); // 뱃지 카테고리 반환
     Boolean isLocked(User user); // 잠금 여부 반환
+    String getAchievementCondition();
 }
