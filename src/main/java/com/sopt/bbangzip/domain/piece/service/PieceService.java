@@ -1,8 +1,5 @@
 package com.sopt.bbangzip.domain.piece.service;
 
-
-
-import com.sopt.bbangzip.domain.badge.BadgeResponse;
 import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.request.IsFinishedDto;
 import com.sopt.bbangzip.domain.piece.api.dto.request.PieceDeleteRequestDto;
