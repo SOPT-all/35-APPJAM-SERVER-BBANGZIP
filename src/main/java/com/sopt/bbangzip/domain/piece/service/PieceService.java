@@ -29,6 +29,7 @@ public class PieceService {
   
     private final PieceRetriever pieceRetriever;
     private final PieceUpdater pieceUpdater;
+    private final PieceSaver pieceSaver;
   
     private final PieceRepository pieceRepository;
   
@@ -156,5 +157,17 @@ public class PieceService {
     private int calculateRemainingDays(LocalDate deadline) {
         int remainingDays = (int) ChronoUnit.DAYS.between(LocalDate.now(), deadline);
         return remainingDays >= 0 ? -remainingDays : Math.abs(remainingDays); // 밀린 일 양수, 남은 일 음수
+    }
+
+    @Transactional
+    public void updateStatusIsVisible(PieceDeleteRequestDto pieceDeleteRequestDto) {
+        List<Long> pieceIds = pieceDeleteRequestDto.pieceIds();
+        List<Piece> pieces = pieceRetriever.findAllByIds(pieceIds);
+
+        if (pieces.isEmpty() || pieces.size() != pieceIds.size()) {
+            throw new NotFoundException(ErrorCode.NOT_FOUND_PIECE);
+        }
+        pieces.forEach(piece -> piece.updateIsVisible(false));
+        pieceSaver.saveAll(pieces);
     }
 }
