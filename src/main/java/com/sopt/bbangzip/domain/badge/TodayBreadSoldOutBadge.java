@@ -54,7 +54,11 @@ public class TodayBreadSoldOutBadge implements Badge{
 
     @Override
     public Boolean isLocked(User user) {
-        // 유저가 조건을 만족하면 잠금 해제
         return !getCondition().isEligible(user);
+    }
+
+    @Override
+    public String getAchievementCondition(){
+        return "최초로 '오늘 할 일'을 모두 완료한 경우";
     }
 }
