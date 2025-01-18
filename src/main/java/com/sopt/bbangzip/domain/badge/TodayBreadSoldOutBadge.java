@@ -1,6 +1,7 @@
 package com.sopt.bbangzip.domain.badge;
 
 import com.sopt.bbangzip.domain.piece.service.PieceRetriever;
+import com.sopt.bbangzip.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -44,5 +45,16 @@ public class TodayBreadSoldOutBadge implements Badge{
     @Override
     public String getImage() {
         return "https://example.com/images/2";
+    }
+
+    @Override
+    public String getCategory() {
+        return "시작이 빵이다";
+    }
+
+    @Override
+    public Boolean isLocked(User user) {
+        // 유저가 조건을 만족하면 잠금 해제
+        return !getCondition().isEligible(user);
     }
 }

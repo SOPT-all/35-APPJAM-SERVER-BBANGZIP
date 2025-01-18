@@ -1,7 +1,12 @@
-package com.sopt.bbangzip.domain.badge;
+package com.sopt.bbangzip.domain.badge.service;
 
+import com.sopt.bbangzip.domain.badge.Badge;
+import com.sopt.bbangzip.domain.badge.BadgeCondition;
+import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeListResponse;
+import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeResponse;
 import com.sopt.bbangzip.domain.piece.service.PieceRetriever;
 import com.sopt.bbangzip.domain.user.entity.User;
+import com.sopt.bbangzip.domain.user.service.UserRetriever;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,6 +28,7 @@ public class BadgeService {
 
     private final List<Badge> badges;
     private final PieceRetriever pieceRetriever;
+    private final UserRetriever userRetriever;
 
     /**
      * 조건에 맞는 모든 뱃지를 반환
@@ -56,6 +62,10 @@ public class BadgeService {
 
     // 뱃지 부여
     private void awardBadge(User user, Badge badge) {
+        if (!badge.getCondition().isEligible(user) || isBadgeAlreadyAwarded(user, badge)) {
+            return; // 조건 불충족 또는 이미 부여된 경우
+        }
+
         // 유저가 어떤 뱃지를 얻었는지와 포인트에 대한 특정 필드를 업데이트 시키자
         switch (badge.getName()) {
             case "빵 굽기 시작" -> user.markFirstStudyComplete();
@@ -64,5 +74,39 @@ public class BadgeService {
             default -> throw new IllegalArgumentException();
         }
         log.info(badge.getName() + "뱃지를 획득하였습니다!");
+    }
+
+    /**
+     * 유저가 획득한 뱃지 목록을 반환
+     */
+    public BadgeListResponse getBadgeList(Long userId) {
+        User user = userRetriever.findByUserId(userId);
+
+        List<BadgeListResponse.Badge> badgeList = badges.stream()
+                .map(badge -> new BadgeListResponse.Badge(
+                        badge.getCategory(),
+                        badge.getName(),
+                        isBadgeLocked(user, badge),
+                        badge.getImage()
+                ))
+                .toList();
+
+        return new BadgeListResponse(badgeList);
+    }
+
+    /**
+     * 유저 조건에 따라 뱃지 잠금 여부를 판별
+     */
+    private boolean isBadgeLocked(User user, Badge badge) {
+        switch (badge.getName()) {
+            case "빵 굽기 시작":
+                return user.getFirstStudyCompletedAt() == null;
+            case "오늘의 빵 완판":
+                return user.getAllTasksCompletedAt() == null;
+            case "빵 대량 생산":
+                return user.getHasMassBakingBreadBadge() == null;
+            default:
+                return true;
+        }
     }
 }

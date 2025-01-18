@@ -1,7 +1,7 @@
 package com.sopt.bbangzip.domain.piece.service;
 
-import com.sopt.bbangzip.domain.badge.BadgeResponse;
-import com.sopt.bbangzip.domain.badge.BadgeService;
+import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeResponse;
+import com.sopt.bbangzip.domain.badge.service.BadgeService;
 import com.sopt.bbangzip.domain.piece.api.dto.request.IsFinishedDto;
 import com.sopt.bbangzip.domain.piece.entity.Piece;
 import com.sopt.bbangzip.domain.user.entity.User;

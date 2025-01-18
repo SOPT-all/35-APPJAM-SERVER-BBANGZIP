@@ -1,5 +1,6 @@
 package com.sopt.bbangzip.domain.badge;
 
+import com.sopt.bbangzip.domain.user.entity.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -30,5 +31,16 @@ public class StartBakingBreadBadge implements Badge{
     @Override
     public String getImage() {
         return "https://example.com/images/1";
+    }
+
+    @Override
+    public String getCategory() {
+        return "시작이 빵이다";
+    }
+
+    @Override
+    public Boolean isLocked(User user) {
+        // 유저가 조건을 만족하면 잠금 해제
+        return !getCondition().isEligible(user);
     }
 }
