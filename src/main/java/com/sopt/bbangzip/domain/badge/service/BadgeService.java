@@ -1,7 +1,10 @@
 package com.sopt.bbangzip.domain.badge.service;
 
+import com.sopt.bbangzip.common.exception.base.NotFoundException;
+import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.badge.Badge;
 import com.sopt.bbangzip.domain.badge.BadgeCondition;
+import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeDetailResponse;
 import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeListResponse;
 import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeResponse;
 import com.sopt.bbangzip.domain.piece.service.PieceRetriever;
@@ -117,5 +120,26 @@ public class BadgeService {
             default:
                 return true;
         }
+    }
+
+    /**
+     * 특정 뱃지의 상세 정보 조회
+     */
+    public BadgeDetailResponse getBadgeDetail(Long userId, String badgeName) {
+        User user = userRetriever.findByUserId(userId);
+
+        // 특정 이름의 뱃지 검색
+        return badges.stream()
+                .filter(badge -> badge.getName().equals(badgeName))
+                .findFirst()
+                .map(badge -> new BadgeDetailResponse(
+                        badge.getName(),
+                        badge.getImage(),
+                        badge.getHashTags(),
+                        badge.getAchievementCondition(),
+                        badge.getReward(),
+                        badge.isLocked(user)
+                ))
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_BADGE));
     }
 }
