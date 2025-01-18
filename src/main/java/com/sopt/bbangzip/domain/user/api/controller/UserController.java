@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/mypage/level")
-    public ResponseEntity<UserLevelResponseDto> getUserLevelStatus(
+    @GetMapping("/mypage")
+    public ResponseEntity<UserLevelResponseDto> getMyPage(
             @UserId final Long userId
     ) {
         // 마이페이지 조회 시 유저 레벨 업데이트
