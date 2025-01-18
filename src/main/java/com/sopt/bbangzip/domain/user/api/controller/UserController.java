@@ -16,10 +16,11 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/mypage/level")
-    public ResponseEntity<UserLevelResponseDto> getUserLevelStatus(@UserId final Long userId) {
+    public ResponseEntity<UserLevelResponseDto> getUserLevelStatus(
+            @UserId final Long userId
+    ) {
         // 마이페이지 조회 시 유저 레벨 업데이트
         UserLevelResponseDto responseDto = userService.updateAndGetUserLevelStatus(userId);
-
         return ResponseEntity.ok(responseDto);
     }
 
