@@ -68,4 +68,14 @@ public class PieceController {
     ){
         return ResponseEntity.ok(pieceService.getPieces(userId, area, year,semester,sortOption));
     }
+
+    // 오늘 할 공부 감추기 API
+    @PostMapping("/pieces/hide")
+    public ResponseEntity<Void> hidePieces(
+            @UserId final long userId,
+            @RequestBody final PieceDeleteRequestDto pieceDeleteRequestDto
+    ){
+        pieceService.updateStatusIsVisible(pieceDeleteRequestDto);
+        return ResponseEntity.noContent().build();
+    }
 }

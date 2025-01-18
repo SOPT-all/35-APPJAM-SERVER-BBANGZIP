@@ -61,6 +61,11 @@ public class Piece {
         this.updatedAt = LocalDateTime.now();
     }
 
+    public void updateIsVisible(Boolean isVisible) {
+        this.isVisible = isVisible;
+        this.updatedAt = LocalDateTime.now();
+    }
+
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy년MM월dd일");
 
     @Builder
