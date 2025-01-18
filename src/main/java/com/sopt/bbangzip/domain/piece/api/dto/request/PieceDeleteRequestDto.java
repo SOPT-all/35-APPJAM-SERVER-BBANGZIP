@@ -1,4 +1,4 @@
-package com.sopt.bbangzip.domain.piece.api.dto;
+package com.sopt.bbangzip.domain.piece.api.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
