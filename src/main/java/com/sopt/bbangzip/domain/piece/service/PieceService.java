@@ -149,7 +149,7 @@ public class PieceService {
                 .toList();
 
         return TodoPiecesResponse.builder()
-                .toadyCount(area.equals("todo") ? todayCount : null) // "pending"일 경우 null
+                .todayCount(area.equals("todo") ? todayCount : null) // "pending"일 경우 null
                 .completeCount(area.equals("todo") ? completedCount : null) // "pending"일 경우 null
                 .pendingCount(pendingCount)
                 .todoPieceStoList(todoPieceDtos)
