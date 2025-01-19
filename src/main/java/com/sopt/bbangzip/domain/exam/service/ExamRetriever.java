@@ -17,9 +17,10 @@ import java.util.Optional;
 public class ExamRetriever {
     private final ExamRepository examRepository;
 
-        public Exam findBySubjectIdAndExamNameAndExamDate(Long subjectId, String examName, LocalDate examDate) {
-        return examRepository.findBySubjectIdAndExamNameAndExamDate(subjectId, examName, examDate)
+        public Exam findBySubjectIdAndExamName(Long subjectId, String examName) {
+        return examRepository.findBySubjectIdAndExamName(subjectId, examName)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_EXAM));
     }
+
 }
 
