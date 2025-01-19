@@ -3,6 +3,7 @@ package com.sopt.bbangzip.domain.piece.api.controller;
 import com.sopt.bbangzip.common.annotation.UserId;
 
 import com.sopt.bbangzip.domain.piece.api.dto.request.IsFinishedDto;
+import com.sopt.bbangzip.domain.piece.api.dto.response.AddTodoPiecesResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.response.MarkDoneResponse;
 
 import com.sopt.bbangzip.domain.piece.api.dto.request.PieceDeleteRequestDto;
@@ -44,7 +45,7 @@ public class PieceController {
             @PathVariable final long pieceId,
             @RequestBody @Valid IsFinishedDto isFinishedDto
     ) {
-        pieceService.markUnDone(userId, pieceId,isFinishedDto);
+        pieceService.markUnDone(userId, pieceId, isFinishedDto);
         return ResponseEntity.noContent().build();
     }
 
@@ -65,8 +66,8 @@ public class PieceController {
             @RequestParam int year,
             @RequestParam String semester,
             @RequestParam String sortOption
-    ){
-        return ResponseEntity.ok(pieceService.getPieces(userId, area, year,semester,sortOption));
+    ) {
+        return ResponseEntity.ok(pieceService.getPieces(userId, area, year, semester, sortOption));
     }
 
     // 오늘 할 공부 감추기 API
@@ -74,8 +75,19 @@ public class PieceController {
     public ResponseEntity<Void> hidePieces(
             @UserId final long userId,
             @RequestBody final PieceDeleteRequestDto pieceDeleteRequestDto
-    ){
+    ) {
         pieceService.updateStatusIsVisible(pieceDeleteRequestDto);
         return ResponseEntity.noContent().build();
+    }
+
+    // 오늘 할 공부 추가 리스트 API
+    @GetMapping("/pieces/todo")
+    public ResponseEntity<AddTodoPiecesResponse> addTodayPieces(
+            @UserId final long userId,
+            @RequestParam int year,
+            @RequestParam String semester,
+            @RequestParam final String sortOption
+    ){
+        return ResponseEntity.ok(pieceService.getTodoList(userId, year, semester, sortOption));
     }
 }

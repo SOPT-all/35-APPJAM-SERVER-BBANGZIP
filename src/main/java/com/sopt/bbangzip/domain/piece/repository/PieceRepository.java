@@ -168,7 +168,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
         AND p.deadline < CURRENT_DATE
         AND p.study.exam.subject.userSubject.year = :year
         AND p.study.exam.subject.userSubject.semester = :semester
-    ORDER BY p.pageAmount ASC, p.deadline ASC, 
+    ORDER BY p.pageAmount ASC, p.deadline ASC,
              p.study.exam.subject.subjectName ASC, p.pieceNumber ASC
     """)
     List<Piece> findPendingPiecesByLeastVolumeOrder(Long userId, int year, String semester);
@@ -194,4 +194,85 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
              p.study.exam.subject.subjectName ASC, p.pieceNumber ASC
     """)
     List<Piece> findPendingPiecesByNearestDeadlineOrder(Long userId, int year,  String semester);
+
+    /**
+     * [오늘 할 공부에 추가할 수 있는 조각들 갯수]
+     * is_visible = false && is_finished = false && deadline >= current date
+     */
+    @Query("""
+             SELECT COUNT(p)
+             FROM Piece p
+             WHERE p.isVisible = false
+               AND p.isFinished = false
+               AND p.deadline >= CURRENT DATE
+               AND p.study.exam.subject.userSubject.user.id = :userId
+    """)
+    int findAddTodoPieceCount(Long userId, int year, String semester);
+
+    /**
+     * [오늘 할 공부에 추가할 수 있는 조각들 찾기 - 최근 등록 순]
+     * 1순위 - 최신 등록순
+     * 2순위 - 과목 내 파트 순
+     * is_visible = false && is_finished = false && deadline >= current date
+     */
+    @Query("""
+    SELECT p
+    FROM Piece p
+    WHERE p.study.exam.subject.userSubject.user.id = :userId
+        AND p.study.exam.subject.userSubject.year = :year
+        AND p.study.exam.subject.userSubject.semester = :semester
+        AND p.isVisible = false
+        AND p.isFinished = false
+        AND p.deadline >= CURRENT_DATE
+    ORDER BY p.createdAt DESC, p.pieceNumber ASC
+    """)
+    List<Piece> findAddTodoPieceListByRecentOrder(Long userId, int year,  String semester);
+
+    /**
+     * [오늘 할 공부에 추가할 수 있는 조각들 찾기 - 분량 적은 순 ]
+     * 1순위 - 분량 적은 양부터 (학습 범위 오름차순)
+     * 2순위 - 마감 기한 빠른 순(오름차 순=오늘 날짜로부터 가까운 순)
+     * 3순위 - 과목 명 가나다 순
+     * 4순위 - 과목 내 파트 순서
+     * is_visible = false && is_finished = false && deadline >= current date
+     */
+    @Query("""
+    SELECT p
+    FROM Piece p
+    WHERE p.study.exam.subject.userSubject.user.id = :userId
+        AND p.study.exam.subject.userSubject.year = :year
+        AND p.study.exam.subject.userSubject.semester = :semester
+        AND p.isVisible = false
+        AND p.isFinished = false
+        AND p.deadline >= CURRENT_DATE
+    ORDER BY p.pageAmount ASC,
+             p.deadline ASC,
+             p.study.exam.subject.subjectName ASC,
+             p.pieceNumber ASC
+    """)
+    List<Piece> findAddTodoPieceListByLeastVolumeOrder(Long userId, int year,  String semester);
+
+    /**
+     * [오늘 할 공부에 추가할 수 있는 조각들 찾기 - 마감 기한 빠른 순 ]
+     * 1순위 - 마감 기한 빠른 순(오름차 순=오늘 날짜로부터 가까운 순)
+     * 2순위 - 적은 양부터 (학습 범위 오름차순)
+     * 3순위 - 과목 명 가나다 순
+     * 4순위 - 과목 내 파트 순서
+     * is_visible = false && is_finished = false && deadline >= current date
+     */
+    @Query("""
+    SELECT p
+    FROM Piece p
+    WHERE p.study.exam.subject.userSubject.user.id = :userId
+        AND p.study.exam.subject.userSubject.year = :year
+        AND p.study.exam.subject.userSubject.semester = :semester
+        AND p.isVisible = false
+        AND p.isFinished = false
+        AND p.deadline >= CURRENT_DATE
+    ORDER BY p.deadline ASC,
+             p.pageAmount ASC,
+             p.study.exam.subject.subjectName ASC,
+             p.pieceNumber ASC
+    """)
+    List<Piece> findAddTodoPieceListByNearestDeadlineOrder(Long userId, int year,  String semester);
 }

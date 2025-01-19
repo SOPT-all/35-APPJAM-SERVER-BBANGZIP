@@ -18,7 +18,7 @@ public record TodoPiecesResponse(
             Long pieceId,
             String subjectName,
             String examName,
-            String studyCounts,
+            String studyContents,
             int startPage,
             int finishPage,
             String deadline,

@@ -3,6 +3,7 @@ package com.sopt.bbangzip.domain.piece.service;
 import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.request.IsFinishedDto;
 import com.sopt.bbangzip.domain.piece.api.dto.request.PieceDeleteRequestDto;
+import com.sopt.bbangzip.domain.piece.api.dto.response.AddTodoPiecesResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.response.MarkDoneResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.response.TodoPiecesResponse;
 import com.sopt.bbangzip.domain.piece.entity.Piece;
@@ -138,7 +139,7 @@ public class PieceService {
                         .pieceId(piece.getId())
                         .subjectName(piece.getStudy().getExam().getSubject().getSubjectName())
                         .examName(piece.getStudy().getExam().getExamName())
-                        .studyCounts(piece.getStudy().getStudyContents())
+                        .studyContents(piece.getStudy().getStudyContents())
                         .startPage(piece.getStartPage())
                         .finishPage(piece.getFinishPage())
                         .deadline(piece.getDeadline().toString())
@@ -170,5 +171,41 @@ public class PieceService {
         }
         pieces.forEach(piece -> piece.updateIsVisible(false));
         pieceSaver.saveAll(pieces);
+    }
+
+    public AddTodoPiecesResponse getTodoList(
+            final Long userId,
+            final int year,
+            final String semester,
+            final String sortOption
+    ) {
+        User user = userRetriever.findByUserId(userId);
+        int todoCount = pieceRetriever.findAddTodoPieceCount(userId, year, semester);
+
+        List<Piece> pieces;
+        pieces = switch (sortOption) {
+            case "recent" -> pieceRetriever.findAddTodoPieceListByRecentOrder(userId, year, semester);
+            case "leastVolume" -> pieceRetriever.findAddTodoPieceListByLeastVolumeOrder(userId, year, semester);
+            case "nearestDeadline" -> pieceRetriever.findAddTodoPieceListByNearestDeadlineOrder(userId, year, semester);
+            default -> throw new IllegalArgumentException("Invalid sort option: " + sortOption);
+        };
+
+        List<AddTodoPiecesResponse.TodoList> todoLists = pieces.stream()
+                .map(piece -> AddTodoPiecesResponse.TodoList.builder()
+                        .pieceId(piece.getId())
+                        .subjectName(piece.getStudy().getExam().getSubject().getSubjectName())
+                        .examName(piece.getStudy().getExam().getExamName())
+                        .studyContents(piece.getStudy().getStudyContents())
+                        .startPage(piece.getStartPage())
+                        .finishPage(piece.getFinishPage())
+                        .deadline(piece.getDeadline().toString())
+                        .remainingDays(calculateRemainingDays(piece.getDeadline()))
+                        .build())
+                .toList();
+
+        return AddTodoPiecesResponse.builder()
+                .todoCount(todoCount)
+                .todoLists(todoLists)
+                .build();
     }
 }

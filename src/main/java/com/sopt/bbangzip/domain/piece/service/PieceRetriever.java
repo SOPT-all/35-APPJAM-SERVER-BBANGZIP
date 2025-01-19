@@ -65,6 +65,30 @@ public class PieceRetriever {
         return pieceRepository.findPendingPiecesByNearestDeadlineOrder(userId, year, semester);
     }
 
+    /*
+    Add Todo
+     */
+
+    public int findAddTodoPieceCount(Long userId, int year, String semester){
+        return pieceRepository.findAddTodoPieceCount(userId, year, semester);
+    }
+
+    public List<Piece> findAddTodoPieceListByRecentOrder(Long userId, int year,  String semester){
+        return pieceRepository.findAddTodoPieceListByRecentOrder(userId, year, semester);
+    }
+
+    public List<Piece> findAddTodoPieceListByLeastVolumeOrder(Long userId, int year,  String semester){
+        return pieceRepository.findAddTodoPieceListByLeastVolumeOrder(userId, year, semester);
+    }
+
+    public List<Piece> findAddTodoPieceListByNearestDeadlineOrder(Long userId, int year,  String semester){
+        return pieceRepository.findAddTodoPieceListByNearestDeadlineOrder(userId, year, semester);
+    }
+
+    /*
+    Add Pending
+     */
+
 
       // 특정 ID 리스트에 해당하는 조각(Piece)들을 조회하는 메서드
     public List<Piece> findAllByIds(List<Long> pieceIds) {
