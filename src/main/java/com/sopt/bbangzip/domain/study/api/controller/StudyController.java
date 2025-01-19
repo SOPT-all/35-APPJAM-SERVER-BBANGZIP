@@ -17,11 +17,12 @@ public class StudyController {
     private final StudyService studyService;
 
     @PostMapping("/studies")
-    public ResponseEntity<StudyCreateResponseDto> createStudy(
+    public ResponseEntity<Void> createStudy(
             @UserId final Long userId,
             @RequestBody @Valid final StudyCreateRequestDto studyCreateRequestDto
     ) {
-        StudyCreateResponseDto responseDto = studyService.createStudy(userId, studyCreateRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+        studyService.createStudy(userId, studyCreateRequestDto);
+        return ResponseEntity.noContent().build();
     }
+
 }
