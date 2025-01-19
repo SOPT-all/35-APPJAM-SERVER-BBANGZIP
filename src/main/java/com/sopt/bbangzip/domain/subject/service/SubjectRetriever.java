@@ -49,5 +49,4 @@ public class SubjectRetriever {
         return subjectRepository.findByUserSubject_UserIdAndIdAndSubjectName(userId, subjectId, subjectName)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
     }
-
 }

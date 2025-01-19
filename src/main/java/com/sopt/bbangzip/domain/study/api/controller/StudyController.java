@@ -2,11 +2,9 @@ package com.sopt.bbangzip.domain.study.api.controller;
 
 import com.sopt.bbangzip.common.annotation.UserId;
 import com.sopt.bbangzip.domain.study.api.dto.request.StudyCreateRequestDto;
-import com.sopt.bbangzip.domain.study.api.dto.response.StudyCreateResponseDto;
 import com.sopt.bbangzip.domain.study.service.StudyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,5 +22,4 @@ public class StudyController {
         studyService.createStudy(userId, studyCreateRequestDto);
         return ResponseEntity.noContent().build();
     }
-
 }
