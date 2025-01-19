@@ -7,7 +7,7 @@ import java.util.List;
 @Builder
 public record AddTodoPiecesResponse(
         int todoCount,
-        List<TodoList> todoLists
+        List<TodoList> todoList
 ) {
     @Builder
     public record TodoList(

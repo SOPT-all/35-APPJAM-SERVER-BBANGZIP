@@ -205,7 +205,7 @@ public class PieceService {
 
         return AddTodoPiecesResponse.builder()
                 .todoCount(todoCount)
-                .todoLists(todoLists)
+                .todoList(todoLists)
                 .build();
     }
 }
