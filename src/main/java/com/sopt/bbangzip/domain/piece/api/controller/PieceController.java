@@ -84,8 +84,8 @@ public class PieceController {
     @GetMapping("/pieces/todo")
     public ResponseEntity<AddTodoPiecesResponse> addTodayPieces(
             @UserId final long userId,
-            @RequestParam int year,
-            @RequestParam String semester,
+            @RequestParam final int year,
+            @RequestParam final String semester,
             @RequestParam final String sortOption
     ){
         return ResponseEntity.ok(pieceService.getTodoList(userId, year, semester, sortOption));
