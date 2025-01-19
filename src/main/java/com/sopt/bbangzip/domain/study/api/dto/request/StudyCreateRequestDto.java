@@ -8,7 +8,6 @@ import java.util.List;
 
 public record StudyCreateRequestDto(
         @NotNull Long subjectId,
-        @NotBlank String subjectName,
         @NotBlank String examName,
         @NotNull String examDate,
         @NotBlank String studyContents,

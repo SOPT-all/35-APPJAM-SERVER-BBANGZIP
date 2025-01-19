@@ -39,18 +39,8 @@ public class SubjectRetriever {
     }
 
     // 과목 조회 (subjectId로 단건조회)
-    public Subject findById(Long subjectId) {
-        return subjectRepository.findById(subjectId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
-    }
-
-    // UserId와 SubjectName으로 특정 과목(Subject) 조회
-    public Subject findByUserIdAndSubjectName(Long userId, int year, String semester, String subjectName) {
-        // UserSubject 조회
-        UserSubject userSubject = findByUserIdAndYearAndSemester(userId, year, semester);
-
-        // Subject 조회
-        return subjectRepository.findByUserSubjectAndSubjectName(userSubject, subjectName)
+    public Subject findById(Long Id) {
+        return subjectRepository.findById(Id)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
     }
 

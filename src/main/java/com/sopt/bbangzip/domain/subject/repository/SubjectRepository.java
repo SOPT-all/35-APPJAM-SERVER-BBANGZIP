@@ -17,10 +17,7 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     // 특정 UserSubject ID와 과목 ID로 과목 조회
     List<Subject> findByIdInAndUserSubjectId(List<Long> subjectIds, Long userSubjectId);
 
-    Optional<Subject> findById(Long subjectId);
-
-    // UserSubject와 SubjectName으로 Subject 조회
-    Optional<Subject> findByUserSubjectAndSubjectName(UserSubject userSubject, String subjectName);
+    Optional<Subject> findById(Long id);
 
     Optional<Subject> findByUserSubject_UserIdAndIdAndSubjectName(Long userId, Long subjectId, String subjectName);
 }

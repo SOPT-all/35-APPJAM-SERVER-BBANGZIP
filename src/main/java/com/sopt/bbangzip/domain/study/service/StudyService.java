@@ -29,24 +29,24 @@ public class StudyService {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy년MM월dd일");
 
     @Transactional
-    public StudyCreateResponseDto createStudy(Long userId, StudyCreateRequestDto requestDto) {
+    public StudyCreateResponseDto createStudy(Long userId, StudyCreateRequestDto studyCreateRequestDto) {
 
-        Subject subject = subjectRetriever.findByUserIdAndSubjectName(userId, requestDto.subjectId(), requestDto.subjectName());
+        Subject subject = subjectRetriever.findById(studyCreateRequestDto.subjectId());
 
         Exam exam = Exam.builder()
-                .examName(requestDto.examName())
-                .examDate(parseStringToLocalDate(requestDto.examDate()))
+                .examName(studyCreateRequestDto.examName())
+                .examDate(parseStringToLocalDate(studyCreateRequestDto.examDate()))
                 .subject(subject)
                 .build();
         examSaver.save(exam);
 
         Study study = Study.builder()
                 .exam(exam)
-                .studyContents(requestDto.studyContents())
+                .studyContents(studyCreateRequestDto.studyContents())
                 .build();
         studySaver.save(study);
 
-        List<Piece> pieces = requestDto.pieceList().stream()
+        List<Piece> pieces = studyCreateRequestDto.pieceList().stream()
                 .map(pieceDto -> Piece.builder()
                         .study(study)
                         .startPage(pieceDto.startPage())
