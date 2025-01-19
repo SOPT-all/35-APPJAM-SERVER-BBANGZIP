@@ -18,7 +18,7 @@ public class StudyController {
 
     @PostMapping("/studies")
     public ResponseEntity<Void> createStudy(
-            @UserId final Long userId,
+            @UserId final long userId,
             @RequestBody @Valid final StudyCreateRequestDto studyCreateRequestDto
     ) {
         studyService.createStudy(userId, studyCreateRequestDto);
