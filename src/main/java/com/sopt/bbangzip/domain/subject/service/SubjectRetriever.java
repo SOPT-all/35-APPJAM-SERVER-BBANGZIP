@@ -39,8 +39,8 @@ public class SubjectRetriever {
     }
 
     // 과목 조회 (subjectId로 단건조회)
-    public Subject findById(Long Id) {
-        return subjectRepository.findById(Id)
+    public Subject findById(Long id) {
+        return subjectRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
     }
 
