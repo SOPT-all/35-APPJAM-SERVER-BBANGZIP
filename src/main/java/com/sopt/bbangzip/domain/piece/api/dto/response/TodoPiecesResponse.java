@@ -10,7 +10,7 @@ import java.util.List;
 public record TodoPiecesResponse(
         Integer todayCount,
         Integer completeCount,
-        List<TodoPieceDto> todoPieceStoList,
+        List<TodoPieceDto> todoPiecesList,
         Integer pendingCount
 ) {
     @Builder
