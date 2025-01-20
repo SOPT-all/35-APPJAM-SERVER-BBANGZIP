@@ -25,10 +25,10 @@ public class ExamController {
     @GetMapping("/exams/{subjectId}/{examName}")
     public ResponseEntity<ExamResponseDto> getExamInfo(
             @UserId final long userId,
-            @PathVariable final long subjectId,
-            @PathVariable final String examName
+            @PathVariable final String examName,
+            @PathVariable final long subjectId
     ) {
-        return ResponseEntity.ok(examService.getExamInfoWithConversion(userId, subjectId, examName));
+        return ResponseEntity.ok(examService.getExamInfoWithConversion(userId, examName, subjectId));
     }
 }
 

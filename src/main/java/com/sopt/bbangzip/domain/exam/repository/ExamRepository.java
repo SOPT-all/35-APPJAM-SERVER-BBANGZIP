@@ -23,16 +23,20 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
      * @return Optional<Exam>
      */
     @Query("""
-            SELECT e
-            FROM Exam e
-            JOIN e.subject s
-            JOIN s.userSubject us
-            JOIN us.user u
-            WHERE s.id = :subjectId
-              AND e.examName = :examName
-           """)
-    Optional<Exam> findBySubjectIdAndExamNameWithUser(@Param("subjectId") Long subjectId,
-                                                      @Param("examName") String examName);
+             SELECT e
+             FROM Exam e
+             JOIN e.subject s
+             JOIN s.userSubject us
+             JOIN us.user u
+             WHERE s.id = :subjectId
+               AND e.examName = :examName
+               AND u.id = :userId
+            """)
+    Optional<Exam> findBySubjectIdAndExamNameAndUser(
+            @Param("subjectId") Long subjectId,
+            @Param("examName") String examName,
+            @Param("userId") Long userId
+    );
 
 }
 

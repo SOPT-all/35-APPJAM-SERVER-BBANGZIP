@@ -33,12 +33,12 @@ public class ExamService {
      * @param examName  시험 이름 ("mid" 또는 "fin")
      * @return ExamResponseDto
      */
-    public ExamResponseDto getExamInfoWithConversion(Long userId, Long subjectId, String examName) {
+    public ExamResponseDto getExamInfoWithConversion(Long userId, String examName, Long subjectId) {
         String convertedExamName = convertExamName(examName);
         if (convertedExamName == null) {
             throw new NotFoundException(ErrorCode.NOT_FOUND_EXAM);
         }
-        return getExamInfo(userId, subjectId, convertedExamName);
+        return getExamInfo(userId, convertedExamName, subjectId);
     }
 
     /**
@@ -48,8 +48,8 @@ public class ExamService {
      * @param examName  시험 이름
      * @return ExamResponseDto
      */
-    public ExamResponseDto getExamInfo(Long userId, Long subjectId, String examName) {
-        Exam exam = examRetriever.findBySubjectIdAndExamNameWithUser(subjectId, examName);
+    public ExamResponseDto getExamInfo(Long userId, String examName, Long subjectId) {
+        Exam exam = examRetriever.findBySubjectIdAndExamNameAndUser(userId, examName, subjectId);
 
         int examDday = calculateDday(exam.getExamDate());
 
