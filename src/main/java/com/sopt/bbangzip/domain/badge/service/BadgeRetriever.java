@@ -1,5 +1,6 @@
-package com.sopt.bbangzip.domain.badge;
+package com.sopt.bbangzip.domain.badge.service;
 
+import com.sopt.bbangzip.domain.badge.entity.Badge;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
