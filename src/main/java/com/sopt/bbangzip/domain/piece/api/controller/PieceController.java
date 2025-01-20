@@ -34,7 +34,7 @@ public class PieceController {
     public ResponseEntity<MarkDoneResponse> markDone(
             @UserId final long userId,
             @PathVariable final long pieceId,
-            @RequestBody @Valid IsFinishedDto isFinishedDto
+            @RequestBody @Valid final IsFinishedDto isFinishedDto
     ) {
         return ResponseEntity.ok(pieceService.markDone(userId, pieceId, isFinishedDto));
     }
@@ -44,7 +44,7 @@ public class PieceController {
     public ResponseEntity<Void> markUnDone(
             @UserId final long userId,
             @PathVariable final long pieceId,
-            @RequestBody @Valid IsFinishedDto isFinishedDto
+            @RequestBody @Valid final IsFinishedDto isFinishedDto
     ) {
         pieceService.markUnDone(userId, pieceId, isFinishedDto);
         return ResponseEntity.noContent().build();
@@ -63,10 +63,10 @@ public class PieceController {
     @GetMapping("/pieces/today/orders")
     public ResponseEntity<TodoPiecesResponse> getTodoPieces(
             @UserId final long userId,
-            @RequestParam String area, // todo 리스트인지, pending 리스트인지
+            @RequestParam final String area, // todo 리스트인지, pending 리스트인지
             @RequestParam int year,
-            @RequestParam String semester,
-            @RequestParam String sortOption
+            @RequestParam final String semester,
+            @RequestParam final String sortOption
     ) {
         return ResponseEntity.ok(pieceService.getPieces(userId, area, year, semester, sortOption));
     }
@@ -92,7 +92,7 @@ public class PieceController {
         return ResponseEntity.ok(pieceService.getTodoList(userId, year, semester, sortOption));
     }
 
-    // 오늘 할 공부 추가하기 API
+    // 오늘 할 공부로 추가하기 API
     @PostMapping("/pieces/assign-to-today")
     public ResponseEntity<Void> addTodayPieces(
             @UserId final long userId,
