@@ -27,7 +27,7 @@ public class SubjectController {
             @RequestBody @Valid final SubjectCreateDto subjectCreateDto
     ) {
         subjectService.createSubject(userId, subjectCreateDto);
-        return ResponseEntity.ok(ResponseDto.success(List.of()));
+        return ResponseEntity.ok(ResponseDto.success(null));
     }
 
     // 과목 삭제하기 API
@@ -37,7 +37,7 @@ public class SubjectController {
             @RequestBody @Valid final SubjectDeleteDto subjectDeleteDto
     ) {
         subjectService.deleteSubject(userId, subjectDeleteDto);
-        return ResponseEntity.ok(ResponseDto.success(List.of()));
+        return ResponseEntity.ok(ResponseDto.success(null));
     }
 
     // 과목명 및 과목 별 동기부여 메세지 작성 및 수정 API
@@ -50,6 +50,6 @@ public class SubjectController {
     ) {
 
         subjectService.updateSubjectNameOrMotivationMessage(userId, subjectId, options, subjectNameOrMotivationMessageDto.value());
-        return ResponseEntity.ok(ResponseDto.success(List.of()));
+        return ResponseEntity.ok(ResponseDto.success(null));
     }
 }

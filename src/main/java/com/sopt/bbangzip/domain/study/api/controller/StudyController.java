@@ -23,6 +23,6 @@ public class StudyController {
             @RequestBody @Valid final StudyCreateRequestDto studyCreateRequestDto
     ) {
         studyService.createStudy(userId, studyCreateRequestDto);
-        return ResponseEntity.ok(ResponseDto.success(List.of()));
+        return ResponseEntity.ok(ResponseDto.success(null));
     }
 }

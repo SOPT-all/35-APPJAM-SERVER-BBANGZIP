@@ -52,7 +52,7 @@ public class AuthController {
             @UserId final long userId
     ) {
         authService.logout(userId);
-        return ResponseEntity.ok(ResponseDto.success(List.of()));
+        return ResponseEntity.ok(ResponseDto.success(null));
     }
 
     // 회원 탈퇴 API
@@ -61,7 +61,7 @@ public class AuthController {
             @UserId final long userId
     ) {
         authService.withdraw(userId);
-        return ResponseEntity.ok(ResponseDto.success(List.of()));
+        return ResponseEntity.ok(ResponseDto.success(null));
     }
 
     // 온보딩 완료 API
@@ -71,6 +71,6 @@ public class AuthController {
             @RequestBody @Valid final OnboardingRequestDto onboardingRequestDto
     ) {
         authService.onboarding(userId, onboardingRequestDto);
-        return ResponseEntity.ok(ResponseDto.success(List.of()));
+        return ResponseEntity.ok(ResponseDto.success(null));
     }
 }
