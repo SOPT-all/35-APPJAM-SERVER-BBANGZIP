@@ -105,13 +105,13 @@ public class PieceRetriever {
 
 
     // 남은 공부 가져오기
-    public int findRemainingCount(Long subjectId, Long examId) {
-        return pieceRepository.findRemainingCount(subjectId, examId);
+    public int findRemainingCount(Long userId, Long subjectId, Long examId) {
+        return pieceRepository.findRemainingCount(userId, subjectId, examId);
     }
 
     // 밀린 공부 가져오기
-    public int findPendingCount(Long subjectId, Long examId) {
-        return pieceRepository.findPendingCount(subjectId, examId);
+    public int findPendingCount(Long userId, Long subjectId, Long examId) {
+        return pieceRepository.findPendingCount(userId, subjectId, examId);
     }
 
 }

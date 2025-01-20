@@ -302,49 +302,6 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
             """)
     List<Piece> findByStudyExamIdAndUserId(@Param("examId") Long examId, @Param("userId") Long userId);
 
-//    // 남은 공부 (미완료 + deadline이 지나지 않은 것)
-//    @Query("""
-//        SELECT COUNT(p)
-//        FROM Piece p
-//        JOIN p.study s
-//        JOIN s.exam e
-//        JOIN e.subject subj
-//        JOIN subj.userSubject us
-//        JOIN us.user u
-//        WHERE e.id = :examId
-//          AND u.id = :userId
-//          AND p.isFinished = :isFinished
-//          AND p.isVisible = :isVisible
-//          AND p.deadline >= CURRENT_DATE
-//    """)
-//    int findRemainingCount(
-//            @Param("examId") Long examId,
-//            @Param("userId") Long userId,
-//            @Param("isFinished") boolean isFinished,
-//            @Param("isVisible") boolean isVisible
-//    );
-
-    // 밀린 공부 (isFinished가 false[미완료] + 이고 deadline이 지난 공부)
-//    @Query("""
-//            SELECT COUNT(p)
-//            FROM Piece p
-//            JOIN p.study s
-//            JOIN s.exam e
-//            JOIN e.subject subj
-//            JOIN subj.userSubject us
-//            JOIN us.user u
-//            WHERE u.id = :userId
-//              AND p.isVisible = false
-//              AND p.isFinished = false AND p.deadline < CURRENT_DATE
-//              AND p.study.exam.subject.userSubject.user.id = :userId
-//            """)
-//    int findPendingCount(
-//            @Param("examId") Long examId,
-//            @Param("userId") Long userId,
-//            @Param("isFinished") boolean isFinished,
-//            @Param("isVisible") boolean isVisible
-//    );
-
     // 남은 공부
     @Query("""
     SELECT COUNT(p)
@@ -352,13 +309,19 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
     JOIN p.study s
     JOIN s.exam e
     JOIN e.subject subj
+    JOIN subj.userSubject us
+    JOIN us.user u
     WHERE subj.id = :subjectId
       AND e.id = :examId
+      AND u.id = :userId
       AND p.isFinished = false
       AND p.deadline >= CURRENT_DATE
 """)
-    int findRemainingCount(@Param("subjectId") Long subjectId, @Param("examId") Long examId);
-
+    int findRemainingCount(
+            @Param("subjectId") Long subjectId,
+            @Param("examId") Long examId,
+            @Param("userId") Long userId
+    );
 
     // 밀린 공부
     @Query("""
@@ -367,14 +330,19 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
     JOIN p.study s
     JOIN s.exam e
     JOIN e.subject subj
+    JOIN subj.userSubject us
+    JOIN us.user u
     WHERE subj.id = :subjectId
       AND e.id = :examId
+      AND u.id = :userId
       AND p.isFinished = false
       AND p.deadline < CURRENT_DATE
 """)
-    int findPendingCount(@Param("subjectId") Long subjectId, @Param("examId") Long examId);
-
-
+    int findPendingCount(
+            @Param("subjectId") Long subjectId,
+            @Param("examId") Long examId,
+            @Param("userId") Long userId
+    );
 
 }
 
