@@ -289,12 +289,6 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
     """)
     List<Piece> findAddTodoPieceListByNearestDeadlineOrder(Long userId, int year,  String semester);
 
-    /**
-     * 특정 시험 ID와 연결된 공부 조각 리스트 및 관련 User 정보 조회
-     *
-     * @param examId Exam ID
-     * @return List<Piece>
-     */
     @Query("""
             SELECT p
             FROM Piece p
@@ -304,7 +298,9 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
             JOIN sub.userSubject us
             JOIN us.user u
             WHERE e.id = :examId
+              AND u.id = :userId
            """)
-    List<Piece> findByStudyExamIdWithUser(@Param("examId") Long examId);
+    List<Piece> findByStudyExamIdAndUserId(@Param("examId") Long examId, @Param("userId") Long userId);
+
 }
 

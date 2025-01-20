@@ -28,7 +28,7 @@ public class ExamController {
             @PathVariable final long subjectId,
             @PathVariable final String examName
     ) {
-        return ResponseEntity.ok(examService.getExamInfoWithConversion(subjectId, examName));
+        return ResponseEntity.ok(examService.getExamInfoWithConversion(userId, subjectId, examName));
     }
 }
 

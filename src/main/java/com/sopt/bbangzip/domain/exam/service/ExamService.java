@@ -33,12 +33,12 @@ public class ExamService {
      * @param examName  시험 이름 ("mid" 또는 "fin")
      * @return ExamResponseDto
      */
-    public ExamResponseDto getExamInfoWithConversion(Long subjectId, String examName) {
+    public ExamResponseDto getExamInfoWithConversion(Long userId, Long subjectId, String examName) {
         String convertedExamName = convertExamName(examName);
         if (convertedExamName == null) {
             throw new NotFoundException(ErrorCode.NOT_FOUND_EXAM);
         }
-        return getExamInfo(subjectId, convertedExamName);
+        return getExamInfo(userId, subjectId, convertedExamName);
     }
 
     /**
@@ -48,12 +48,12 @@ public class ExamService {
      * @param examName  시험 이름
      * @return ExamResponseDto
      */
-    public ExamResponseDto getExamInfo(Long subjectId, String examName) {
+    public ExamResponseDto getExamInfo(Long userId, Long subjectId, String examName) {
         Exam exam = examRetriever.findBySubjectIdAndExamNameWithUser(subjectId, examName);
 
         int examDday = calculateDday(exam.getExamDate());
 
-        List<ExamResponseDto.StudyPiece> studyList = getStudyPieces(exam);
+        List<ExamResponseDto.StudyPiece> studyList = getStudyPieces(userId, exam);
 
         String motivationMessage = exam.getSubject().getMotivationMessage();
 
@@ -99,8 +99,8 @@ public class ExamService {
      * @param exam Exam 엔티티
      * @return List<ExamResponseDto.StudyPiece>
      */
-    private List<ExamResponseDto.StudyPiece> getStudyPieces(Exam exam) {
-        List<Piece> pieces = pieceRetriever.findByStudyExamIdWithUser(exam.getId());
+    private List<ExamResponseDto.StudyPiece> getStudyPieces(Long userId, Exam exam) {
+        List<Piece> pieces = pieceRetriever.findByStudyExamIdAndUserId(userId, exam.getId());
 
         return pieces.stream()
                 .map(this::convertToStudyPiece)
