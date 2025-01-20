@@ -7,6 +7,7 @@ import com.sopt.bbangzip.domain.exam.entity.Exam;
 import com.sopt.bbangzip.domain.exam.repository.ExamRepository;
 import com.sopt.bbangzip.domain.piece.entity.Piece;
 import com.sopt.bbangzip.domain.piece.repository.PieceRepository;
+import com.sopt.bbangzip.domain.piece.service.PieceRetriever;
 import com.sopt.bbangzip.domain.subject.entity.Subject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ExamService {
     private final ExamRetriever examRetriever;
-    private final PieceRepository pieceRepository;
+    private final PieceRetriever pieceRetriever;
 
     /**
      * 시험 정보 조회 및 examName 변환
@@ -48,7 +49,7 @@ public class ExamService {
      * @return ExamResponseDto
      */
     public ExamResponseDto getExamInfo(Long subjectId, String examName) {
-        Exam exam = examRetriever.findBySubjectIdAndExamName(subjectId, examName);
+        Exam exam = examRetriever.findBySubjectIdAndExamNameWithUser(subjectId, examName);
 
         int examDday = calculateDday(exam.getExamDate());
 
@@ -99,7 +100,7 @@ public class ExamService {
      * @return List<ExamResponseDto.StudyPiece>
      */
     private List<ExamResponseDto.StudyPiece> getStudyPieces(Exam exam) {
-        List<Piece> pieces = pieceRepository.findByStudyExamId(exam.getId());
+        List<Piece> pieces = pieceRetriever.findByStudyExamIdWithUser(exam.getId());
 
         return pieces.stream()
                 .map(this::convertToStudyPiece)
@@ -126,6 +127,6 @@ public class ExamService {
 
     //남은 일수 계산
     private int calculateRemainingDays(LocalDate deadline) {
-        return (int) ChronoUnit.DAYS.between(LocalDate.now(), deadline);
+        return (int) ChronoUnit.DAYS.between(deadline, LocalDate.now());
     }
 }

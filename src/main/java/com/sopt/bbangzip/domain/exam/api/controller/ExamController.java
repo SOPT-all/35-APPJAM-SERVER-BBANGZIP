@@ -1,5 +1,6 @@
 package com.sopt.bbangzip.domain.exam.api.controller;
 
+import com.sopt.bbangzip.common.annotation.UserId;
 import com.sopt.bbangzip.common.exception.base.NotFoundException;
 import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.exam.api.dto.response.ExamResponseDto;
@@ -23,11 +24,11 @@ public class ExamController {
      */
     @GetMapping("/exams/{subjectId}/{examName}")
     public ResponseEntity<ExamResponseDto> getExamInfo(
+            @UserId final long userId,
             @PathVariable final long subjectId,
             @PathVariable final String examName
     ) {
-        ExamResponseDto response = examService.getExamInfoWithConversion(subjectId, examName);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(examService.getExamInfoWithConversion(subjectId, examName));
     }
 }
 

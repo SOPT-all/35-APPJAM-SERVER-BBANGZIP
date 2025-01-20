@@ -17,8 +17,8 @@ import java.util.Optional;
 public class ExamRetriever {
     private final ExamRepository examRepository;
 
-        public Exam findBySubjectIdAndExamName(Long subjectId, String examName) {
-        return examRepository.findBySubjectIdAndExamName(subjectId, examName)
+        public Exam findBySubjectIdAndExamNameWithUser(Long subjectId, String examName) {
+        return examRepository.findBySubjectIdAndExamNameWithUser(subjectId, examName)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_EXAM));
     }
 

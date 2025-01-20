@@ -89,6 +89,9 @@ public class PieceRetriever {
     Add Pending
      */
 
+    public List<Piece> findByStudyExamIdWithUser(Long examId) {
+        return pieceRepository.findByStudyExamIdWithUser(examId);
+    }
 
       // 특정 ID 리스트에 해당하는 조각(Piece)들을 조회하는 메서드
     public List<Piece> findAllByIds(List<Long> pieceIds) {

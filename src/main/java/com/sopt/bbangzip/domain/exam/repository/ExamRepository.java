@@ -16,19 +16,23 @@ import java.util.Optional;
 public interface ExamRepository extends JpaRepository<Exam, Long> {
 
     /**
-     * 과목 ID와 시험 이름으로 Exam 조회
+     * 과목 ID와 시험 이름으로 Exam 및 관련 User 조회
      *
      * @param subjectId 과목 ID
      * @param examName  시험 이름 ("중간고사" 또는 "기말고사")
      * @return Optional<Exam>
      */
     @Query("""
-                SELECT e
-                FROM Exam e
-                WHERE e.subject.id = :subjectId
-                  AND e.examName = :examName
-            """)
-    Optional<Exam> findBySubjectIdAndExamName(@Param("subjectId") Long subjectId,
-                                              @Param("examName") String examName);
+            SELECT e
+            FROM Exam e
+            JOIN e.subject s
+            JOIN s.userSubject us
+            JOIN us.user u
+            WHERE s.id = :subjectId
+              AND e.examName = :examName
+           """)
+    Optional<Exam> findBySubjectIdAndExamNameWithUser(@Param("subjectId") Long subjectId,
+                                                      @Param("examName") String examName);
+
 }
 
