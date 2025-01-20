@@ -71,21 +71,12 @@ public class PieceService {
         // 3. 오늘 완료한 총 공부 개수 확인
         int completeCounts = pieceRetriever.countFinishedTodayPieces(userId);
 
-        if (newlyAwardedBadges.isEmpty()) {
-            // 뱃지 획득하지 않은 경우
-            return MarkDoneResponse.builder()
-                    .todayCounts(todayCounts)
-                    .completeCounts(completeCounts)
-                    .badges(null) // 뱃지 없음
-                    .build();
-        } else {
-            // 뱃지 획득한 경우
-            return MarkDoneResponse.builder()
-                    .todayCounts(todayCounts)
-                    .completeCounts(completeCounts)
-                    .badges(newlyAwardedBadges) // 획득한 뱃지 목록 반환
-                    .build();
-        }
+        // 뱃지 획득 여부와 상관없이 응답 생성
+        return MarkDoneResponse.builder()
+                .todayCounts(todayCounts)
+                .completeCounts(completeCounts)
+                .badges(newlyAwardedBadges != null ? newlyAwardedBadges : List.of())
+                .build();
     }
 
     @Transactional
