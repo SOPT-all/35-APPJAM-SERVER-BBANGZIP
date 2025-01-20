@@ -288,4 +288,19 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
              p.pieceNumber ASC
     """)
     List<Piece> findAddTodoPieceListByNearestDeadlineOrder(Long userId, int year,  String semester);
+
+    @Query("""
+            SELECT p
+            FROM Piece p
+            JOIN p.study s
+            JOIN s.exam e
+            JOIN e.subject sub
+            JOIN sub.userSubject us
+            JOIN us.user u
+            WHERE e.id = :examId
+              AND u.id = :userId
+           """)
+    List<Piece> findByStudyExamIdAndUserId(@Param("examId") Long examId, @Param("userId") Long userId);
+
 }
+
