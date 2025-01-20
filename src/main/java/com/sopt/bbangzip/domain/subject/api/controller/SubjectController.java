@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
@@ -20,27 +22,27 @@ public class SubjectController {
 
     // 과목 추가하기 API
     @PostMapping("/subjects")
-    public ResponseEntity<ResponseDto<Void>> createSubject(
+    public ResponseEntity<ResponseDto<List<Object>>> createSubject(
             @UserId final Long userId,
             @RequestBody @Valid final SubjectCreateDto subjectCreateDto
     ) {
         subjectService.createSubject(userId, subjectCreateDto);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ResponseDto.success(List.of()));
     }
 
     // 과목 삭제하기 API
     @DeleteMapping("/subjects")
-    public ResponseEntity<Void> deleteSubject(
+    public ResponseEntity<ResponseDto<List<Object>>> deleteSubject(
             @UserId final Long userId,
             @RequestBody @Valid final SubjectDeleteDto subjectDeleteDto
     ) {
         subjectService.deleteSubject(userId, subjectDeleteDto);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ResponseDto.success(List.of()));
     }
 
     // 과목명 및 과목 별 동기부여 메세지 작성 및 수정 API
     @PutMapping("/subjects/{subjectId}/{options}")
-    public ResponseEntity<Void> updateMotivationMessage(
+    public ResponseEntity<ResponseDto<List<Object>>> updateMotivationMessage(
             @UserId final long userId,
             @PathVariable final long subjectId,
             @PathVariable final String options,
@@ -48,6 +50,6 @@ public class SubjectController {
     ) {
 
         subjectService.updateSubjectNameOrMotivationMessage(userId, subjectId, options, subjectNameOrMotivationMessageDto.value());
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ResponseDto.success(List.of()));
     }
 }
