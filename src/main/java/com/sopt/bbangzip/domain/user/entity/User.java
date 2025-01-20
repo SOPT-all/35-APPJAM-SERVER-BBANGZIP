@@ -102,7 +102,7 @@ public class User {
         }
     }
 
-    public void markFirstTodayTasksCompletedAt() { // 맨 처름으로 '오늘 할 일'을 모두 완료 (오늘의 빵 완판)
+    public void markFirstTodayTasksCompletedAt() { // 맨 처음으로 '오늘 할 일'을 모두 완료 (오늘의 빵 완판)
         if (this.allTasksCompletedAt == null) {
             this.allTasksCompletedAt = LocalDateTime.now();
             this.point += 200;
@@ -116,7 +116,7 @@ public class User {
         }
     }
 
-    public void markHasPreparingOpeningBakery(){
+    public void markHasPreparingOpeningBakery(){ // 맨 처음으로 '공부할 내용'을 추가 (빵집 오픈 준비 중)
         if (this.hasPreparingOpeningBakery == null) {
             this.hasPreparingOpeningBakery = LocalDateTime.now();
             this.point +=50;
