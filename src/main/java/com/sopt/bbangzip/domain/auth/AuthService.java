@@ -58,10 +58,8 @@ public class AuthService {
         System.out.println("Kakao Client ID: " + kakaoClientId);
         System.out.println("Kakao Redirect URI: " + kakaoRedirectUri);
 
-        // 1. kakao 토큰 요청
-        KakaoTokenResponse kakaoTokenResponse = kakaoService.getToken(code, kakaoClientId, kakaoRedirectUri);
-        // 2. kakao 사용자 정보 요청
-        KakaoUserInfoResponse kakaoUserInfoResponse = kakaoService.getUserInfo(kakaoTokenResponse.accessToken());
+        // accessToken(==code) 받아서 kakao 사용자 정보 요청
+        KakaoUserInfoResponse kakaoUserInfoResponse = kakaoService.getUserInfo(code);
 
         User user = userRetriever.findByPlatformUserId(
                 kakaoUserInfoResponse.id()
