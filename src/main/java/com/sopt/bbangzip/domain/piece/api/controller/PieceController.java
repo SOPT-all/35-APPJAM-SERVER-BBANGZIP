@@ -4,7 +4,6 @@ import com.sopt.bbangzip.common.annotation.UserId;
 
 import com.sopt.bbangzip.domain.piece.api.dto.request.IsFinishedDto;
 import com.sopt.bbangzip.domain.piece.api.dto.request.PieceAddRequestDto;
-import com.sopt.bbangzip.domain.piece.api.dto.response.AddPiecesResponseDto;
 import com.sopt.bbangzip.domain.piece.api.dto.response.AddTodoPiecesResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.response.MarkDoneResponse;
 
@@ -95,10 +94,11 @@ public class PieceController {
 
     // 오늘 할 공부 추가하기 API
     @PostMapping("/pieces/assign-to-today")
-    public ResponseEntity<AddPiecesResponseDto> addTodayPieces(
+    public ResponseEntity<Void> addTodayPieces(
             @UserId final long userId,
             @RequestBody @Valid final PieceAddRequestDto pieceAddRequestDto
     ){
-        return ResponseEntity.ok(pieceService.addTodoPieces(userId, pieceAddRequestDto));
+        pieceService.addTodoPieces(userId, pieceAddRequestDto);
+        return ResponseEntity.noContent().build();
     }
 }
