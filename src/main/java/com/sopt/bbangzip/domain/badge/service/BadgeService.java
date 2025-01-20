@@ -58,8 +58,8 @@ public class BadgeService {
 
     private void updateUserLevel(User user) {
         int currentPoints = user.getPoint();
-        int newLevel = userLevelCalculator.calculateLevel(currentPoints);
-        user.updateUserLevel(newLevel);
+        UserLevelCalculator.LevelInfo levelInfo = userLevelCalculator.calculateLevelInfo(currentPoints);
+        user.updateUserLevel(levelInfo.getLevel());
     }
 
     private boolean isBadgeAlreadyAwarded(User user, Badge badge) {

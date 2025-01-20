@@ -20,11 +20,20 @@ public class UserService {
     @Transactional
     public UserLevelResponseDto updateAndGetUserLevelStatus(Long userId) {
         User user = userRetriever.findByUserId(userId);
-        // 새로운 레벨 계산 및 업데이트
-        int newLevel = userLevelCalculator.calculateLevel(user.getPoint());
-        user.updateUserLevel(newLevel);
-        userRepository.save(user);
-        return new UserLevelResponseDto(user.getUserLevel(), user.getBadgeCount(), user.getPoint());
-    }
 
+        // 새로운 레벨 및 최대 포인트 계산
+        UserLevelCalculator.LevelInfo levelInfo = userLevelCalculator.calculateLevelInfo(user.getPoint());
+
+        // 유저의 레벨 업데이트
+        user.updateUserLevel(levelInfo.getLevel());
+        userRepository.save(user);
+
+        // DTO 반환
+        return new UserLevelResponseDto(
+                user.getUserLevel(),
+                user.getBadgeCount(),
+                user.getPoint(),
+                levelInfo.getMaxReward()
+        );
+    }
 }
