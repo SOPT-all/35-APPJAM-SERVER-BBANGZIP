@@ -35,9 +35,13 @@ public class PieceService {
     private final PieceRemover pieceRemover;
 
     @Transactional
-    public void deletePieces(PieceDeleteRequestDto pieceDeleteRequestDto) {
+    public void deletePieces(
+            final Long userId,
+            final PieceDeleteRequestDto pieceDeleteRequestDto
+    ) {
         List<Long> pieceIds = pieceDeleteRequestDto.pieceIds();
-        List<Piece> pieces = pieceRetriever.findAllByIds(pieceIds);
+        List<Piece> pieces = pieceRetriever.findByPiecesIdAndUserId(pieceIds, userId);
+
 
         // 유효한 조각인지 검증
         if (pieces.isEmpty() || pieces.size() != pieceIds.size()) {
@@ -51,7 +55,7 @@ public class PieceService {
     public MarkDoneResponse markDone(
             final Long userId,
             final Long pieceId,
-            IsFinishedDto isFinishedDto
+            final IsFinishedDto isFinishedDto
     ) {
         // 1. 유저가 선택한 Piece 와 User 를 조회하자
         Piece piece = pieceRetriever.findByPieceIdAndUserId(pieceId, userId);
@@ -109,7 +113,7 @@ public class PieceService {
     public void markUnDone(
             final Long userId,
             final Long pieceId,
-            IsFinishedDto isFinishedDto
+            final IsFinishedDto isFinishedDto
     ) {
         Piece piece = pieceRetriever.findByPieceIdAndUserId(pieceId, userId);
         User user = userRetriever.findByUserId(userId);
@@ -187,9 +191,12 @@ public class PieceService {
      */
 
     @Transactional
-    public void updateStatusIsVisible(PieceDeleteRequestDto pieceDeleteRequestDto) {
+    public void updateStatusIsVisible(
+            final PieceDeleteRequestDto pieceDeleteRequestDto,
+            final Long userId
+    ) {
         List<Long> pieceIds = pieceDeleteRequestDto.pieceIds();
-        List<Piece> pieces = pieceRetriever.findAllByIds(pieceIds);
+        List<Piece> pieces = pieceRetriever.findByPiecesIdAndUserId(pieceIds, userId);
 
         if (pieces.isEmpty() || pieces.size() != pieceIds.size()) {
             throw new NotFoundException(ErrorCode.NOT_FOUND_PIECE);
