@@ -21,6 +21,7 @@ public class UserSubject {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = UserSubjectTableConstants.COLUMN_YEAR, nullable = false)

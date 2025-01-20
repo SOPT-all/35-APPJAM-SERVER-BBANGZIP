@@ -5,6 +5,7 @@ import com.sopt.bbangzip.common.dto.ResponseDto;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectCreateDto;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectDeleteDto;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectNameOrMotivationMessageDto;
+import com.sopt.bbangzip.domain.subject.api.dto.response.SubjectResponseDto;
 import com.sopt.bbangzip.domain.subject.service.SubjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -49,5 +50,16 @@ public class SubjectController {
 
         subjectService.updateSubjectNameOrMotivationMessage(userId, subjectId, options, subjectNameOrMotivationMessageDto.value());
         return ResponseEntity.noContent().build();
+    }
+
+
+    //  학기 별 과목 목록 필터링
+    @GetMapping("/subjects/filter")
+    public ResponseEntity<SubjectResponseDto> getSubjectsBySemester(
+            @UserId final long userId,
+            @RequestParam final int year,
+            @RequestParam final String semester
+    ) {
+        return ResponseEntity.ok(subjectService.getSubjectsByUserAndSemester(userId, year, semester));
     }
 }

@@ -49,4 +49,17 @@ public class SubjectRetriever {
         return subjectRepository.findByUserSubject_UserIdAndIdAndSubjectName(userId, subjectId, subjectName)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
     }
+
+    /**
+     * 사용자와 학기 정보에 따른 과목 조회
+     *
+     * @param userId 사용자 ID
+     * @param year 학년
+     * @param semester 학기
+     * @return 과목 목록
+     */
+    public List<Subject> findSubjectsByUserAndSemester(Long userId, int year, String semester) {
+        return subjectRepository.findSubjectsByUserAndSemester(userId, year, semester);
+    }
+
 }
