@@ -23,6 +23,10 @@ public class PieceRetriever {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_PIECE));
     }
 
+    public List<Piece> findByPiecesIdAndUserId(final List<Long> pieceIds, final long userId){
+        return pieceRepository.findByPiecesIdAndUserId(pieceIds, userId);
+    }
+
     public int countUnfinishedTodayPieces(final Long userId){
         return pieceRepository.countUnfinishedTodayPieces(userId);
     }
@@ -85,12 +89,11 @@ public class PieceRetriever {
         return pieceRepository.findAddTodoPieceListByNearestDeadlineOrder(userId, year, semester);
     }
 
-    /*
-    Add Pending
-     */
-
-
       // 특정 ID 리스트에 해당하는 조각(Piece)들을 조회하는 메서드
+
+    /**
+     * 지우는 방향으로 로직 수정중..
+     */
     public List<Piece> findAllByIds(List<Long> pieceIds) {
         return pieceRepository.findAllById(pieceIds);
     }
