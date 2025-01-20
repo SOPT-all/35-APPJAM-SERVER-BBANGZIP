@@ -50,7 +50,7 @@ public class PieceController {
             @RequestBody @Valid final IsFinishedDto isFinishedDto
     ) {
         pieceService.markUnDone(userId, pieceId, isFinishedDto);
-        return ResponseEntity.ok(ResponseDto.success(List.of()));
+        return ResponseEntity.ok(ResponseDto.success(null));
     }
 
     @DeleteMapping("/studies/pieces")
@@ -59,7 +59,7 @@ public class PieceController {
             @RequestBody @Valid final PieceDeleteRequestDto pieceDeleteRequestDto
     ) {
         pieceService.deletePieces(userId, pieceDeleteRequestDto);
-        return ResponseEntity.ok(ResponseDto.success(List.of()));
+        return ResponseEntity.ok(ResponseDto.success(null));
     }
 
     // 오늘 할 일 view + 정렬 API
@@ -81,7 +81,7 @@ public class PieceController {
             @RequestBody final PieceDeleteRequestDto pieceDeleteRequestDto
     ) {
         pieceService.updateStatusIsVisible(pieceDeleteRequestDto, userId);
-        return ResponseEntity.ok(ResponseDto.success(List.of()));
+        return ResponseEntity.ok(ResponseDto.success(null));
     }
 
     // 오늘 할 공부 추가 리스트 API
@@ -102,6 +102,6 @@ public class PieceController {
             @RequestBody @Valid final PieceAddRequestDto pieceAddRequestDto
     ){
         pieceService.addTodoPieces(userId, pieceAddRequestDto);
-        return ResponseEntity.ok(ResponseDto.success(List.of()));
+        return ResponseEntity.ok(ResponseDto.success(null));
     }
 }
