@@ -68,6 +68,7 @@ public class BadgeService {
             case "빵 굽기 시작" -> user.getFirstStudyCompletedAt() != null;
             case "오늘의 빵 완판" -> user.getAllTasksCompletedAt() != null;
             case "빵 대량 생산" -> user.getHasMassBakingBreadBadge() != null;
+            case "빵집 오픈 준비 중" -> user.getHasPreparingOpeningBakery() != null;
             default -> false;
         };
     }
@@ -83,6 +84,7 @@ public class BadgeService {
             case "빵 굽기 시작" -> user.markFirstStudyComplete();
             case "오늘의 빵 완판" -> user.markFirstTodayTasksCompletedAt();
             case "빵 대량 생산" -> user.markHasMassBakingBreadBadge();
+            case "빵집 오픈 준비 중" -> user.markHasPreparingOpeningBakery();
             default -> throw new IllegalArgumentException();
         }
         log.info(badge.getName() + "뱃지를 획득하였습니다!");
@@ -117,6 +119,8 @@ public class BadgeService {
                 return user.getAllTasksCompletedAt() == null;
             case "빵 대량 생산":
                 return user.getHasMassBakingBreadBadge() == null;
+            case "빵집 오픈 준비 중":
+                return user.getHasPreparingOpeningBakery() == null;
             default:
                 return true;
         }

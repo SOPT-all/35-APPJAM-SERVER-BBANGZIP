@@ -42,4 +42,14 @@ public class PieceUpdater {
     ){
         piece.updateStatus(isFinished.isFinished());
     }
+
+    public List<BadgeResponse> updateStatusIsVisible(
+            List<Piece> pieces,
+            User user
+    ){
+        // 공부 조각들의 상태 is_visible 을 true 로 업데이트
+        pieces.forEach(piece -> piece.updateIsVisible(true));
+        // 뱃지 조건 체크 후, 새로 획득한 뱃지 리스트 반환
+        return badgeService.getAllEligibleBadges(user);
+    }
 }

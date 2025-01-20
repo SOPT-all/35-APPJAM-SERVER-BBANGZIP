@@ -6,31 +6,31 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class StartBakingBreadBadge implements Badge{
+public class PreparingOpeningBakery implements Badge{
     @Override
-    public BadgeCondition getCondition(){
-        // 맨 처음 학습을 완료한 필드가 아직 null 이면 해당 뱃지 획득 가능
-        return user -> user.getFirstStudyCompletedAt() == null && user.getTodayStudyCompleteCount() > 0;
+    public BadgeCondition getCondition() {
+        // 맨 처음 학습을 '추가한' 필드가 아직 null 이면 해당 뱃지 획득 가능
+        return user -> user.getHasPreparingOpeningBakery() == null;
     }
 
     @Override
     public String getName() {
-        return "빵 굽기 시작";
+        return "빵집 오픈 준비 중";
     }
 
     @Override
     public int getReward() {
-        return 100;
+        return 50;
     }
 
     @Override
     public List<String> getHashTags() {
-        return List.of("#오늘은 무슨 빵을 구울까", "#빵 냄새 솔솔", "#노릇노릇");
+        return List.of("#일일 빵집 오픈 알바생", "#가만히 있으면 빵도 못 간다");
     }
 
     @Override
     public String getImage() {
-        return "https://example.com/images/1";
+        return "https://example.com/images/4";
     }
 
     @Override
@@ -45,7 +45,7 @@ public class StartBakingBreadBadge implements Badge{
     }
 
     @Override
-    public String getAchievementCondition(){
-        return "최초로 '학습완료'를 수행한 경우";
+    public String getAchievementCondition() {
+        return "최초로 '공부 할 내용'을 추가한 경우";
     }
 }

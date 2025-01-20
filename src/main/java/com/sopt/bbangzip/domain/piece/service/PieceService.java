@@ -2,7 +2,9 @@ package com.sopt.bbangzip.domain.piece.service;
 
 import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.request.IsFinishedDto;
+import com.sopt.bbangzip.domain.piece.api.dto.request.PieceAddRequestDto;
 import com.sopt.bbangzip.domain.piece.api.dto.request.PieceDeleteRequestDto;
+import com.sopt.bbangzip.domain.piece.api.dto.response.AddPiecesResponseDto;
 import com.sopt.bbangzip.domain.piece.api.dto.response.AddTodoPiecesResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.response.MarkDoneResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.response.TodoPiecesResponse;
@@ -12,7 +14,6 @@ import com.sopt.bbangzip.domain.user.service.UserRetriever;
 
 import com.sopt.bbangzip.common.exception.base.NotFoundException;
 import com.sopt.bbangzip.common.exception.code.ErrorCode;
-import com.sopt.bbangzip.domain.piece.repository.PieceRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -82,6 +83,32 @@ public class PieceService {
                     .badges(newlyAwardedBadges) // 획득한 뱃지 목록 반환
                     .build();
         }
+    }
+
+    @Transactional
+    public AddPiecesResponseDto addTodoPieces(
+            final Long userId,
+            final PieceAddRequestDto pieceAddRequestDto
+    ) {
+        // 1. 유저 조회
+        User user = userRetriever.findByUserId(userId);
+
+        // 2. Piece 조회
+        List<Long> pieceIds = pieceAddRequestDto.pieceIds();
+        List<Piece> pieces = pieceRetriever.findAllByIds(pieceIds);
+
+        // 유효한 Piece인지 검증
+        if (pieces.isEmpty() || pieces.size() != pieceIds.size()) {
+            throw new NotFoundException(ErrorCode.NOT_FOUND_PIECE);
+        }
+
+        // 3. Piece 상태 업데이트 (is_visible을 true로 변경)
+        List<BadgeResponse> newlyAwardedBadges = pieceUpdater.updateStatusIsVisible(pieces, user);
+
+        // 5. 응답 반환 (null인 경우 빈 리스트 반환)
+        return AddPiecesResponseDto.builder()
+                .badges(newlyAwardedBadges != null ? newlyAwardedBadges : List.of()) // null인 경우 빈 리스트 반환
+                .build();
     }
 
     @Transactional
@@ -159,6 +186,14 @@ public class PieceService {
     private int calculateRemainingDays(LocalDate deadline) {
         int remainingDays = (int) ChronoUnit.DAYS.between(LocalDate.now(), deadline);
         return remainingDays >= 0 ? -remainingDays : Math.abs(remainingDays); // 밀린 일 양수, 남은 일 음수
+    }
+
+    /**
+     * 여기까지
+     */
+    @Transactional
+    public AddPiecesResponseDto AddTodoPieces(Long userId, PieceAddRequestDto pieceAddRequestDto){
+        return AddPiecesResponseDto.builder().build();
     }
 
     @Transactional

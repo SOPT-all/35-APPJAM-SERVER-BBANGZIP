@@ -3,6 +3,8 @@ package com.sopt.bbangzip.domain.piece.api.controller;
 import com.sopt.bbangzip.common.annotation.UserId;
 
 import com.sopt.bbangzip.domain.piece.api.dto.request.IsFinishedDto;
+import com.sopt.bbangzip.domain.piece.api.dto.request.PieceAddRequestDto;
+import com.sopt.bbangzip.domain.piece.api.dto.response.AddPiecesResponseDto;
 import com.sopt.bbangzip.domain.piece.api.dto.response.AddTodoPiecesResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.response.MarkDoneResponse;
 
@@ -82,12 +84,21 @@ public class PieceController {
 
     // 오늘 할 공부 추가 리스트 API
     @GetMapping("/pieces/todo")
-    public ResponseEntity<AddTodoPiecesResponse> addTodayPieces(
+    public ResponseEntity<AddTodoPiecesResponse> addTodayPiecesList(
             @UserId final long userId,
             @RequestParam final int year,
             @RequestParam final String semester,
             @RequestParam final String sortOption
     ){
         return ResponseEntity.ok(pieceService.getTodoList(userId, year, semester, sortOption));
+    }
+
+    // 오늘 할 공부 추가하기 API
+    @PostMapping("/pieces/assign-to-today")
+    public ResponseEntity<AddPiecesResponseDto> addTodayPieces(
+            @UserId final long userId,
+            @RequestBody @Valid final PieceAddRequestDto pieceAddRequestDto
+    ){
+        return ResponseEntity.ok(pieceService.addTodoPieces(userId, pieceAddRequestDto));
     }
 }
