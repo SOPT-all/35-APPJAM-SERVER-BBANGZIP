@@ -44,9 +44,9 @@ public class SubjectRetriever {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
     }
 
-    // UserId 과목 ID, 과목 이름으로 과목을 조회하는 메서드
-    public Subject findByUserIdAndSubjectName(Long userId, Long subjectId, String subjectName) {
-        return subjectRepository.findByUserSubject_UserIdAndIdAndSubjectName(userId, subjectId, subjectName)
+    // 유저 ID와 과목 ID를 기반으로 과목 조회
+    public Subject findByUserIdAndSubjectId(Long userId, Long subjectId) {
+        return subjectRepository.findByUserSubject_UserIdAndId(userId, subjectId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
     }
 }
