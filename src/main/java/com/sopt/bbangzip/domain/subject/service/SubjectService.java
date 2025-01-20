@@ -49,8 +49,14 @@ public class SubjectService {
         UserSubject userSubject = userSubjectRetriever.findByUserIdAndYearAndSemester(userId, subjectCreateDto.year(), subjectCreateDto.semester());
         userSubjectSaver.save(userSubject);
 
-        // 동일 학기 내 중복된 과목 있으면 예외 던지기
-        if (subjectRetriever.existsByUserSubjectAndSubjectName(userSubject, subjectCreateDto.subjectName())) {
+        // 동일 학기 내 중복된 과목 존재 여부 확인
+        boolean isDuplicate = subjectRetriever.existsByUserSubjectAndSubjectNameAndUserId(
+                userSubject.getId(),
+                userId,
+                subjectCreateDto.subjectName()
+        );
+
+        if (isDuplicate) {
             throw new DuplicateSubjectException(ErrorCode.DUPLICATED_SUBJECT);
         }
 
@@ -72,7 +78,7 @@ public class SubjectService {
         UserSubject userSubject = subjectRetriever.findByUserIdAndYearAndSemester(userId, subjectDeleteDto.year(), subjectDeleteDto.semester());
 
         // 삭제할 과목 조회
-        List<Subject> subjects = subjectRetriever.findByIdInAndUserSubjectId(subjectDeleteDto.subjectIds(), userSubject.getId());
+        List<Subject> subjects = subjectRetriever.findByIdInAndUserSubjectIdAndUserId(subjectDeleteDto.subjectIds(), userSubject.getId(), userId);
 
         // SubjectRemover를 통해 삭제 처리
         subjectRemover.removeSubjects(subjects);
@@ -81,7 +87,7 @@ public class SubjectService {
     @Transactional
     public void updateSubjectNameOrMotivationMessage(Long userId, Long subjectId, String options, String value) {
         userRetriever.findByUserId(userId);
-        Subject subject = subjectRetriever.findById(subjectId);
+        Subject subject = subjectRetriever.findByIdAndUserId(userId, subjectId);
         switch (options) {
             case "subjectName" -> subjectUpdater.updateSubjectName(subject, value);
             case "motivationMessage" -> subjectUpdater.updateMotivationMessage(subject, value);
@@ -110,7 +116,7 @@ public class SubjectService {
                         subject.getId(),
                         subject.getSubjectName(),
                         subject.getExams().stream()
-                                .map(exam -> mapExamToStudyDto(subject.getId(), exam)) // subjectId 전달
+                                .map(exam -> mapExamToStudyDto(userId, subject.getId(), exam)) // subjectId 전달
                                 .collect(Collectors.toList())
                 ))
                 .collect(Collectors.toList());
@@ -125,12 +131,12 @@ public class SubjectService {
      * @param exam
      * @return StudyDto - 시험 이름, D-Day, 밀린 공부 개수, 남은 공부 개수를 포함한 DTO
      */
-    private SubjectResponseDto.SubjectDto.StudyDto mapExamToStudyDto(Long subjectId, Exam exam) {
+    private SubjectResponseDto.SubjectDto.StudyDto mapExamToStudyDto(Long userId, Long subjectId, Exam exam) {
         int dDay = (int) ChronoUnit.DAYS.between(LocalDate.now(), exam.getExamDate());
 
         // 시험별 남은 공부와 밀린 공부 조회
-        int remainingCount = pieceRetriever.findRemainingCount(subjectId, exam.getId());
-        int pendingCount = pieceRetriever.findPendingCount(subjectId, exam.getId());
+        int remainingCount = pieceRetriever.findRemainingCount(userId, subjectId, exam.getId());
+        int pendingCount = pieceRetriever.findPendingCount(userId, subjectId, exam.getId());
 
         return new SubjectResponseDto.SubjectDto.StudyDto(
                 exam.getExamName(),

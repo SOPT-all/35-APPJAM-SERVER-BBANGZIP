@@ -30,7 +30,7 @@ public class StudyService {
 
     @Transactional
     public void createStudy(Long userId, StudyCreateRequestDto studyCreateRequestDto) {
-        Subject subject = subjectRetriever.findById(studyCreateRequestDto.subjectId());
+        Subject subject = subjectRetriever.findByIdAndUserId(userId, studyCreateRequestDto.subjectId());
 
         Exam exam = Exam.builder()
                 .examName(studyCreateRequestDto.examName())

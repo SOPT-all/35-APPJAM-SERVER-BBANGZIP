@@ -15,14 +15,35 @@ import java.util.Optional;
 public interface SubjectRepository extends JpaRepository<Subject, Long> {
 
     //  UserSubject와 SubjectName으로 Subject 존재 여부 확인
-    boolean existsByUserSubjectAndSubjectName(UserSubject userSubject, String subjectName);
+    @Query("""
+    SELECT CASE WHEN COUNT(s) > 0 THEN true ELSE false END
+    FROM Subject s
+    JOIN s.userSubject us
+    JOIN us.user u
+    WHERE us.id = :userSubjectId AND u.id = :userId AND s.subjectName = :subjectName
+""")
+    boolean existsByUserSubjectAndSubjectNameAndUserId( Long userSubjectId, Long userId, String subjectName);
 
-    // 특정 UserSubject ID와 과목 ID로 과목 조회
-    List<Subject> findByIdInAndUserSubjectId(List<Long> subjectIds, Long userSubjectId);
 
-    Optional<Subject> findById(Long id);
+    @Query("""
+    SELECT s
+    FROM Subject s
+    JOIN s.userSubject us
+    JOIN us.user u
+    WHERE s.id IN :subjectIds AND us.id = :userSubjectId AND u.id = :userId
+""")
+    List<Subject> findByIdInAndUserSubjectIdAndUserId(List<Long> subjectIds, Long userSubjectId, Long userId);
 
-    Optional<Subject> findByUserSubject_UserIdAndIdAndSubjectName(Long userId, Long subjectId, String subjectName);
+
+    // 유저 ID와 과목 ID로 과목 조회
+    @Query("""
+    SELECT s 
+    FROM Subject s
+    JOIN s.userSubject us
+    JOIN us.user u
+    WHERE s.id = :subjectId AND u.id = :userId
+""")
+    Optional<Subject> findByIdAndUserId(Long subjectId, Long userId);
 
     // 학기별 과목 목록 조회
     @Query("""
@@ -33,9 +54,5 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
               AND us.year = :year
               AND us.semester = :semester
            """)
-    List<Subject> findSubjectsByUserAndSemester(
-            @Param("userId") Long userId,
-            @Param("year") int year,
-            @Param("semester") String semester
-    );
+    List<Subject> findSubjectsByUserAndSemester(Long userId, int year, String semester);
 }

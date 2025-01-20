@@ -18,9 +18,16 @@ public class SubjectRetriever {
     private final SubjectRepository subjectRepository;
     private final UserSubjectRepository userSubjectRepository;
 
-    // userSubject subjectName 에 해당하는 과목(Subject) 가 존재하는지 확인하는 메서드
-    public boolean existsByUserSubjectAndSubjectName(UserSubject userSubject, String subjectName){
-        return subjectRepository.existsByUserSubjectAndSubjectName(userSubject, subjectName);
+    /**
+     * UserSubject와 SubjectName으로 Subject 존재 여부 확인
+     *
+     * @param userSubjectId UserSubject ID
+     * @param userId        사용자 ID
+     * @param subjectName   과목 이름
+     * @return Subject 존재 여부
+     */
+    public boolean existsByUserSubjectAndSubjectNameAndUserId(Long userSubjectId, Long userId, String subjectName) {
+        return subjectRepository.existsByUserSubjectAndSubjectNameAndUserId(userSubjectId, userId, subjectName);
     }
 
     // UserSubject 조회
@@ -29,26 +36,27 @@ public class SubjectRetriever {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER_SUBJECT));
     }
 
-    // 과목 조회 (다건 조회)
-    public final List<Subject> findByIdInAndUserSubjectId(List<Long> subjectIds, Long userSubjectId) {
-        List<Subject> subjects = subjectRepository.findByIdInAndUserSubjectId(subjectIds, userSubjectId);
+    /**
+     * 특정 UserSubject ID와 과목 ID, 그리고 User ID를 기준으로 과목 조회
+     *
+     * @param subjectIds    조회할 과목 ID 리스트
+     * @param userSubjectId UserSubject ID
+     * @param userId        사용자 ID
+     * @return 조회된 과목 리스트
+     */
+    public List<Subject> findByIdInAndUserSubjectIdAndUserId(List<Long> subjectIds, Long userSubjectId, Long userId) {
+        List<Subject> subjects = subjectRepository.findByIdInAndUserSubjectIdAndUserId(subjectIds, userSubjectId, userId);
         if (subjects.isEmpty()) {
             throw new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT);
         }
         return subjects;
     }
 
-    // 과목 조회 (subjectId로 단건조회)
-    public Subject findById(Long id) {
-        return subjectRepository.findById(id)
+    public Subject findByIdAndUserId(Long userId, Long subjectId) {
+        return subjectRepository.findByIdAndUserId(subjectId, userId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
     }
 
-    // UserId 과목 ID, 과목 이름으로 과목을 조회하는 메서드
-    public Subject findByUserIdAndSubjectName(Long userId, Long subjectId, String subjectName) {
-        return subjectRepository.findByUserSubject_UserIdAndIdAndSubjectName(userId, subjectId, subjectName)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
-    }
 
     /**
      * 사용자와 학기 정보에 따른 과목 조회
