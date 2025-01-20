@@ -55,7 +55,7 @@ public class PieceController {
             @UserId final Long userId,
             @RequestBody @Valid final PieceDeleteRequestDto pieceDeleteRequestDto
     ) {
-        pieceService.deletePieces(pieceDeleteRequestDto);
+        pieceService.deletePieces(userId, pieceDeleteRequestDto);
         return ResponseEntity.noContent().build();
     }
 
@@ -77,7 +77,7 @@ public class PieceController {
             @UserId final long userId,
             @RequestBody final PieceDeleteRequestDto pieceDeleteRequestDto
     ) {
-        pieceService.updateStatusIsVisible(pieceDeleteRequestDto);
+        pieceService.updateStatusIsVisible(pieceDeleteRequestDto, userId);
         return ResponseEntity.noContent().build();
     }
 

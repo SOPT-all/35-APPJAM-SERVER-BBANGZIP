@@ -88,13 +88,4 @@ public class PieceRetriever {
     public List<Piece> findAddTodoPieceListByNearestDeadlineOrder(Long userId, int year,  String semester){
         return pieceRepository.findAddTodoPieceListByNearestDeadlineOrder(userId, year, semester);
     }
-
-      // 특정 ID 리스트에 해당하는 조각(Piece)들을 조회하는 메서드
-
-    /**
-     * 지우는 방향으로 로직 수정중..
-     */
-    public List<Piece> findAllByIds(List<Long> pieceIds) {
-        return pieceRepository.findAllById(pieceIds);
-    }
 }
