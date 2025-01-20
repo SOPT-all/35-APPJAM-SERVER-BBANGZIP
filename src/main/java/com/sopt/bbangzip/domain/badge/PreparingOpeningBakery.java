@@ -9,7 +9,7 @@ import java.util.List;
 public class PreparingOpeningBakery implements Badge{
     @Override
     public BadgeCondition getCondition() {
-        // 맨 처음 학습을 '추가한' 필드가 아직 null 이면 해당 뱃지 획득 가능
+        // 맨 처음 '학습 내용(교재)를 추가한' 필드가 아직 null 이면 해당 뱃지 획득 가능
         return user -> user.getHasPreparingOpeningBakery() == null;
     }
 

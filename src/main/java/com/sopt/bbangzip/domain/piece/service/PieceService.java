@@ -4,7 +4,6 @@ import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.request.IsFinishedDto;
 import com.sopt.bbangzip.domain.piece.api.dto.request.PieceAddRequestDto;
 import com.sopt.bbangzip.domain.piece.api.dto.request.PieceDeleteRequestDto;
-import com.sopt.bbangzip.domain.piece.api.dto.response.AddPiecesResponseDto;
 import com.sopt.bbangzip.domain.piece.api.dto.response.AddTodoPiecesResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.response.MarkDoneResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.response.TodoPiecesResponse;
@@ -86,7 +85,7 @@ public class PieceService {
     }
 
     @Transactional
-    public AddPiecesResponseDto addTodoPieces(
+    public void addTodoPieces(
             final Long userId,
             final PieceAddRequestDto pieceAddRequestDto
     ) {
@@ -103,12 +102,7 @@ public class PieceService {
         }
 
         // 3. Piece 상태 업데이트 (is_visible을 true로 변경)
-        List<BadgeResponse> newlyAwardedBadges = pieceUpdater.updateStatusIsVisible(pieces, user);
-
-        // 5. 응답 반환 (null인 경우 빈 리스트 반환)
-        return AddPiecesResponseDto.builder()
-                .badges(newlyAwardedBadges != null ? newlyAwardedBadges : List.of()) // null인 경우 빈 리스트 반환
-                .build();
+        pieceUpdater.updateStatusIsVisible(pieces, user);
     }
 
     @Transactional
@@ -191,10 +185,6 @@ public class PieceService {
     /**
      * 여기까지
      */
-    @Transactional
-    public AddPiecesResponseDto AddTodoPieces(Long userId, PieceAddRequestDto pieceAddRequestDto){
-        return AddPiecesResponseDto.builder().build();
-    }
 
     @Transactional
     public void updateStatusIsVisible(PieceDeleteRequestDto pieceDeleteRequestDto) {
