@@ -3,6 +3,7 @@ package com.sopt.bbangzip.domain.piece.api.controller;
 import com.sopt.bbangzip.common.annotation.UserId;
 
 import com.sopt.bbangzip.domain.piece.api.dto.request.IsFinishedDto;
+import com.sopt.bbangzip.domain.piece.api.dto.request.PieceAddRequestDto;
 import com.sopt.bbangzip.domain.piece.api.dto.response.AddTodoPiecesResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.response.MarkDoneResponse;
 
@@ -54,7 +55,7 @@ public class PieceController {
             @UserId final Long userId,
             @RequestBody @Valid final PieceDeleteRequestDto pieceDeleteRequestDto
     ) {
-        pieceService.deletePieces(pieceDeleteRequestDto);
+        pieceService.deletePieces(userId, pieceDeleteRequestDto);
         return ResponseEntity.noContent().build();
     }
 
@@ -76,18 +77,28 @@ public class PieceController {
             @UserId final long userId,
             @RequestBody final PieceDeleteRequestDto pieceDeleteRequestDto
     ) {
-        pieceService.updateStatusIsVisible(pieceDeleteRequestDto);
+        pieceService.updateStatusIsVisible(pieceDeleteRequestDto, userId);
         return ResponseEntity.noContent().build();
     }
 
     // 오늘 할 공부 추가 리스트 API
     @GetMapping("/pieces/todo")
-    public ResponseEntity<AddTodoPiecesResponse> addTodayPieces(
+    public ResponseEntity<AddTodoPiecesResponse> addTodayPiecesList(
             @UserId final long userId,
             @RequestParam final int year,
             @RequestParam final String semester,
             @RequestParam final String sortOption
     ){
         return ResponseEntity.ok(pieceService.getTodoList(userId, year, semester, sortOption));
+    }
+
+    // 오늘 할 공부 추가하기 API
+    @PostMapping("/pieces/assign-to-today")
+    public ResponseEntity<Void> addTodayPieces(
+            @UserId final long userId,
+            @RequestBody @Valid final PieceAddRequestDto pieceAddRequestDto
+    ){
+        pieceService.addTodoPieces(userId, pieceAddRequestDto);
+        return ResponseEntity.noContent().build();
     }
 }

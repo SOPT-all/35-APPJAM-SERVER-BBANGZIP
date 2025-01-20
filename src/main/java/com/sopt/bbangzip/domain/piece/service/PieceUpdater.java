@@ -42,4 +42,12 @@ public class PieceUpdater {
     ){
         piece.updateStatus(isFinished.isFinished());
     }
+
+    public void updateStatusIsVisible(
+            List<Piece> pieces,
+            User user
+    ){
+        // 공부 조각들의 상태 is_visible 을 true 로 업데이트
+        pieces.forEach(piece -> piece.updateIsVisible(true));
+    }
 }

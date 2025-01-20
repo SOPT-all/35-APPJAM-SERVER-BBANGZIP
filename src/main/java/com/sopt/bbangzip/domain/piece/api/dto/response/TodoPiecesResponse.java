@@ -8,9 +8,9 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 public record TodoPiecesResponse(
-        Integer toadyCount,
+        Integer todayCount,
         Integer completeCount,
-        List<TodoPieceDto> todoPieceStoList,
+        List<TodoPieceDto> todoPiecesList,
         Integer pendingCount
 ) {
     @Builder

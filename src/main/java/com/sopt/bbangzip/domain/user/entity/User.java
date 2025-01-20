@@ -81,6 +81,9 @@ public class User {
     @Column(name = UserTableConstants.COLUMN_HAS_MASS_BAKING_BREAD_BADGE)
     private LocalDateTime hasMassBakingBreadBadge = null; // 빵 대량 생산 뱃지 획득 여부
 
+    @Column(name = UserTableConstants.COLUMN_HAS_PREPARING_OPENING_BAKERY)
+    private LocalDateTime hasPreparingOpeningBakery = null; // 빵집 오픈 준비중 뱃지 획득 여부
+
 
     @SuppressWarnings("FieldMayBeFinal")
     @Column(name = UserTableConstants.COLUMN_TODAY_STUDY_COMPLETE_COUNT, nullable = false)
@@ -110,6 +113,13 @@ public class User {
         if (this.hasMassBakingBreadBadge == null) {
             this.hasMassBakingBreadBadge = LocalDateTime.now();
             this.point += 50;
+        }
+    }
+
+    public void markHasPreparingOpeningBakery(){
+        if (this.hasPreparingOpeningBakery == null) {
+            this.hasPreparingOpeningBakery = LocalDateTime.now();
+            this.point +=50;
         }
     }
 

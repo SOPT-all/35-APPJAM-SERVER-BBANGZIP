@@ -23,6 +23,10 @@ public class PieceRetriever {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_PIECE));
     }
 
+    public List<Piece> findByPiecesIdAndUserId(final List<Long> pieceIds, final long userId){
+        return pieceRepository.findByPiecesIdAndUserId(pieceIds, userId);
+    }
+
     public int countUnfinishedTodayPieces(final Long userId){
         return pieceRepository.countUnfinishedTodayPieces(userId);
     }

@@ -25,6 +25,19 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
     """)
     Optional<Piece> findByPieceIdAndUserId(@Param("pieceId") Long pieceId, @Param("userId") Long userId);
 
+    // 유저가 선택한 공부 조각'들' 가겨오는
+    @Query("""
+        SELECT p
+        FROM Piece p
+        JOIN p.study s
+        JOIN s.exam e
+        JOIN e.subject sub
+        JOIN sub.userSubject us
+        JOIN us.user u
+        WHERE p.id IN :pieceIds AND u.id = :userId
+""")
+    List<Piece> findByPiecesIdAndUserId(@Param("pieceIds") List<Long> pieceIds, @Param("userId") Long userId);
+
 
     /**
      * 오늘 할 일 중, 미완료한 공부 조각 들의 갯수 가져오기
