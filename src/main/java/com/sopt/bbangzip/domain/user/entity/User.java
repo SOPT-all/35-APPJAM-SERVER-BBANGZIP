@@ -84,6 +84,10 @@ public class User {
     @Column(name = UserTableConstants.COLUMN_HAS_PREPARING_OPENING_BAKERY)
     private LocalDateTime hasPreparingOpeningBakery = null; // 빵집 오픈 준비중 뱃지 획득 여부
 
+    @SuppressWarnings("FieldMayBeFinal")
+    @Column(name = UserTableConstants.COLUMN_FIRST_CREATE_STUDY_COUNT, nullable = false)
+    private int firstCreateStudyCount = 0;
+
 
     @SuppressWarnings("FieldMayBeFinal")
     @Column(name = UserTableConstants.COLUMN_TODAY_STUDY_COMPLETE_COUNT, nullable = false)

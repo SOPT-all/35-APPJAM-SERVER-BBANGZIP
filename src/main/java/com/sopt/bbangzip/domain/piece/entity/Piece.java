@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
@@ -66,21 +65,14 @@ public class Piece {
         this.updatedAt = LocalDateTime.now();
     }
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy년MM월dd일");
-
     @Builder
-    public Piece(Study study, int startPage, int finishPage, String deadline) {
+    public Piece(Study study, int startPage, int finishPage, LocalDate deadline) {
         this.study = study;
         this.startPage = startPage;
         this.finishPage = finishPage;
         this.pageAmount = finishPage - startPage + 1;
-        this.deadline = parseStringToLocalDate(deadline);
+        this.deadline = deadline;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
-    }
-
-    // String 값을 LocalDate로 변환
-    private LocalDate parseStringToLocalDate(String date) {
-        return LocalDate.parse(date, DATE_FORMATTER);
     }
 }

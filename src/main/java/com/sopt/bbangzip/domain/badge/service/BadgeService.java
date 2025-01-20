@@ -2,13 +2,14 @@ package com.sopt.bbangzip.domain.badge.service;
 
 import com.sopt.bbangzip.common.exception.base.NotFoundException;
 import com.sopt.bbangzip.common.exception.code.ErrorCode;
-import com.sopt.bbangzip.domain.badge.Badge;
-import com.sopt.bbangzip.domain.badge.BadgeCondition;
+import com.sopt.bbangzip.domain.badge.entity.Badge;
+import com.sopt.bbangzip.domain.badge.entity.BadgeCondition;
 import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeDetailResponse;
 import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeListResponse;
 import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeResponse;
 import com.sopt.bbangzip.domain.piece.service.PieceRetriever;
 import com.sopt.bbangzip.domain.user.entity.User;
+import com.sopt.bbangzip.domain.user.repository.UserRepository;
 import com.sopt.bbangzip.domain.user.service.UserLevelCalculator;
 import com.sopt.bbangzip.domain.user.service.UserRetriever;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BadgeService {
 
+    private final UserRetriever userRetriever;
+
     /**
      * - 모든 뱃지의 목록 관리
      * - 사용자에게 조건에 맞는 뱃지 지급
@@ -32,8 +35,8 @@ public class BadgeService {
 
     private final List<Badge> badges;
     private final PieceRetriever pieceRetriever;
-    private final UserRetriever userRetriever;
     private final UserLevelCalculator userLevelCalculator;
+    private final UserRepository userRepository;
 
     /**
      * 조건에 맞는 모든 뱃지를 반환
@@ -68,6 +71,7 @@ public class BadgeService {
             case "빵 굽기 시작" -> user.getFirstStudyCompletedAt() != null;
             case "오늘의 빵 완판" -> user.getAllTasksCompletedAt() != null;
             case "빵 대량 생산" -> user.getHasMassBakingBreadBadge() != null;
+            case "빵집 오픈 준비 중" -> user.getHasPreparingOpeningBakery() != null;
             default -> false;
         };
     }
@@ -83,8 +87,10 @@ public class BadgeService {
             case "빵 굽기 시작" -> user.markFirstStudyComplete();
             case "오늘의 빵 완판" -> user.markFirstTodayTasksCompletedAt();
             case "빵 대량 생산" -> user.markHasMassBakingBreadBadge();
+            case "빵집 오픈 준비 중" -> user.markHasPreparingOpeningBakery();
             default -> throw new IllegalArgumentException();
         }
+        userRepository.save(user);
         log.info(badge.getName() + "뱃지를 획득하였습니다!");
     }
 
@@ -117,6 +123,8 @@ public class BadgeService {
                 return user.getAllTasksCompletedAt() == null;
             case "빵 대량 생산":
                 return user.getHasMassBakingBreadBadge() == null;
+            case "빵집 오픈 준비 중":
+                return user.getHasPreparingOpeningBakery() == null;
             default:
                 return true;
         }
