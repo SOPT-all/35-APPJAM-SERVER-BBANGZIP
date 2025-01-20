@@ -94,7 +94,7 @@ public class PieceService {
 
         // 2. Piece 조회
         List<Long> pieceIds = pieceAddRequestDto.pieceIds();
-        List<Piece> pieces = pieceRetriever.findAllByIds(pieceIds);
+        List<Piece> pieces = pieceRetriever.findByPiecesIdAndUserId(pieceIds, userId);
 
         // 유효한 Piece인지 검증
         if (pieces.isEmpty() || pieces.size() != pieceIds.size()) {
