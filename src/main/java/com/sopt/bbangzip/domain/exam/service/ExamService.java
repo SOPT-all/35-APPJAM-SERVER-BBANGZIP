@@ -89,7 +89,7 @@ public class ExamService {
      * @return D-Day 값
      */
     private int calculateDday(LocalDate examDate) {
-        int dday = (int) ChronoUnit.DAYS.between(LocalDate.now(), examDate);
+        int dday = (int) ChronoUnit.DAYS.between(examDate, LocalDate.now()g);
         return dday;
     }
 
