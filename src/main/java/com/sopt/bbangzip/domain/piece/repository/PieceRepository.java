@@ -14,28 +14,28 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
 
     // 유저가 선택한 공부 조각 가져오는
     @Query("""
-        SELECT p
-        FROM Piece p
-        JOIN p.study s
-        JOIN s.exam e
-        JOIN e.subject sub
-        JOIN sub.userSubject us
-        JOIN us.user u
-        WHERE p.id = :pieceId AND u.id = :userId
-    """)
+                SELECT p
+                FROM Piece p
+                JOIN p.study s
+                JOIN s.exam e
+                JOIN e.subject sub
+                JOIN sub.userSubject us
+                JOIN us.user u
+                WHERE p.id = :pieceId AND u.id = :userId
+            """)
     Optional<Piece> findByPieceIdAndUserId(@Param("pieceId") Long pieceId, @Param("userId") Long userId);
 
     // 유저가 선택한 공부 조각'들' 가겨오는
     @Query("""
-        SELECT p
-        FROM Piece p
-        JOIN p.study s
-        JOIN s.exam e
-        JOIN e.subject sub
-        JOIN sub.userSubject us
-        JOIN us.user u
-        WHERE p.id IN :pieceIds AND u.id = :userId
-""")
+                    SELECT p
+                    FROM Piece p
+                    JOIN p.study s
+                    JOIN s.exam e
+                    JOIN e.subject sub
+                    JOIN sub.userSubject us
+                    JOIN us.user u
+                    WHERE p.id IN :pieceIds AND u.id = :userId
+            """)
     List<Piece> findByPiecesIdAndUserId(@Param("pieceIds") List<Long> pieceIds, @Param("userId") Long userId);
 
 
@@ -48,12 +48,12 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
      * 미완료 : is_finished 가 false
      */
     @Query("""
-         SELECT COUNT(p)
-         FROM Piece p
-         WHERE p.isVisible = true
-            AND p.isFinished = false
-            AND p.study.exam.subject.userSubject.user.id = :userId
-     """)
+                SELECT COUNT(p)
+                FROM Piece p
+                WHERE p.isVisible = true
+                   AND p.isFinished = false
+                   AND p.study.exam.subject.userSubject.user.id = :userId
+            """)
     int countUnfinishedTodayPieces(Long userId);
 
     /**
@@ -92,14 +92,14 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
      * 오늘 할 일 : is_visible 이 true 여야 됨
      */
     @Query("""
-    SELECT p
-    FROM Piece p
-    WHERE p.study.exam.subject.userSubject.user.id = :userId
-        AND p.study.exam.subject.userSubject.year = :year
-        AND p.study.exam.subject.userSubject.semester = :semester
-        AND p.isVisible = true
-    ORDER BY p.createdAt DESC, p.pieceNumber ASC
-    """)
+            SELECT p
+            FROM Piece p
+            WHERE p.study.exam.subject.userSubject.user.id = :userId
+                AND p.study.exam.subject.userSubject.year = :year
+                AND p.study.exam.subject.userSubject.semester = :semester
+                AND p.isVisible = true
+            ORDER BY p.createdAt DESC, p.pieceNumber ASC
+            """)
     List<Piece> findTodoPiecesByRecentOrder(Long userId, int year, String semester);
 
     /**
@@ -111,16 +111,16 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
      * 오늘 할 일 : is_visible 이 true 여야 됨
      */
     @Query("""
-    SELECT p
-    FROM Piece p
-    WHERE p.study.exam.subject.userSubject.user.id = :userId
-        AND p.isVisible = true
-        AND p.study.exam.subject.userSubject.year = :year
-        AND p.study.exam.subject.userSubject.semester = :semester
-    ORDER BY p.pageAmount ASC, p.deadline ASC,
-             p.study.exam.subject.subjectName ASC,
-             p.pieceNumber ASC
-    """)
+            SELECT p
+            FROM Piece p
+            WHERE p.study.exam.subject.userSubject.user.id = :userId
+                AND p.isVisible = true
+                AND p.study.exam.subject.userSubject.year = :year
+                AND p.study.exam.subject.userSubject.semester = :semester
+            ORDER BY p.pageAmount ASC, p.deadline ASC,
+                     p.study.exam.subject.subjectName ASC,
+                     p.pieceNumber ASC
+            """)
     List<Piece> findTodoPiecesByLeastVolumeOrder(Long userId, int year, String semester);
 
     /**
@@ -132,17 +132,17 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
      * 오늘 할 일 : is_visible 이 true 여야 됨
      */
     @Query("""
-    SELECT p
-    FROM Piece p
-    WHERE p.study.exam.subject.userSubject.user.id = :userId
-        AND p.study.exam.subject.userSubject.year = :year
-        AND p.study.exam.subject.userSubject.semester = :semester
-        AND p.isVisible = true
-    ORDER BY p.deadline ASC,
-             p.pageAmount ASC,
-             p.study.exam.subject.subjectName ASC,
-             p.pieceNumber ASC
-    """)
+            SELECT p
+            FROM Piece p
+            WHERE p.study.exam.subject.userSubject.user.id = :userId
+                AND p.study.exam.subject.userSubject.year = :year
+                AND p.study.exam.subject.userSubject.semester = :semester
+                AND p.isVisible = true
+            ORDER BY p.deadline ASC,
+                     p.pageAmount ASC,
+                     p.study.exam.subject.subjectName ASC,
+                     p.pieceNumber ASC
+            """)
     List<Piece> findTodoPiecesByNearestDeadlineOrder(Long userId, int year, String semester);
 
     /**
@@ -152,16 +152,16 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
      * 밀린 일 : is_visible 이 false 면서, is_finished 가 false 면서, 오늘 날짜가 piece 의 deadline 보다 이후인 piece 들
      */
     @Query("""
-    SELECT p
-    FROM Piece p
-    WHERE p.study.exam.subject.userSubject.user.id = :userId
-        AND p.isVisible = false
-        AND p.isFinished = false
-        AND p.deadline < CURRENT_DATE
-        AND p.study.exam.subject.userSubject.year = :year
-        AND p.study.exam.subject.userSubject.semester = :semester
-    ORDER BY p.createdAt DESC, p.pieceNumber ASC
-    """)
+            SELECT p
+            FROM Piece p
+            WHERE p.study.exam.subject.userSubject.user.id = :userId
+                AND p.isVisible = false
+                AND p.isFinished = false
+                AND p.deadline < CURRENT_DATE
+                AND p.study.exam.subject.userSubject.year = :year
+                AND p.study.exam.subject.userSubject.semester = :semester
+            ORDER BY p.createdAt DESC, p.pieceNumber ASC
+            """)
     List<Piece> findPendingPiecesByRecentOrder(Long userId, int year, String semester);
 
     /**
@@ -173,17 +173,17 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
      * 밀린 일 : is_visible 이 false 면서, is_finished 가 false 면서, 오늘 날짜가 piece 의 deadline 보다 이후인 piece 들
      */
     @Query("""
-    SELECT p
-    FROM Piece p
-    WHERE p.study.exam.subject.userSubject.user.id = :userId
-        AND p.isVisible = false
-        AND p.isFinished = false
-        AND p.deadline < CURRENT_DATE
-        AND p.study.exam.subject.userSubject.year = :year
-        AND p.study.exam.subject.userSubject.semester = :semester
-    ORDER BY p.pageAmount ASC, p.deadline ASC,
-             p.study.exam.subject.subjectName ASC, p.pieceNumber ASC
-    """)
+            SELECT p
+            FROM Piece p
+            WHERE p.study.exam.subject.userSubject.user.id = :userId
+                AND p.isVisible = false
+                AND p.isFinished = false
+                AND p.deadline < CURRENT_DATE
+                AND p.study.exam.subject.userSubject.year = :year
+                AND p.study.exam.subject.userSubject.semester = :semester
+            ORDER BY p.pageAmount ASC, p.deadline ASC,
+                     p.study.exam.subject.subjectName ASC, p.pieceNumber ASC
+            """)
     List<Piece> findPendingPiecesByLeastVolumeOrder(Long userId, int year, String semester);
 
     /**
@@ -195,31 +195,31 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
      * 밀린 일 : is_visible 이 false 면서, is_finished 가 false 면서, 오늘 날짜가 piece 의 deadline 보다 이후인 piece 들
      */
     @Query("""
-    SELECT p
-    FROM Piece p
-    WHERE p.study.exam.subject.userSubject.user.id = :userId
-        AND p.isVisible = false
-        AND p.isFinished = false
-        AND p.deadline < CURRENT_DATE
-        AND p.study.exam.subject.userSubject.year = :year
-        AND p.study.exam.subject.userSubject.semester = :semester
-    ORDER BY p.deadline ASC, p.pageAmount ASC, 
-             p.study.exam.subject.subjectName ASC, p.pieceNumber ASC
-    """)
-    List<Piece> findPendingPiecesByNearestDeadlineOrder(Long userId, int year,  String semester);
+            SELECT p
+            FROM Piece p
+            WHERE p.study.exam.subject.userSubject.user.id = :userId
+                AND p.isVisible = false
+                AND p.isFinished = false
+                AND p.deadline < CURRENT_DATE
+                AND p.study.exam.subject.userSubject.year = :year
+                AND p.study.exam.subject.userSubject.semester = :semester
+            ORDER BY p.deadline ASC, p.pageAmount ASC, 
+                     p.study.exam.subject.subjectName ASC, p.pieceNumber ASC
+            """)
+    List<Piece> findPendingPiecesByNearestDeadlineOrder(Long userId, int year, String semester);
 
     /**
      * [오늘 할 공부에 추가할 수 있는 조각들 갯수]
      * is_visible = false && is_finished = false && deadline >= current date
      */
     @Query("""
-             SELECT COUNT(p)
-             FROM Piece p
-             WHERE p.isVisible = false
-               AND p.isFinished = false
-               AND p.deadline >= CURRENT DATE
-               AND p.study.exam.subject.userSubject.user.id = :userId
-    """)
+                     SELECT COUNT(p)
+                     FROM Piece p
+                     WHERE p.isVisible = false
+                       AND p.isFinished = false
+                       AND p.deadline >= CURRENT DATE
+                       AND p.study.exam.subject.userSubject.user.id = :userId
+            """)
     int findAddTodoPieceCount(Long userId, int year, String semester);
 
     /**
@@ -229,17 +229,17 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
      * is_visible = false && is_finished = false && deadline >= current date
      */
     @Query("""
-    SELECT p
-    FROM Piece p
-    WHERE p.study.exam.subject.userSubject.user.id = :userId
-        AND p.study.exam.subject.userSubject.year = :year
-        AND p.study.exam.subject.userSubject.semester = :semester
-        AND p.isVisible = false
-        AND p.isFinished = false
-        AND p.deadline >= CURRENT_DATE
-    ORDER BY p.createdAt DESC, p.pieceNumber ASC
-    """)
-    List<Piece> findAddTodoPieceListByRecentOrder(Long userId, int year,  String semester);
+            SELECT p
+            FROM Piece p
+            WHERE p.study.exam.subject.userSubject.user.id = :userId
+                AND p.study.exam.subject.userSubject.year = :year
+                AND p.study.exam.subject.userSubject.semester = :semester
+                AND p.isVisible = false
+                AND p.isFinished = false
+                AND p.deadline >= CURRENT_DATE
+            ORDER BY p.createdAt DESC, p.pieceNumber ASC
+            """)
+    List<Piece> findAddTodoPieceListByRecentOrder(Long userId, int year, String semester);
 
     /**
      * [오늘 할 공부에 추가할 수 있는 조각들 찾기 - 분량 적은 순 ]
@@ -250,20 +250,20 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
      * is_visible = false && is_finished = false && deadline >= current date
      */
     @Query("""
-    SELECT p
-    FROM Piece p
-    WHERE p.study.exam.subject.userSubject.user.id = :userId
-        AND p.study.exam.subject.userSubject.year = :year
-        AND p.study.exam.subject.userSubject.semester = :semester
-        AND p.isVisible = false
-        AND p.isFinished = false
-        AND p.deadline >= CURRENT_DATE
-    ORDER BY p.pageAmount ASC,
-             p.deadline ASC,
-             p.study.exam.subject.subjectName ASC,
-             p.pieceNumber ASC
-    """)
-    List<Piece> findAddTodoPieceListByLeastVolumeOrder(Long userId, int year,  String semester);
+            SELECT p
+            FROM Piece p
+            WHERE p.study.exam.subject.userSubject.user.id = :userId
+                AND p.study.exam.subject.userSubject.year = :year
+                AND p.study.exam.subject.userSubject.semester = :semester
+                AND p.isVisible = false
+                AND p.isFinished = false
+                AND p.deadline >= CURRENT_DATE
+            ORDER BY p.pageAmount ASC,
+                     p.deadline ASC,
+                     p.study.exam.subject.subjectName ASC,
+                     p.pieceNumber ASC
+            """)
+    List<Piece> findAddTodoPieceListByLeastVolumeOrder(Long userId, int year, String semester);
 
     /**
      * [오늘 할 공부에 추가할 수 있는 조각들 찾기 - 마감 기한 빠른 순 ]
@@ -274,33 +274,75 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
      * is_visible = false && is_finished = false && deadline >= current date
      */
     @Query("""
-    SELECT p
-    FROM Piece p
-    WHERE p.study.exam.subject.userSubject.user.id = :userId
-        AND p.study.exam.subject.userSubject.year = :year
-        AND p.study.exam.subject.userSubject.semester = :semester
-        AND p.isVisible = false
-        AND p.isFinished = false
-        AND p.deadline >= CURRENT_DATE
-    ORDER BY p.deadline ASC,
-             p.pageAmount ASC,
-             p.study.exam.subject.subjectName ASC,
-             p.pieceNumber ASC
-    """)
-    List<Piece> findAddTodoPieceListByNearestDeadlineOrder(Long userId, int year,  String semester);
-
-    @Query("""
             SELECT p
             FROM Piece p
-            JOIN p.study s
-            JOIN s.exam e
-            JOIN e.subject sub
-            JOIN sub.userSubject us
-            JOIN us.user u
-            WHERE e.id = :examId
-              AND u.id = :userId
-           """)
+            WHERE p.study.exam.subject.userSubject.user.id = :userId
+                AND p.study.exam.subject.userSubject.year = :year
+                AND p.study.exam.subject.userSubject.semester = :semester
+                AND p.isVisible = false
+                AND p.isFinished = false
+                AND p.deadline >= CURRENT_DATE
+            ORDER BY p.deadline ASC,
+                     p.pageAmount ASC,
+                     p.study.exam.subject.subjectName ASC,
+                     p.pieceNumber ASC
+            """)
+    List<Piece> findAddTodoPieceListByNearestDeadlineOrder(Long userId, int year, String semester);
+
+    @Query("""
+             SELECT p
+             FROM Piece p
+             JOIN p.study s
+             JOIN s.exam e
+             JOIN e.subject sub
+             JOIN sub.userSubject us
+             JOIN us.user u
+             WHERE e.id = :examId
+               AND u.id = :userId
+            """)
     List<Piece> findByStudyExamIdAndUserId(@Param("examId") Long examId, @Param("userId") Long userId);
+
+    // 남은 공부
+    @Query("""
+    SELECT COUNT(p)
+    FROM Piece p
+    JOIN p.study s
+    JOIN s.exam e
+    JOIN e.subject subj
+    JOIN subj.userSubject us
+    JOIN us.user u
+    WHERE subj.id = :subjectId
+      AND e.id = :examId
+      AND u.id = :userId
+      AND p.isFinished = false
+      AND p.deadline >= CURRENT_DATE
+""")
+    int findRemainingCount(
+            @Param("subjectId") Long subjectId,
+            @Param("examId") Long examId,
+            @Param("userId") Long userId
+    );
+
+    // 밀린 공부
+    @Query("""
+    SELECT COUNT(p)
+    FROM Piece p
+    JOIN p.study s
+    JOIN s.exam e
+    JOIN e.subject subj
+    JOIN subj.userSubject us
+    JOIN us.user u
+    WHERE subj.id = :subjectId
+      AND e.id = :examId
+      AND u.id = :userId
+      AND p.isFinished = false
+      AND p.deadline < CURRENT_DATE
+""")
+    int findPendingCount(
+            @Param("subjectId") Long subjectId,
+            @Param("examId") Long examId,
+            @Param("userId") Long userId
+    );
 
 }
 

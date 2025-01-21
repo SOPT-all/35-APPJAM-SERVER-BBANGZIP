@@ -93,12 +93,19 @@ public class PieceRetriever {
     Add Pending
      */
 
+    // 중간고사, 기말고사 필터링
     public List<Piece> findByStudyExamIdAndUserId(Long userId, Long examId) {
         return pieceRepository.findByStudyExamIdAndUserId(userId, examId);
     }
 
-      // 특정 ID 리스트에 해당하는 조각(Piece)들을 조회하는 메서드
-    public List<Piece> findAllByIds(List<Long> pieceIds) {
-        return pieceRepository.findAllById(pieceIds);
+    // 남은 공부 가져오기
+    public int findRemainingCount(Long userId, Long subjectId, Long examId) {
+        return pieceRepository.findRemainingCount(userId, subjectId, examId);
     }
+
+    // 밀린 공부 가져오기
+    public int findPendingCount(Long userId, Long subjectId, Long examId) {
+        return pieceRepository.findPendingCount(userId, subjectId, examId);
+    }
+
 }

@@ -38,7 +38,7 @@ public class StudyService {
 
     @Transactional
     public CreateStudyResponse createStudy(Long userId, StudyCreateRequestDto studyCreateRequestDto) {
-        Subject subject = subjectRetriever.findByUserIdAndSubjectId(userId, studyCreateRequestDto.subjectId());
+        Subject subject = subjectRetriever.findByIdAndUserId(userId, studyCreateRequestDto.subjectId());
 
         LocalDate examDate;
         try {
