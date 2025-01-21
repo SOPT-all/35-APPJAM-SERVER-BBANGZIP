@@ -57,7 +57,6 @@ public class SubjectRetriever {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
     }
 
-
     /**
      * 사용자와 학기 정보에 따른 과목 조회
      *
@@ -69,5 +68,4 @@ public class SubjectRetriever {
     public List<Subject> findSubjectsByUserAndSemester(Long userId, int year, String semester) {
         return subjectRepository.findSubjectsByUserAndSemester(userId, year, semester);
     }
-
 }

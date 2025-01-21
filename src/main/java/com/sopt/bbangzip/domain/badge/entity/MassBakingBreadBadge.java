@@ -1,4 +1,4 @@
-package com.sopt.bbangzip.domain.badge;
+package com.sopt.bbangzip.domain.badge.entity;
 
 import com.sopt.bbangzip.domain.user.entity.User;
 import org.springframework.stereotype.Component;
@@ -6,36 +6,36 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class StartBakingBreadBadge implements Badge{
+public class MassBakingBreadBadge implements Badge{
     @Override
     public BadgeCondition getCondition(){
-        // 맨 처음 학습을 완료한 필드가 아직 null 이면 해당 뱃지 획득 가능
-        return user -> user.getFirstStudyCompletedAt() == null && user.getTodayStudyCompleteCount() > 0;
+        return user -> user.getTodayStudyCompleteCount() >= 3;
     }
 
     @Override
     public String getName() {
-        return "빵 굽기 시작";
+        return "빵 대량 생산";
     }
 
     @Override
     public int getReward() {
-        return 100;
+        return 50;
     }
 
     @Override
     public List<String> getHashTags() {
-        return List.of("#오늘은 무슨 빵을 구울까", "#빵 냄새 솔솔", "#노릇노릇");
+        return List.of("#사장님은 열일 중", "#오늘 빵 몇 개 구울 거야", "#백만 개");
     }
 
     @Override
     public String getImage() {
-        return "https://example.com/images/1";
+        return "https://example.com/images/3";
     }
+
 
     @Override
     public String getCategory() {
-        return "시작이 빵이다";
+        return "미룬이 탈출"; // 뱃지 카테고리
     }
 
     @Override
@@ -46,6 +46,6 @@ public class StartBakingBreadBadge implements Badge{
 
     @Override
     public String getAchievementCondition(){
-        return "최초로 '학습완료'를 수행한 경우";
+        return "24시간 내 '학습 완료'를 3회 완료한 경우";
     }
 }

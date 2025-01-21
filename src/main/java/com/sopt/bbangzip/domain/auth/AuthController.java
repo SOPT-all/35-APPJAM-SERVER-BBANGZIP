@@ -1,6 +1,7 @@
 package com.sopt.bbangzip.domain.auth;
 
 import com.sopt.bbangzip.common.annotation.UserId;
+import com.sopt.bbangzip.common.dto.ResponseDto;
 import com.sopt.bbangzip.common.exception.base.NotFoundException;
 import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.token.api.JwtTokensDto;
@@ -13,6 +14,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,29 +48,29 @@ public class AuthController {
 
     // 로그아웃 API
     @DeleteMapping("/user/auth/siginout")
-    public ResponseEntity<Void> logout(
+    public ResponseEntity<ResponseDto<List<Object>>> logout(
             @UserId final long userId
     ) {
         authService.logout(userId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ResponseDto.success(null));
     }
 
     // 회원 탈퇴 API
     @DeleteMapping("/user/auth/withdraw")
-    public ResponseEntity<Void> withdraw(
+    public ResponseEntity<ResponseDto<List<Object>>> withdraw(
             @UserId final long userId
     ) {
         authService.withdraw(userId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ResponseDto.success(null));
     }
 
     // 온보딩 완료 API
     @PatchMapping("/user/auth/signup")
-    public ResponseEntity<Void> onboarding(
+    public ResponseEntity<ResponseDto<List<Object>>> onboarding(
             @UserId final long userId,
             @RequestBody @Valid final OnboardingRequestDto onboardingRequestDto
     ) {
         authService.onboarding(userId, onboardingRequestDto);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ResponseDto.success(null));
     }
 }

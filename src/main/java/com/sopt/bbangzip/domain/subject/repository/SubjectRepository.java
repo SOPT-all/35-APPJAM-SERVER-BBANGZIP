@@ -24,7 +24,6 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
 """)
     boolean existsByUserSubjectAndSubjectNameAndUserId(Long userId, Long userSubjectId, String subjectName);
 
-
     @Query("""
     SELECT s
     FROM Subject s
@@ -55,4 +54,5 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
               AND us.semester = :semester
            """)
     List<Subject> findSubjectsByUserAndSemester(Long userId, int year, String semester);
+
 }

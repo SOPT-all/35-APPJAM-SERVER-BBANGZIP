@@ -1,4 +1,4 @@
-package com.sopt.bbangzip.domain.badge;
+package com.sopt.bbangzip.domain.badge.entity;
 
 import com.sopt.bbangzip.domain.piece.service.PieceRetriever;
 import com.sopt.bbangzip.domain.user.entity.User;
