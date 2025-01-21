@@ -1,7 +1,7 @@
 package com.sopt.bbangzip.domain.user.api.controller;
 
 import com.sopt.bbangzip.common.annotation.UserId;
-import com.sopt.bbangzip.domain.user.api.dto.UserLevelResponseDto;
+import com.sopt.bbangzip.domain.user.api.dto.response.MypageDto;
 import com.sopt.bbangzip.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +16,11 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/mypage")
-    public ResponseEntity<UserLevelResponseDto> getMyPage(
+    public ResponseEntity<MypageDto> getMyPage(
             @UserId final Long userId
     ) {
         // 마이페이지 조회 시 유저 레벨 업데이트
-        UserLevelResponseDto responseDto = userService.updateAndGetUserLevelStatus(userId);
+        MypageDto responseDto = userService.updateAndGetUserLevelStatus(userId);
         return ResponseEntity.ok(responseDto);
     }
 
