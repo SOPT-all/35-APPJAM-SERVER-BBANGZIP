@@ -9,7 +9,7 @@ import java.util.List;
 public class PreparingOpenBakery implements Badge {
     @Override
     public BadgeCondition getCondition() {
-        return user -> user.getFirstCreateStudyCount() == 0; // Study 생성 횟수가 0인 경우
+        return user -> user.getFirstCreateStudyCount() == 0 && user.getHasPreparingOpeningBakery() == null;
     }
 
     @Override
