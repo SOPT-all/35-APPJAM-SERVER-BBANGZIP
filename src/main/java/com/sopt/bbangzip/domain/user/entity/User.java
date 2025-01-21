@@ -144,6 +144,7 @@ public class User {
         if (this.firstStudyCompletedAt != null) badgeCount++;
         if (this.allTasksCompletedAt != null) badgeCount++;
         if (this.hasMassBakingBreadBadge != null) badgeCount++;
+        if (this.hasPreparingOpeningBakery != null) badgeCount++;
         return badgeCount;
     }
 
