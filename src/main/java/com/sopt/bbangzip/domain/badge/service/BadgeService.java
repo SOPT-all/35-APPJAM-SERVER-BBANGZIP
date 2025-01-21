@@ -38,16 +38,33 @@ public class BadgeService {
     private final UserLevelCalculator userLevelCalculator;
     private final UserRepository userRepository;
 
-    /**
-     * 조건에 맞는 모든 뱃지를 반환
-     */
+//    /**
+//     * 조건에 맞는 모든 뱃지를 반환
+//     */
+//    public List<BadgeResponse> getAllEligibleBadges(User user) {
+//        List<BadgeResponse> awardedBadges = new ArrayList<>();
+//
+//        for (Badge badge : badges) {
+//            BadgeCondition condition = badge.getCondition();
+//            if (condition.isEligible(user) && !isBadgeAlreadyAwarded(user, badge)) {
+//                awardBadge(user, badge); // 뱃지를 부여
+//                awardedBadges.add(new BadgeResponse(
+//                        badge.getName(),
+//                        badge.getImage(),
+//                        badge.getHashTags()
+//                ));
+//            }
+//        }
+//        updateUserLevel(user);
+//        return awardedBadges; // 조건에 맞는 모든 뱃지를 반환
+//    }
+
     public List<BadgeResponse> getAllEligibleBadges(User user) {
         List<BadgeResponse> awardedBadges = new ArrayList<>();
 
         for (Badge badge : badges) {
-            BadgeCondition condition = badge.getCondition();
-            if (condition.isEligible(user) && !isBadgeAlreadyAwarded(user, badge)) {
-                awardBadge(user, badge); // 뱃지를 부여
+            if (badge.getCondition().isEligible(user) && !isBadgeAlreadyAwarded(user, badge)) {
+                awardBadge(user, badge);
                 awardedBadges.add(new BadgeResponse(
                         badge.getName(),
                         badge.getImage(),
@@ -56,13 +73,46 @@ public class BadgeService {
             }
         }
         updateUserLevel(user);
-        return awardedBadges; // 조건에 맞는 모든 뱃지를 반환
+        return awardedBadges;
     }
 
     private void updateUserLevel(User user) {
         int currentPoints = user.getPoint();
         UserLevelCalculator.LevelInfo levelInfo = userLevelCalculator.calculateLevelInfo(currentPoints);
         user.updateUserLevel(levelInfo.getLevel());
+    }
+
+
+    /**
+     * "빵집 오픈 준비 중" 뱃지 평가
+     */
+    public List<BadgeResponse> checkForPreparingOpenBakeryBadge(User user) {
+        Badge badge = badges.stream()
+                .filter(b -> b.getName().equals("빵집 오픈 준비 중"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Badge not found: 빵집 오픈 준비 중"));
+
+        if (badge.getCondition().isEligible(user) && !isBadgeAlreadyAwarded(user, badge)) {
+            awardBadge(user, badge);
+            return List.of(new BadgeResponse(badge.getName(), badge.getImage(), badge.getHashTags()));
+        }
+        return List.of();
+    }
+
+    /**
+     * "빵 굽기 시작" 뱃지 평가
+     */
+    public List<BadgeResponse> checkForStartBakingBreadBadge(User user) {
+        Badge badge = badges.stream()
+                .filter(b -> b.getName().equals("빵 굽기 시작"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Badge not found: 빵 굽기 시작"));
+
+        if (badge.getCondition().isEligible(user) && !isBadgeAlreadyAwarded(user, badge)) {
+            awardBadge(user, badge);
+            return List.of(new BadgeResponse(badge.getName(), badge.getImage(), badge.getHashTags()));
+        }
+        return List.of();
     }
 
     private boolean isBadgeAlreadyAwarded(User user, Badge badge) {
