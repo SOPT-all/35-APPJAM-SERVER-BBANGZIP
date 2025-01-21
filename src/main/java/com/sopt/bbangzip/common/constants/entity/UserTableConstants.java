@@ -2,7 +2,7 @@ package com.sopt.bbangzip.common.constants.entity;
 
 public class UserTableConstants {
     // 테이블 이름
-    public static final String TABLE_USER = "user";
+    public static final String TABLE_USER = "users";
 
     // 컬럼 이름
     public static final String COLUMN_ID = "id";
