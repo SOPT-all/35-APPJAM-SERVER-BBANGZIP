@@ -78,7 +78,7 @@ public class SubjectService {
         UserSubject userSubject = subjectRetriever.findByUserIdAndYearAndSemester(userId, subjectDeleteDto.year(), subjectDeleteDto.semester());
 
         // 삭제할 과목 조회
-        List<Subject> subjects = subjectRetriever.findByIdInAndUserSubjectIdAndUserId(subjectDeleteDto.subjectIds(), userSubject.getId(), userId);
+        List<Subject> subjects = subjectRetriever.findByIdInAndUserSubjectIdAndUserId(userId, subjectDeleteDto.subjectIds(), userSubject.getId());
 
         // SubjectRemover를 통해 삭제 처리
         subjectRemover.removeSubjects(subjects);

@@ -26,8 +26,8 @@ public class SubjectRetriever {
      * @param subjectName   과목 이름
      * @return Subject 존재 여부
      */
-    public boolean existsByUserSubjectAndSubjectNameAndUserId(Long userSubjectId, Long userId, String subjectName) {
-        return subjectRepository.existsByUserSubjectAndSubjectNameAndUserId(userSubjectId, userId, subjectName);
+    public boolean existsByUserSubjectAndSubjectNameAndUserId(Long userId, Long userSubjectId, String subjectName) {
+        return subjectRepository.existsByUserSubjectAndSubjectNameAndUserId(userId, userSubjectId, subjectName);
     }
 
     // UserSubject 조회
@@ -44,8 +44,8 @@ public class SubjectRetriever {
      * @param userId        사용자 ID
      * @return 조회된 과목 리스트
      */
-    public List<Subject> findByIdInAndUserSubjectIdAndUserId(List<Long> subjectIds, Long userSubjectId, Long userId) {
-        List<Subject> subjects = subjectRepository.findByIdInAndUserSubjectIdAndUserId(subjectIds, userSubjectId, userId);
+    public List<Subject> findByIdInAndUserSubjectIdAndUserId(Long userId, List<Long> subjectIds, Long userSubjectId) {
+        List<Subject> subjects = subjectRepository.findByIdInAndUserSubjectIdAndUserId(userId, subjectIds, userSubjectId);
         if (subjects.isEmpty()) {
             throw new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT);
         }
@@ -53,7 +53,7 @@ public class SubjectRetriever {
     }
 
     public Subject findByIdAndUserId(Long userId, Long subjectId) {
-        return subjectRepository.findByIdAndUserId(subjectId, userId)
+        return subjectRepository.findByIdAndUserId(userId, subjectId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
     }
 

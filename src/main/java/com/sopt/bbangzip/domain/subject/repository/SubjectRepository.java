@@ -22,7 +22,7 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     JOIN us.user u
     WHERE us.id = :userSubjectId AND u.id = :userId AND s.subjectName = :subjectName
 """)
-    boolean existsByUserSubjectAndSubjectNameAndUserId( Long userSubjectId, Long userId, String subjectName);
+    boolean existsByUserSubjectAndSubjectNameAndUserId(Long userId, Long userSubjectId, String subjectName);
 
 
     @Query("""
@@ -32,7 +32,7 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     JOIN us.user u
     WHERE s.id IN :subjectIds AND us.id = :userSubjectId AND u.id = :userId
 """)
-    List<Subject> findByIdInAndUserSubjectIdAndUserId(List<Long> subjectIds, Long userSubjectId, Long userId);
+    List<Subject> findByIdInAndUserSubjectIdAndUserId(Long userId, List<Long> subjectIds, Long userSubjectId);
 
 
     // 유저 ID와 과목 ID로 과목 조회
@@ -43,7 +43,7 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     JOIN us.user u
     WHERE s.id = :subjectId AND u.id = :userId
 """)
-    Optional<Subject> findByIdAndUserId(Long subjectId, Long userId);
+    Optional<Subject> findByIdAndUserId(Long userId, Long subjectId);
 
     // 학기별 과목 목록 조회
     @Query("""
