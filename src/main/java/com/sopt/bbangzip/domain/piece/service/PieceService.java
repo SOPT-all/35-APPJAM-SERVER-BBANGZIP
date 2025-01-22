@@ -67,15 +67,8 @@ public class PieceService {
         // 얻은 뱃지가 있다면 뱃지 반환하고, 없다면 null 이 반환됨
         List<BadgeResponse> newlyAwardedBadges = pieceUpdater.updateStatusDone(piece, isFinishedDto, user);
 
-        // 3. 오늘 남은 총 공부 개수 확인
-        int todayCounts = pieceRetriever.countUnfinishedTodayPieces(userId);
-        // 3. 오늘 완료한 총 공부 개수 확인
-        int completeCounts = pieceRetriever.countFinishedTodayPieces(userId);
-
         // 뱃지 획득 여부와 상관없이 응답 생성
         return MarkDoneResponse.builder()
-                .todayCounts(todayCounts)
-                .completeCounts(completeCounts)
                 .badges(newlyAwardedBadges != null ? newlyAwardedBadges : List.of())
                 .build();
     }
