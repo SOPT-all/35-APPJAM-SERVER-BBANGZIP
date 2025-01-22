@@ -197,7 +197,7 @@ public class BadgeService {
                         badge.getHashTags(),
                         badge.getAchievementCondition(),
                         badge.getReward(),
-                        badge.isBadgeLocked(user)
+                        badge.isLocked(user)
                 ))
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_BADGE));
     }

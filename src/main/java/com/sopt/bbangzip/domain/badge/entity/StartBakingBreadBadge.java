@@ -37,7 +37,7 @@ public class StartBakingBreadBadge implements Badge{
     }
 
     @Override
-    public Boolean isBadgeLocked(User user) { return user.getFirstStudyCompletedAt() == null; }
+    public Boolean isLocked(User user) { return user.getFirstStudyCompletedAt() == null; }
 
     @Override
     public String getAchievementCondition(){
