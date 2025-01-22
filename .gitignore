@@ -41,3 +41,5 @@ application-dev.yml
 application-local.yml
 
 *.yml
+
+build.gradle
