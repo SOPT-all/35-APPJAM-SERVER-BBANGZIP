@@ -89,8 +89,8 @@ public class UserService {
 
     // 레벨별 상세 정보를 관리하는 상수 데이터
     private static final List<LevelDetailData> LEVEL_DETAILS = List.of(
-            new LevelDetailData(1, "허름한 돗자리", "빵집을 시작한 초보 사장님!", "https://example.com/images/level1.png"),
-            new LevelDetailData(2, "평범한 돗자리", "평범한 돗자리를 얻은 사장님!", "https://example.com/images/level2.png"),
-            new LevelDetailData(3, "럭셔리 돗자리", "럭셔리 돗자리를 얻은 사장님!", "https://example.com/images/level3.png")
+            new LevelDetailData(1, "허름한 돗자리", "빵집을 시작한 초보 사장님!", "https://github.com/user-attachments/assets/4ade00bf-4384-4d0c-99d1-a0bb6e1b9a94"),
+            new LevelDetailData(2, "평범한 돗자리", "평범한 돗자리를 얻은 사장님!", "https://github.com/user-attachments/assets/4ade00bf-4384-4d0c-99d1-a0bb6e1b9a94"),
+            new LevelDetailData(3, "럭셔리 돗자리", "럭셔리 돗자리를 얻은 사장님!", "https://github.com/user-attachments/assets/4ade00bf-4384-4d0c-99d1-a0bb6e1b9a94")
     );
 }
