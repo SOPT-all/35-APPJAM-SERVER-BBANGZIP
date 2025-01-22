@@ -29,9 +29,7 @@ public class StartBakingBreadBadge implements Badge{
     }
 
     @Override
-    public String getImage() {
-        return "https://github.com/user-attachments/assets/e3c755e2-8f5b-4b08-80e7-5da4c0ed111f";
-    }
+    public String getImage() { return "https://github.com/user-attachments/assets/e3c755e2-8f5b-4b08-80e7-5da4c0ed111f";}
 
     @Override
     public String getCategory() {
@@ -39,10 +37,7 @@ public class StartBakingBreadBadge implements Badge{
     }
 
     @Override
-    public Boolean isLocked(User user) {
-        // 유저가 조건을 만족하면 잠금 해제
-        return !getCondition().isEligible(user);
-    }
+    public Boolean isBadgeLocked(User user) { return user.getFirstStudyCompletedAt() == null; }
 
     @Override
     public String getAchievementCondition(){

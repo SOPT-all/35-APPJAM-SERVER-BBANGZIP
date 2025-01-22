@@ -11,6 +11,6 @@ public interface Badge {
     List<String> getHashTags(); // 뱃지 관련 해시태그 반환
     String getImage(); // 뱃지 이미지 반환
     String getCategory(); // 뱃지 카테고리 반환
-    Boolean isLocked(User user); // 잠금 여부 반환
+    Boolean isBadgeLocked(User user); // 잠금 여부 반환
     String getAchievementCondition();
 }

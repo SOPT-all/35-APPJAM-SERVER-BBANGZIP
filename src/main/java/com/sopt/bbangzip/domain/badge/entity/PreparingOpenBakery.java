@@ -28,9 +28,7 @@ public class PreparingOpenBakery implements Badge {
     }
 
     @Override
-    public String getImage() {
-        return "https://github.com/user-attachments/assets/3904cdbf-6329-41fc-9059-c3d785d84eb1";
-    }
+    public String getImage() { return "https://github.com/user-attachments/assets/3904cdbf-6329-41fc-9059-c3d785d84eb1";}
 
     @Override
     public String getCategory() {
@@ -38,9 +36,7 @@ public class PreparingOpenBakery implements Badge {
     }
 
     @Override
-    public Boolean isLocked(User user) {
-        return !getCondition().isEligible(user);
-    }
+    public Boolean isBadgeLocked(User user) {return user.getHasPreparingOpeningBakery() == null;}
 
     @Override
     public String getAchievementCondition() {

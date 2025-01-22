@@ -28,10 +28,7 @@ public class MassBakingBreadBadge implements Badge{
     }
 
     @Override
-    public String getImage() {
-        return "https://github.com/user-attachments/assets/b165de22-2acf-43ba-9cd5-7c47692823fa";
-    }
-
+    public String getImage() { return "https://github.com/user-attachments/assets/b165de22-2acf-43ba-9cd5-7c47692823fa";}
 
     @Override
     public String getCategory() {
@@ -39,10 +36,7 @@ public class MassBakingBreadBadge implements Badge{
     }
 
     @Override
-    public Boolean isLocked(User user) {
-        // 유저가 조건을 만족하면 잠금 해제
-        return !getCondition().isEligible(user);
-    }
+    public Boolean isBadgeLocked(User user) { return user.getHasMassBakingBreadBadge() == null;}
 
     @Override
     public String getAchievementCondition(){
