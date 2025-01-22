@@ -43,9 +43,7 @@ public class TodayBreadSoldOutBadge implements Badge{
     }
 
     @Override
-    public String getImage() {
-        return "https://github.com/user-attachments/assets/980dbc37-dc54-4831-9652-8a741c21e41f";
-    }
+    public String getImage() { return "https://github.com/user-attachments/assets/980dbc37-dc54-4831-9652-8a741c21e41f";}
 
     @Override
     public String getCategory() {
@@ -53,8 +51,8 @@ public class TodayBreadSoldOutBadge implements Badge{
     }
 
     @Override
-    public Boolean isLocked(User user) {
-        return !getCondition().isEligible(user);
+    public Boolean isBadgeLocked(User user) {
+        return user.getAllTasksCompletedAt() == null;
     }
 
     @Override
