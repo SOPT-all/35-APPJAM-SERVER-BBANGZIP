@@ -33,6 +33,10 @@ public class ResponseDtoAdvice implements ResponseBodyAdvice<Object> {
             @NonNull ServerHttpRequest request,
             @NonNull ServerHttpResponse response
     ) {
+        if (body instanceof BbangzipErrorCode errorCode) {
+            return ResponseDto.fail(errorCode);
+        }
+
         // 이미 ResponseDto로 감싸진 경우 그대로 반환
         if (body instanceof ResponseDto) {
             return body;
