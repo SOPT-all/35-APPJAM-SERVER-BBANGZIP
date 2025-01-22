@@ -104,7 +104,7 @@ public class BadgeService {
         Badge badge = badges.stream()
                 .filter(b -> b.getName().equals("빵 굽기 시작"))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Badge not found: 빵 굽기 시작"));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_BADGE));
 
         if (badge.getCondition().isEligible(user) && !isBadgeAlreadyAwarded(user, badge)) {
             awardBadge(user, badge);
@@ -120,6 +120,13 @@ public class BadgeService {
             case "빵 굽기 시작" -> user.getFirstStudyCompletedAt() != null;
             case "오늘의 빵 완판" -> user.getAllTasksCompletedAt() != null;
             case "빵 대량 생산" -> user.getHasMassBakingBreadBadge() != null;
+            case "미룬이탈출1" -> user.getEscapeBadge1() != null;
+            case "미룬이탈출앱잼" -> user.getEscapeBadgeAapjam() != null;
+            case "미룬이겨우탈출1" -> user.getEscapeBarelyBadge1() != null;
+            case "미룬이겨우탈출2" -> user.getEscapeBarelyBadge2() != null;
+            case "미룬이겨우탈출3" -> user.getEscapeBarelyBadge3() != null;
+            case "인싸보스1" -> user.getInssaBossBadge1() != null;
+            case "인싸보스2" -> user.getInssaBossBadge2() != null;
             default -> false;
         };
     }
@@ -139,7 +146,14 @@ public class BadgeService {
             case "빵 굽기 시작" -> user.markFirstStudyComplete();
             case "오늘의 빵 완판" -> user.markFirstTodayTasksCompletedAt();
             case "빵 대량 생산" -> user.markHasMassBakingBreadBadge();
-            default -> throw new IllegalArgumentException();
+            case "미룬이탈출1" -> user.markEscapeBadge1();
+            case "미룬이탈출앱잼" -> user.markEscapeBadgeAapjam();
+            case "미룬이겨우탈출1" -> user.markEscapeBarelyBadge1();
+            case "미룬이겨우탈출2" -> user.markEscapeBarelyBadge2();
+            case "미룬이겨우탈출3" -> user.markEscapeBarelyBadge3();
+            case "인싸보스1" -> user.markInssaBossBadge1();
+            case "인싸보스2" -> user.markInssaBossBadge2();
+            default -> throw new NotFoundException(ErrorCode.NOT_FOUND_BADGE);
         }
         userRepository.save(user);
         log.info(badge.getName() + "뱃지를 획득하였습니다!");
@@ -176,7 +190,21 @@ public class BadgeService {
                 return user.getAllTasksCompletedAt() == null;
             case "빵 대량 생산":
                 return user.getHasMassBakingBreadBadge() == null;
-            default:
+            case "미룬이탈출1" :
+                return user.getEscapeBadge1() == null;
+            case "미룬이탈출앱잼" :
+                return user.getEscapeBadgeAapjam() == null;
+            case "미룬이겨우탈출1" :
+                return user.getEscapeBarelyBadge1() == null;
+            case "미룬이겨우탈출2" :
+                return user.getEscapeBarelyBadge2() == null;
+            case "미룬이겨우탈출3" :
+                return user.getEscapeBarelyBadge3() == null;
+            case "인싸보스1" :
+                return user.getInssaBossBadge1() == null;
+            case "인싸보스2" :
+                return user.getInssaBossBadge2() == null;
+            default :
                 return true;
         }
     }

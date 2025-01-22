@@ -1,5 +1,7 @@
-package com.sopt.bbangzip.domain.badge.entity;
+package com.sopt.bbangzip.domain.badge.entity.startbadge;
 
+import com.sopt.bbangzip.domain.badge.entity.Badge;
+import com.sopt.bbangzip.domain.badge.entity.BadgeCondition;
 import com.sopt.bbangzip.domain.user.entity.User;
 import org.springframework.stereotype.Component;
 

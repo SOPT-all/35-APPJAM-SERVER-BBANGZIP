@@ -14,21 +14,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/v1/mypage/badges")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class BadgeController {
 
     private final BadgeService badgeService;
 
-    @GetMapping
-    public ResponseEntity<BadgeListResponse> getBadgeList(@UserId final Long userId) {
-        return ResponseEntity.ok( badgeService.getBadgeList(userId));
+    @GetMapping("/mypage/badges")
+    public ResponseEntity<BadgeListResponse> getBadgeList(
+            @UserId final Long userId
+    ) {
+        return ResponseEntity.ok(badgeService.getBadgeList(userId));
     }
 
-    @GetMapping("/{badgeName}")
+    @GetMapping("/mypage/badges/{badgeName}")
     public ResponseEntity<BadgeDetailResponse> getBadgeDetails(
             @PathVariable String badgeName,
-            @UserId final Long userId) {
+            @UserId final Long userId
+    ) {
         return ResponseEntity.ok(badgeService.getBadgeDetail(userId, badgeName));
     }
 }
