@@ -23,7 +23,7 @@ public class Study {
     @Column(name = StudyTableConstants.COLUMN_ID)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = StudyTableConstants.COLUMN_EXAM_ID, nullable = false)
     private Exam exam;
 
