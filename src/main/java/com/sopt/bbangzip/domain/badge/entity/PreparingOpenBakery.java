@@ -36,7 +36,7 @@ public class PreparingOpenBakery implements Badge {
     }
 
     @Override
-    public Boolean isBadgeLocked(User user) {return user.getHasPreparingOpeningBakery() == null;}
+    public Boolean isLocked(User user) {return user.getHasPreparingOpeningBakery() == null;}
 
     @Override
     public String getAchievementCondition() {

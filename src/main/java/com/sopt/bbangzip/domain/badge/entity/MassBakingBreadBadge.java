@@ -36,7 +36,7 @@ public class MassBakingBreadBadge implements Badge{
     }
 
     @Override
-    public Boolean isBadgeLocked(User user) { return user.getHasMassBakingBreadBadge() == null;}
+    public Boolean isLocked(User user) { return user.getHasMassBakingBreadBadge() == null;}
 
     @Override
     public String getAchievementCondition(){

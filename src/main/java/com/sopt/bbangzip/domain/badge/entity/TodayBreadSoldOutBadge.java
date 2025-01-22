@@ -51,7 +51,7 @@ public class TodayBreadSoldOutBadge implements Badge{
     }
 
     @Override
-    public Boolean isBadgeLocked(User user) {
+    public Boolean isLocked(User user) {
         return user.getAllTasksCompletedAt() == null;
     }
 
