@@ -24,8 +24,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BadgeService {
 
-    private final UserRetriever userRetriever;
-
     /**
      * - 모든 뱃지의 목록 관리
      * - 사용자에게 조건에 맞는 뱃지 지급
@@ -33,6 +31,7 @@ public class BadgeService {
      * - 모든 뱃지는 한 번씩만 획득할 수 있다!!
      */
 
+    private final UserRetriever userRetriever;
     private final List<Badge> badges;
     private final PieceRetriever pieceRetriever;
     private final UserLevelCalculator userLevelCalculator;
@@ -81,7 +80,6 @@ public class BadgeService {
         UserLevelCalculator.LevelInfo levelInfo = userLevelCalculator.calculateLevelInfo(currentPoints);
         user.updateUserLevel(levelInfo.getLevel());
     }
-
 
     /**
      * "빵집 오픈 준비 중" 뱃지 평가
