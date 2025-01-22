@@ -29,7 +29,7 @@ public class MassBakingBreadBadge implements Badge{
 
     @Override
     public String getImage() {
-        return "https://github.com/user-attachments/assets/4ade00bf-4384-4d0c-99d1-a0bb6e1b9a94";
+        return "https://github.com/user-attachments/assets/b165de22-2acf-43ba-9cd5-7c47692823fa";
     }
 
 
