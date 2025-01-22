@@ -136,6 +136,10 @@ public class User {
         this.lastStudyCompletedDate = now;
     }
 
+    public void  incrementFirstCreateStudyCount(){
+        this.firstCreateStudyCount++;
+    }
+
     /**
      * 뱃지 개수를 반환
      */

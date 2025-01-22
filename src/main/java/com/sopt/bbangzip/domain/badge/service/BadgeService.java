@@ -118,10 +118,10 @@ public class BadgeService {
     private boolean isBadgeAlreadyAwarded(User user, Badge badge) {
         int todayCounts = pieceRetriever.countUnfinishedTodayPieces(user.getId());
         return switch (badge.getName()) {
+            case "빵집 오픈 준비 중" -> user.getHasPreparingOpeningBakery() != null;
             case "빵 굽기 시작" -> user.getFirstStudyCompletedAt() != null;
             case "오늘의 빵 완판" -> user.getAllTasksCompletedAt() != null;
             case "빵 대량 생산" -> user.getHasMassBakingBreadBadge() != null;
-            case "빵집 오픈 준비 중" -> user.getHasPreparingOpeningBakery() != null;
             default -> false;
         };
     }
@@ -134,10 +134,13 @@ public class BadgeService {
 
         // 유저가 어떤 뱃지를 얻었는지와 포인트에 대한 특정 필드를 업데이트 시키자
         switch (badge.getName()) {
+            case "빵집 오픈 준비 중" -> {
+                user.markHasPreparingOpeningBakery(); // '빵집 오픈 준비 중' 뱃지 처리
+                user.incrementFirstCreateStudyCount(); // Study 생성 횟수 증가 처리
+            }
             case "빵 굽기 시작" -> user.markFirstStudyComplete();
             case "오늘의 빵 완판" -> user.markFirstTodayTasksCompletedAt();
             case "빵 대량 생산" -> user.markHasMassBakingBreadBadge();
-            case "빵집 오픈 준비 중" -> user.markHasPreparingOpeningBakery();
             default -> throw new IllegalArgumentException();
         }
         userRepository.save(user);
@@ -167,14 +170,14 @@ public class BadgeService {
      */
     private boolean isBadgeLocked(User user, Badge badge) {
         switch (badge.getName()) {
+            case "빵집 오픈 준비 중":
+                return user.getHasPreparingOpeningBakery() == null;
             case "빵 굽기 시작":
                 return user.getFirstStudyCompletedAt() == null;
             case "오늘의 빵 완판":
                 return user.getAllTasksCompletedAt() == null;
             case "빵 대량 생산":
                 return user.getHasMassBakingBreadBadge() == null;
-            case "빵집 오픈 준비 중":
-                return user.getHasPreparingOpeningBakery() == null;
             default:
                 return true;
         }
