@@ -29,9 +29,16 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     FROM Subject s
     JOIN s.userSubject us
     JOIN us.user u
-    WHERE s.id IN :subjectIds AND us.id = :userSubjectId AND u.id = :userId
+    WHERE s.id IN :subjectIds
+      AND us.id = :userSubjectId
+      AND u.id = :userId
 """)
-    List<Subject> findByIdInAndUserSubjectIdAndUserId(Long userId, List<Long> subjectIds, Long userSubjectId);
+    List<Subject> findByIdInAndUserSubjectIdAndUserId(
+            @Param("userId") Long userId,
+            @Param("subjectIds") List<Long> subjectIds,
+            @Param("userSubjectId") Long userSubjectId
+    );
+
 
 
     // 유저 ID와 과목 ID로 과목 조회
