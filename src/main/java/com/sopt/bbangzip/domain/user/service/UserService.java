@@ -22,14 +22,12 @@ public class UserService {
 
     @Transactional
     public MypageDto updateAndGetUserLevelStatus(Long userId) {
+
+        // 유저와 유저의 현재 레벨 가져옴
         User user = userRetriever.findByUserId(userId);
 
         // 유저의 현재 포인트 기반 레벨 정보 계산
-        UserLevelCalculator.LevelInfo levelInfo = userLevelCalculator.calculateLevelInfo(user.getPoint());
-
-        // 유저 레벨 업데이트 후 저장
-        user.updateUserLevel(levelInfo.getLevel());
-        userRepository.save(user);
+        LevelInfo levelInfo = userLevelCalculator.calculateLevelInfo(user.getPoint());
 
         // 레벨별 상세 정보 생성
         List<MypageDto.LevelDetail> levelDetails = createLevelDetails(levelInfo.getLevel());
@@ -51,12 +49,10 @@ public class UserService {
     private List<MypageDto.LevelDetail> createLevelDetails(int currentLevel) {
         List<MypageDto.LevelDetail> levelDetails = new ArrayList<>();
 
-        for (int level = 1; level <= LEVEL_DETAILS.size(); level++) {
+        for (int level = 1; level <= 3; level++) {
             LevelDetailData levelDetailData = LEVEL_DETAILS.get(level - 1);
-
             // 현재 레벨 이하일 경우 잠금 해제
             boolean isLocked = level > currentLevel;
-
             levelDetails.add(new MypageDto.LevelDetail(
                     levelDetailData.level,
                     levelDetailData.levelName,
@@ -65,10 +61,8 @@ public class UserService {
                     isLocked
             ));
         }
-
         return levelDetails;
     }
-
 
     /**
      * 레벨별 상세 정보
