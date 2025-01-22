@@ -44,7 +44,7 @@ public class TodayBreadSoldOutBadge implements Badge{
 
     @Override
     public String getImage() {
-        return "https://github.com/user-attachments/assets/4ade00bf-4384-4d0c-99d1-a0bb6e1b9a94";
+        return "https://github.com/user-attachments/assets/980dbc37-dc54-4831-9652-8a741c21e41f";
     }
 
     @Override
