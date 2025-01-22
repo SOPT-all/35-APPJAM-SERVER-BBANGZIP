@@ -2,6 +2,7 @@ package com.sopt.bbangzip.domain.subject.service;
 
 import com.sopt.bbangzip.common.exception.base.DuplicateSubjectException;
 import com.sopt.bbangzip.common.exception.base.InvalidOptionsException;
+import com.sopt.bbangzip.common.exception.base.NotFoundException;
 import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.exam.entity.Exam;
 import com.sopt.bbangzip.domain.piece.service.PieceRetriever;
@@ -18,6 +19,7 @@ import com.sopt.bbangzip.domain.userSubject.service.UserSubjectSaver;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -77,8 +79,17 @@ public class SubjectService {
         // 주어진 연도와 학기에 대한 UserSubject 조회
         UserSubject userSubject = subjectRetriever.findByUserIdAndYearAndSemester(userId, subjectDeleteDto.year(), subjectDeleteDto.semester());
 
+
+        if (userSubject == null) {
+            throw new NotFoundException(ErrorCode.NOT_FOUND_USER_SUBJECT);
+        }
+
         // 삭제할 과목 조회
         List<Subject> subjects = subjectRetriever.findByIdInAndUserSubjectIdAndUserId(userId, subjectDeleteDto.subjectIds(), userSubject.getId());
+
+        if (subjects.isEmpty()) {
+            throw new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT);
+        }
 
         // SubjectRemover를 통해 삭제 처리
         subjectRemover.removeSubjects(subjects);
