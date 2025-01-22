@@ -32,10 +32,10 @@ public class UserLevelCalculator {
         }
 
         // Lv 4 이상: 400+
-        return new LevelInfo(4, Integer.MAX_VALUE); // 최대 레벨은 제한이 없음
+        return null;
     }
 
-    /**
+    /**g
      * 레벨과 해당 레벨의 최대 포인트를 함께 반환하는 클래스
      */
     public static class LevelInfo {
