@@ -34,13 +34,12 @@ dependencies {
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-
     // lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // database
-    runtimeOnly 'org.postgresql:postgresql'
+    // database (MySQL)
+    runtimeOnly 'com.mysql:mysql-connector-j' // MySQL 드라이버 추가
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // Validation
