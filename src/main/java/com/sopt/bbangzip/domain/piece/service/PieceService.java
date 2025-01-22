@@ -1,5 +1,6 @@
 package com.sopt.bbangzip.domain.piece.service;
 
+import com.sopt.bbangzip.common.exception.base.InvalidOptionsException;
 import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeResponse;
 import com.sopt.bbangzip.domain.piece.api.dto.request.IsFinishedDto;
 import com.sopt.bbangzip.domain.piece.api.dto.request.PieceAddRequestDto;
@@ -130,7 +131,7 @@ public class PieceService {
                 case "recent" -> pieceRetriever.findTodoPiecesByRecentOrder(userId, year, semester);
                 case "leastVolume" -> pieceRetriever.findTodoPiecesByLeastVolumeOrder(userId, year, semester);
                 case "nearestDeadline" -> pieceRetriever.findTodoPiecesByNearestDeadlineOrder(userId, year, semester);
-                default -> throw new IllegalArgumentException("Invalid sort option: " + sortOption);
+                default -> throw new InvalidOptionsException(ErrorCode.INVALID_OPTION);
             };
         } else {
             /**
@@ -141,7 +142,7 @@ public class PieceService {
                 case "recent" -> pieceRetriever.findPendingPiecesByRecentOrder(userId, year, semester);
                 case "leastVolume" -> pieceRetriever.findPendingPiecesByLeastVolumeOrder(userId, year, semester);
                 case "nearestDeadline" -> pieceRetriever.findPendingPiecesByNearestDeadlineOrder(userId, year, semester);
-                default -> throw new IllegalArgumentException("Invalid sort option: " + sortOption);
+                default -> throw new InvalidOptionsException(ErrorCode.INVALID_OPTION);
             };
         }
 
@@ -210,7 +211,7 @@ public class PieceService {
             case "recent" -> pieceRetriever.findAddTodoPieceListByRecentOrder(userId, year, semester);
             case "leastVolume" -> pieceRetriever.findAddTodoPieceListByLeastVolumeOrder(userId, year, semester);
             case "nearestDeadline" -> pieceRetriever.findAddTodoPieceListByNearestDeadlineOrder(userId, year, semester);
-            default -> throw new IllegalArgumentException("Invalid sort option: " + sortOption);
+            default -> throw new InvalidOptionsException(ErrorCode.INVALID_OPTION);
         };
 
         List<AddTodoPiecesResponse.TodoList> todoLists = pieces.stream()
