@@ -38,7 +38,7 @@ public class User {
     private int point = 0;
 
     @Column(name = UserTableConstants.COLUMN_USER_LEVEL, nullable = false)
-    private int userLevel;
+    private int userLevel  = 1;
 
     @Column(name = UserTableConstants.COLUMN_CREATED_AT, nullable = false, updatable = false)
     private LocalDateTime createdAt;
