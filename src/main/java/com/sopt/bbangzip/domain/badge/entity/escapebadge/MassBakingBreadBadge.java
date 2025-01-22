@@ -1,12 +1,14 @@
-package com.sopt.bbangzip.domain.badge.entity;
+package com.sopt.bbangzip.domain.badge.entity.escapebadge;
 
+import com.sopt.bbangzip.domain.badge.entity.Badge;
+import com.sopt.bbangzip.domain.badge.entity.BadgeCondition;
 import com.sopt.bbangzip.domain.user.entity.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class MassBakingBreadBadge implements Badge{
+public class MassBakingBreadBadge implements Badge {
     @Override
     public BadgeCondition getCondition(){
         return user -> user.getTodayStudyCompleteCount() >= 3;
@@ -36,6 +38,7 @@ public class MassBakingBreadBadge implements Badge{
     }
 
     @Override
+
     public Boolean isLocked(User user) { return user.getHasMassBakingBreadBadge() == null;}
 
     @Override

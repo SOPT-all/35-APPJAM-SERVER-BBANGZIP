@@ -1,12 +1,14 @@
-package com.sopt.bbangzip.domain.badge.entity;
+package com.sopt.bbangzip.domain.badge.entity.startbadge;
 
+import com.sopt.bbangzip.domain.badge.entity.Badge;
+import com.sopt.bbangzip.domain.badge.entity.BadgeCondition;
 import com.sopt.bbangzip.domain.user.entity.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class StartBakingBreadBadge implements Badge{
+public class StartBakingBreadBadge implements Badge {
     @Override
     public BadgeCondition getCondition(){
         // 맨 처음 학습을 완료한 필드가 아직 null 이면 해당 뱃지 획득 가능

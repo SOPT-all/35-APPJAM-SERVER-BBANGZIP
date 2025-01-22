@@ -70,7 +70,7 @@ public class User {
     }
 
     /**
-     * 뱃지 관련 필드들
+     * 뱃지 관련 획득 여부 필드들
      */
     @Column(name = UserTableConstants.COLUMN_FIRST_STUDY_COMPLETED_AT)
     private LocalDateTime firstStudyCompletedAt = null; // 빵 굽기 시작 획득 여부 (맨 처음으로 '학습 완료')
@@ -87,7 +87,6 @@ public class User {
     @SuppressWarnings("FieldMayBeFinal")
     @Column(name = UserTableConstants.COLUMN_FIRST_CREATE_STUDY_COUNT, nullable = false)
     private int firstCreateStudyCount = 0;
-
 
     @SuppressWarnings("FieldMayBeFinal")
     @Column(name = UserTableConstants.COLUMN_TODAY_STUDY_COMPLETE_COUNT, nullable = false)
@@ -157,6 +156,80 @@ public class User {
         if (this.userLevel != newLevel) {
             this.userLevel = newLevel;
             this.updatedAt = LocalDateTime.now(); // 레벨 변경 시 updatedAt 갱신
+        }
+    }
+
+    /**
+     * 앱잼을 위한 Mock Badge 를 위한 필드들.
+     * 정말 ONLY APPZAM 만을 위한.
+     */
+    @Column(name = UserTableConstants.COLUMN_ESCAPE_BADGE_1)
+    private LocalDateTime escapeBadge1 = null; // 미룬이 탈출 1
+
+    @Column(name = UserTableConstants.COLUMN_ESCAPE_BADGE_AAPJAM)
+    private LocalDateTime escapeBadgeAapjam = null; // 미룬이 탈출 앱잼
+
+    @Column(name = UserTableConstants.COLUMN_ESCAPE_BARELY_BADGE_1)
+    private LocalDateTime escapeBarelyBadge1 = null; // 미룬이 겨우 탈출 1
+
+    @Column(name = UserTableConstants.COLUMN_ESCAPE_BARELY_BADGE_2)
+    private LocalDateTime escapeBarelyBadge2 = null; // 미룬이 겨우 탈출 2
+
+    @Column(name = UserTableConstants.COLUMN_ESCAPE_BARELY_BADGE_3)
+    private LocalDateTime escapeBarelyBadge3 = null; // 미룬이 겨우 탈출 3
+
+    @Column(name = UserTableConstants.COLUMN_INSSA_BOSS_BADGE_1)
+    private LocalDateTime inssaBossBadge1 = null; // 인싸 보스 1
+
+    @Column(name = UserTableConstants.COLUMN_INSSA_BOSS_BADGE_2)
+    private LocalDateTime inssaBossBadge2 = null; // 인싸 보스 2
+
+    public void markEscapeBadge1() {
+        if (this.escapeBadge1 == null) {
+            this.escapeBadge1 = LocalDateTime.now();
+            this.point += 30;
+        }
+    }
+
+    public void markEscapeBadgeAapjam() {
+        if (this.escapeBadgeAapjam == null) {
+            this.escapeBadgeAapjam = LocalDateTime.now();
+            this.point += 40;
+        }
+    }
+
+    public void markEscapeBarelyBadge1() {
+        if (this.escapeBarelyBadge1 == null) {
+            this.escapeBarelyBadge1 = LocalDateTime.now();
+            this.point += 20;
+        }
+    }
+
+    public void markEscapeBarelyBadge2() {
+        if (this.escapeBarelyBadge2 == null) {
+            this.escapeBarelyBadge2 = LocalDateTime.now();
+            this.point += 25;
+        }
+    }
+
+    public void markEscapeBarelyBadge3() {
+        if (this.escapeBarelyBadge3 == null) {
+            this.escapeBarelyBadge3 = LocalDateTime.now();
+            this.point += 30;
+        }
+    }
+
+    public void markInssaBossBadge1() {
+        if (this.inssaBossBadge1 == null) {
+            this.inssaBossBadge1 = LocalDateTime.now();
+            this.point += 50;
+        }
+    }
+
+    public void markInssaBossBadge2() {
+        if (this.inssaBossBadge2 == null) {
+            this.inssaBossBadge2 = LocalDateTime.now();
+            this.point += 60;
         }
     }
 }

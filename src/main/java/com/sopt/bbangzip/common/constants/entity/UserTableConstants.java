@@ -23,4 +23,16 @@ public class UserTableConstants {
     public static final String COLUMN_FIRST_CREATE_STUDY_COUNT = "first_create_study_count";
     public static final String COLUMN_HAS_MASS_BAKING_BREAD_BADGE = "has_mass_baking_bread_badge";
     public static final String COLUMN_HAS_PREPARING_OPENING_BAKERY = "has_preparing_opening_bakery";
+
+    /**
+     * ONLY APPZAM
+     */
+    // 추가된 뱃지 관련 컬럼
+    public static final String COLUMN_ESCAPE_BADGE_1 = "escape_badge_1";
+    public static final String COLUMN_ESCAPE_BADGE_AAPJAM = "escape_badge_aapjam";
+    public static final String COLUMN_ESCAPE_BARELY_BADGE_1 = "escape_barely_badge_1";
+    public static final String COLUMN_ESCAPE_BARELY_BADGE_2 = "escape_barely_badge_2";
+    public static final String COLUMN_ESCAPE_BARELY_BADGE_3 = "escape_barely_badge_3";
+    public static final String COLUMN_INSSA_BOSS_BADGE_1 = "inssa_boss_badge_1";
+    public static final String COLUMN_INSSA_BOSS_BADGE_2 = "inssa_boss_badge_2";
 }

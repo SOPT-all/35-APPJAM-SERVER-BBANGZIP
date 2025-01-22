@@ -1,5 +1,7 @@
-package com.sopt.bbangzip.domain.badge.entity;
+package com.sopt.bbangzip.domain.badge.entity.startbadge;
 
+import com.sopt.bbangzip.domain.badge.entity.Badge;
+import com.sopt.bbangzip.domain.badge.entity.BadgeCondition;
 import com.sopt.bbangzip.domain.piece.service.PieceRetriever;
 import com.sopt.bbangzip.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +11,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class TodayBreadSoldOutBadge implements Badge{
+public class TodayBreadSoldOutBadge implements Badge {
 
     private final PieceRetriever pieceRetriever;
 
