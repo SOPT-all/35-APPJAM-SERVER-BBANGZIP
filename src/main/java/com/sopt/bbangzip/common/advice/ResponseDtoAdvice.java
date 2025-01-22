@@ -50,5 +50,4 @@ public class ResponseDtoAdvice implements ResponseBodyAdvice<Object> {
 
         // 나머지 경우 ResponseDto로 감싸기
         return ResponseDto.success(body);
-    }
-}
+    }}

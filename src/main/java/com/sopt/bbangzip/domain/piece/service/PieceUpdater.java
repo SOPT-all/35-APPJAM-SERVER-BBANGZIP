@@ -29,8 +29,9 @@ public class PieceUpdater {
             user.incrementTodayStudyCompleteCount();
 
             // 3. '빵 굽기 시작' 뱃지 평가 (첫 번째 학습 완료 관련)
-            badgeService.checkForStartBakingBreadBadge(user);
-
+            if(user.getFirstStudyCompletedAt() == null) {
+                return badgeService.checkForStartBakingBreadBadge(user);
+            }
             // 3. 뱃지 조건 체크 후, 새로 획득한 뱃지 리스트 반환
             return badgeService.getAllEligibleBadges(user);
         }
