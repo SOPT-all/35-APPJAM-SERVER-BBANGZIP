@@ -10,6 +10,7 @@ import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeResponse;
 import com.sopt.bbangzip.domain.piece.service.PieceRetriever;
 import com.sopt.bbangzip.domain.user.entity.User;
 import com.sopt.bbangzip.domain.user.repository.UserRepository;
+import com.sopt.bbangzip.domain.user.service.LevelInfo;
 import com.sopt.bbangzip.domain.user.service.UserLevelCalculator;
 import com.sopt.bbangzip.domain.user.service.UserRetriever;
 import lombok.RequiredArgsConstructor;
@@ -77,7 +78,7 @@ public class BadgeService {
 
     private void updateUserLevel(User user) {
         int currentPoints = user.getPoint();
-        UserLevelCalculator.LevelInfo levelInfo = userLevelCalculator.calculateLevelInfo(currentPoints);
+        LevelInfo levelInfo = userLevelCalculator.calculateLevelInfo(currentPoints);
         user.updateUserLevel(levelInfo.getLevel());
     }
 

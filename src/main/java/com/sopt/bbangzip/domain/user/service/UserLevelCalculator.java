@@ -34,25 +34,4 @@ public class UserLevelCalculator {
         // Lv 4 이상: 400+
         return null;
     }
-
-    /**g
-     * 레벨과 해당 레벨의 최대 포인트를 함께 반환하는 클래스
-     */
-    public static class LevelInfo {
-        private final int level;
-        private final int maxReward;
-
-        public LevelInfo(int level, int maxReward) {
-            this.level = level;
-            this.maxReward = maxReward;
-        }
-
-        public int getLevel() {
-            return level;
-        }
-
-        public int getMaxReward() {
-            return maxReward;
-        }
-    }
 }
