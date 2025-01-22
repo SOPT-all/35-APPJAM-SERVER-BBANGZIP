@@ -7,7 +7,5 @@ import java.util.List;
 
 @Builder
 public record MarkDoneResponse(
-        int todayCounts,
-        int completeCounts,
         List<BadgeResponse> badges
 ) {}
