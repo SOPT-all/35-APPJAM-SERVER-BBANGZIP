@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class ExamSaver {
     private final ExamRepository examRepository;
 
-    public Exam save(Exam exam) {
+    public Exam save(final Exam exam) {
         return examRepository.save(exam);
     }
 }

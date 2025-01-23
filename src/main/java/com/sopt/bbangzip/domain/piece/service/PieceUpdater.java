@@ -17,9 +17,9 @@ public class PieceUpdater {
     private final BadgeService badgeService;
 
     public List<BadgeResponse> updateStatusDone(
-            Piece piece,
-            IsFinishedDto isFinished,
-            User user
+            final Piece piece,
+            final IsFinishedDto isFinished,
+            final User user
     ) {
         // 1. 공부 조각 상태를 업데이트
         piece.updateStatus(isFinished.isFinished());
@@ -40,16 +40,16 @@ public class PieceUpdater {
     }
 
     public void updateStatusUnDone(
-            Piece piece,
-            IsFinishedDto isFinished,
-            User user
+            final Piece piece,
+            final IsFinishedDto isFinished,
+            final User user
     ){
         piece.updateStatus(isFinished.isFinished());
     }
 
     public void updateStatusIsVisible(
-            List<Piece> pieces,
-            User user
+            final List<Piece> pieces,
+            final User user
     ){
         // 공부 조각들의 상태 is_visible 을 true 로 업데이트
         pieces.forEach(piece -> piece.updateIsVisible(true));

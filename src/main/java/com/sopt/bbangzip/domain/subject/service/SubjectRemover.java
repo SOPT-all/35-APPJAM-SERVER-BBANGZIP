@@ -20,7 +20,7 @@ import java.util.List;
 public class SubjectRemover {
     private final SubjectRepository subjectRepository;
 
-    public final void removeSubjects(List<Subject> subjects) {
+    public final void removeSubjects(final List<Subject> subjects) {
         subjectRepository.deleteAll(subjects);
     }
 }

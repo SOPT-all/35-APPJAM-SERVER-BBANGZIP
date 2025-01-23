@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class UserSubjectSaver {
     private final UserSubjectRepository userSubjectRepository;
 
-    public UserSubject save(UserSubject userSubject) {
+    public UserSubject save(final UserSubject userSubject) {
         return userSubjectRepository.save(userSubject);
     }
 }

@@ -33,7 +33,11 @@ public class ExamService {
      * @param examName  시험 이름 ("mid" 또는 "fin")
      * @return ExamResponseDto
      */
-    public ExamResponseDto getExamInfoWithConversion(Long userId, String examName, Long subjectId) {
+    public ExamResponseDto getExamInfoWithConversion(
+            final Long userId,
+            final String examName,
+            final Long subjectId
+    ) {
         String convertedExamName = convertExamName(examName);
         if (convertedExamName == null) {
             throw new NotFoundException(ErrorCode.NOT_FOUND_EXAM);
@@ -48,7 +52,11 @@ public class ExamService {
      * @param examName  시험 이름
      * @return ExamResponseDto
      */
-    public ExamResponseDto getExamInfo(Long userId, String examName, Long subjectId) {
+    public ExamResponseDto getExamInfo(
+            final Long userId,
+            final String examName,
+            final Long subjectId
+    ) {
         Exam exam = examRetriever.findBySubjectIdAndExamNameAndUser(userId, examName, subjectId);
 
         int examDday = calculateDday(exam.getExamDate());
@@ -71,7 +79,7 @@ public class ExamService {
      * @param examName 시험 이름 ("mid" 또는 "fin")
      * @return 변환된 이름 ("중간고사" 또는 "기말고사")
      */
-    private String convertExamName(String examName) {
+    private String convertExamName(final String examName) {
         switch (examName) {
             case "mid":
                 return "중간고사";
@@ -88,7 +96,7 @@ public class ExamService {
      * @param examDate 시험 날짜
      * @return D-Day 값
      */
-    private int calculateDday(LocalDate examDate) {
+    private int calculateDday(final LocalDate examDate) {
         int dday = (int) ChronoUnit.DAYS.between(examDate, LocalDate.now());
         return dday;
     }
@@ -99,7 +107,7 @@ public class ExamService {
      * @param exam Exam 엔티티
      * @return List<ExamResponseDto.StudyPiece>
      */
-    private List<ExamResponseDto.StudyPiece> getStudyPieces(Long userId, Exam exam) {
+    private List<ExamResponseDto.StudyPiece> getStudyPieces(final Long userId, final Exam exam) {
         List<Piece> pieces = pieceRetriever.findByStudyExamIdAndUserId(userId, exam.getId());
 
         return pieces.stream()
@@ -113,7 +121,7 @@ public class ExamService {
      * @param piece Piece 엔티티
      * @return ExamResponseDto.StudyPiece
      */
-    private ExamResponseDto.StudyPiece convertToStudyPiece(Piece piece) {
+    private ExamResponseDto.StudyPiece convertToStudyPiece(final Piece piece) {
         return ExamResponseDto.StudyPiece.builder()
                 .pieceId(piece.getId())
                 .studyContents(piece.getStudy().getStudyContents())
@@ -126,7 +134,7 @@ public class ExamService {
     }
 
     //남은 일수 계산
-    private int calculateRemainingDays(LocalDate deadline) {
+    private int calculateRemainingDays(final LocalDate deadline) {
         return (int) ChronoUnit.DAYS.between(deadline, LocalDate.now());
     }
 }

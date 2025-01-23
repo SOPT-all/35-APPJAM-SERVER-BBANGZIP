@@ -11,10 +11,10 @@ import java.util.Optional;
 public interface UserSubjectRepository extends JpaRepository<UserSubject, Long> {
 
     // userId, year, semester를 통해 UserSubject 조회
-    Optional<UserSubject> findByUserIdAndYearAndSemester(Long userId,  int year, String semester);
+    Optional<UserSubject> findByUserIdAndYearAndSemester(final Long userId,  final int year, final String semester);
 
     // userId와 userSubjectId로 UserSubject 조회
-    Optional<UserSubject> findByUserIdAndId(Long userId, Long userSubjectId);
+    Optional<UserSubject> findByUserIdAndId(final Long userId, final Long userSubjectId);
 
 }
 

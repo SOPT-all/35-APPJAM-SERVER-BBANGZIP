@@ -12,7 +12,7 @@ public class StudySaver {
 
     private final StudyRepository studyRepository;
 
-    public Study save(Study study) {
+    public Study save(final Study study) {
         return studyRepository.save(study);
     }
 }

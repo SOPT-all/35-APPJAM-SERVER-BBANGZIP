@@ -13,7 +13,7 @@ public class PieceSaver {
 
     private final PieceRepository pieceRepository;
 
-    public List<Piece> saveAll(List<Piece> pieces) {
+    public List<Piece> saveAll(final List<Piece> pieces) {
         return pieceRepository.saveAll(pieces);
     }
 }

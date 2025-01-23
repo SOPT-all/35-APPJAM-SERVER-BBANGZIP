@@ -21,7 +21,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public MypageDto updateAndGetUserLevelStatus(Long userId) {
+    public MypageDto updateAndGetUserLevelStatus(final Long userId) {
 
         // 유저와 유저의 현재 레벨 가져옴
         User user = userRetriever.findByUserId(userId);
@@ -46,7 +46,7 @@ public class UserService {
      * @param currentLevel  유저의 현재 레벨
      * @return 레벨 상세 정보 리스트
      */
-    private List<MypageDto.LevelDetail> createLevelDetails(int currentLevel) {
+    private List<MypageDto.LevelDetail> createLevelDetails(final int currentLevel) {
         List<MypageDto.LevelDetail> levelDetails = new ArrayList<>();
 
         for (int level = 1; level <= 3; level++) {
