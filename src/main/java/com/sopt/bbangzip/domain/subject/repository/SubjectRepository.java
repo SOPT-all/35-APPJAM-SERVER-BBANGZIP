@@ -22,7 +22,13 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     JOIN us.user u
     WHERE us.id = :userSubjectId AND u.id = :userId AND s.subjectName = :subjectName
 """)
-    boolean existsByUserSubjectAndSubjectNameAndUserId(Long userId, Long userSubjectId, String subjectName);
+    boolean existsByUserSubjectAndSubjectNameAndUserId(
+            @Param("userId") Long userId,
+            @Param("userSubjectId") Long userSubjectId,
+            @Param("subjectName") String subjectName
+    );
+
+
 
     @Query("""
     SELECT s

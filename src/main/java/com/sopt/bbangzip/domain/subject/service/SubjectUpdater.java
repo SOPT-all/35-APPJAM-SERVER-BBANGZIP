@@ -10,9 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class SubjectUpdater {
-
-    private final SubjectRepository subjectRepository;
-
     public void updateSubjectName(final Subject subject, final String newName) {
         subject.updateSubjectName(newName);
     }
