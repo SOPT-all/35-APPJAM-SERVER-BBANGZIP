@@ -38,7 +38,8 @@ public class User {
     private int point = 0;
 
     @Column(name = UserTableConstants.COLUMN_USER_LEVEL, nullable = false)
-    private int userLevel  = 1;
+    private int userLevel = 1;
+
 
     @Column(name = UserTableConstants.COLUMN_CREATED_AT, nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -50,12 +51,11 @@ public class User {
     private List<UserSubject> userSubjects;
 
     @Builder
-    public User(Long platformUserId, String platform, String nickname, Boolean isOnboardingComplete, int userLevel) {
+    public User(Long platformUserId, String platform, String nickname, Boolean isOnboardingComplete) {
         this.platformUserId = platformUserId;
         this.platform = platform;
         this.nickname = nickname;
         this.isOnboardingComplete = isOnboardingComplete;
-        this.userLevel = userLevel;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }

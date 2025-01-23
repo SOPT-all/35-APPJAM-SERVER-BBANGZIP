@@ -7,7 +7,7 @@ import java.util.List;
 @Builder
 public record ExamResponseDto(
         String motivationMessage,
-        int examDday,
+        int examDDay,
         String examDate,
         List<StudyPiece> studyList
 ) {
