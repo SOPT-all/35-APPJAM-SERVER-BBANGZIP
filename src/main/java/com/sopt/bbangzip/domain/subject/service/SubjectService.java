@@ -10,7 +10,6 @@ import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectCreateDto;
 import com.sopt.bbangzip.domain.subject.api.dto.request.SubjectDeleteDto;
 import com.sopt.bbangzip.domain.subject.api.dto.response.SubjectResponseDto;
 import com.sopt.bbangzip.domain.subject.entity.Subject;
-import com.sopt.bbangzip.domain.subject.repository.SubjectRepository;
 import com.sopt.bbangzip.domain.user.entity.User;
 import com.sopt.bbangzip.domain.user.service.UserRetriever;
 import com.sopt.bbangzip.domain.userSubject.entity.UserSubject;
@@ -19,7 +18,6 @@ import com.sopt.bbangzip.domain.userSubject.service.UserSubjectSaver;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -55,8 +53,8 @@ public class SubjectService {
 
         // 동일 학기 내 중복된 과목 존재 여부 확인
         boolean isDuplicate = subjectRetriever.existsByUserSubjectAndSubjectNameAndUserId(
-                userSubject.getId(),
                 userId,
+                userSubject.getId(),
                 subjectCreateDto.subjectName()
         );
 
@@ -84,10 +82,7 @@ public class SubjectService {
         // 주어진 연도와 학기에 대한 UserSubject 조회
         UserSubject userSubject = subjectRetriever.findByUserIdAndYearAndSemester(userId, subjectDeleteDto.year(), subjectDeleteDto.semester());
 
-
-        if (userSubject == null) {
-            throw new NotFoundException(ErrorCode.NOT_FOUND_USER_SUBJECT);
-        }
+        if (userSubject == null) {throw new NotFoundException(ErrorCode.NOT_FOUND_USER_SUBJECT); }
 
         // 삭제할 과목 조회
         List<Subject> subjects = subjectRetriever.findByIdInAndUserSubjectIdAndUserId(userId, subjectDeleteDto.subjectIds(), userSubject.getId());
