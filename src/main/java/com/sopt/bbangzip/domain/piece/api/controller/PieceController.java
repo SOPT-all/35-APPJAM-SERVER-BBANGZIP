@@ -54,7 +54,7 @@ public class PieceController {
     }
 
     @DeleteMapping("/studies/pieces")
-    public ResponseEntity<ResponseDto<List<Object>>>  deletePieces(
+    public ResponseEntity<ResponseDto<List<Object>>> deletePieces(
             @UserId final Long userId,
             @RequestBody @Valid final PieceDeleteRequestDto pieceDeleteRequestDto
     ) {

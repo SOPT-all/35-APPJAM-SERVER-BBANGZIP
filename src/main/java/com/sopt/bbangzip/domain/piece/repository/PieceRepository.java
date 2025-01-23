@@ -52,6 +52,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
                 FROM Piece p
                 WHERE p.isVisible = true
                    AND p.isFinished = false
+                   AND p.study.exam.examDate >= CURRENT_DATE
                    AND p.study.exam.subject.userSubject.user.id = :userId
             """)
     int countUnfinishedTodayPieces(Long userId);
@@ -68,6 +69,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
             WHERE p.isVisible = true
                 AND p.isFinished = true
                 AND p.study.exam.subject.userSubject.user.id = :userId
+                AND p.study.exam.examDate >= CURRENT_DATE
             """)
     int countFinishedTodayPieces(Long userId);
 
@@ -82,6 +84,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
                AND p.isFinished=false
                AND p.deadline < CURRENT DATE
                AND p.study.exam.subject.userSubject.user.id = :userId
+               AND p.study.exam.examDate >= CURRENT_DATE
             """)
     int countPendingTodayPieces(Long userId);
 
@@ -98,6 +101,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
                 AND p.study.exam.subject.userSubject.year = :year
                 AND p.study.exam.subject.userSubject.semester = :semester
                 AND p.isVisible = true
+                AND p.study.exam.examDate >= CURRENT_DATE
             ORDER BY p.createdAt DESC, p.pieceNumber ASC
             """)
     List<Piece> findTodoPiecesByRecentOrder(Long userId, int year, String semester);
@@ -117,6 +121,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
                 AND p.isVisible = true
                 AND p.study.exam.subject.userSubject.year = :year
                 AND p.study.exam.subject.userSubject.semester = :semester
+                AND p.study.exam.examDate >= CURRENT_DATE
             ORDER BY p.pageAmount ASC, p.deadline ASC,
                      p.study.exam.subject.subjectName ASC,
                      p.pieceNumber ASC
@@ -138,6 +143,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
                 AND p.study.exam.subject.userSubject.year = :year
                 AND p.study.exam.subject.userSubject.semester = :semester
                 AND p.isVisible = true
+                AND p.study.exam.examDate >= CURRENT_DATE
             ORDER BY p.deadline ASC,
                      p.pageAmount ASC,
                      p.study.exam.subject.subjectName ASC,
@@ -160,6 +166,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
                 AND p.deadline < CURRENT_DATE
                 AND p.study.exam.subject.userSubject.year = :year
                 AND p.study.exam.subject.userSubject.semester = :semester
+                AND p.study.exam.examDate >= CURRENT_DATE
             ORDER BY p.createdAt DESC, p.pieceNumber ASC
             """)
     List<Piece> findPendingPiecesByRecentOrder(Long userId, int year, String semester);
@@ -181,6 +188,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
                 AND p.deadline < CURRENT_DATE
                 AND p.study.exam.subject.userSubject.year = :year
                 AND p.study.exam.subject.userSubject.semester = :semester
+                AND p.study.exam.examDate >= CURRENT_DATE
             ORDER BY p.pageAmount ASC, p.deadline ASC,
                      p.study.exam.subject.subjectName ASC, p.pieceNumber ASC
             """)
@@ -203,6 +211,8 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
                 AND p.deadline < CURRENT_DATE
                 AND p.study.exam.subject.userSubject.year = :year
                 AND p.study.exam.subject.userSubject.semester = :semester
+                AND p.study.exam.examDate >= CURRENT_DATE
+                
             ORDER BY p.deadline ASC, p.pageAmount ASC, 
                      p.study.exam.subject.subjectName ASC, p.pieceNumber ASC
             """)
@@ -219,6 +229,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
                        AND p.isFinished = false
                        AND p.deadline >= CURRENT DATE
                        AND p.study.exam.subject.userSubject.user.id = :userId
+                       AND p.study.exam.examDate >= CURRENT_DATE
             """)
     int findAddTodoPieceCount(Long userId, int year, String semester);
 
@@ -237,6 +248,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
                 AND p.isVisible = false
                 AND p.isFinished = false
                 AND p.deadline >= CURRENT_DATE
+                AND p.study.exam.examDate >= CURRENT_DATE     
             ORDER BY p.createdAt DESC, p.pieceNumber ASC
             """)
     List<Piece> findAddTodoPieceListByRecentOrder(Long userId, int year, String semester);
@@ -258,6 +270,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
                 AND p.isVisible = false
                 AND p.isFinished = false
                 AND p.deadline >= CURRENT_DATE
+                AND p.study.exam.examDate >= CURRENT_DATE
             ORDER BY p.pageAmount ASC,
                      p.deadline ASC,
                      p.study.exam.subject.subjectName ASC,
@@ -282,6 +295,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
                 AND p.isVisible = false
                 AND p.isFinished = false
                 AND p.deadline >= CURRENT_DATE
+                AND p.study.exam.examDate >= CURRENT_DATE
             ORDER BY p.deadline ASC,
                      p.pageAmount ASC,
                      p.study.exam.subject.subjectName ASC,
