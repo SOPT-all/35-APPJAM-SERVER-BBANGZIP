@@ -13,7 +13,7 @@ public class PieceRemover {
 
     private final PieceRepository pieceRepository;
 
-    public void removePieces(List<Piece> pieces) {
+    public void removePieces(final List<Piece> pieces) {
         pieceRepository.deleteAll(pieces);
     }
 }

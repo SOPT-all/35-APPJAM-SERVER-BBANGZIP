@@ -43,8 +43,10 @@ public class SubjectService {
     private final UserSubjectSaver userSubjectSaver;
     private final SubjectUpdater subjectUpdater;
 
-    public void createSubject(Long userId, SubjectCreateDto subjectCreateDto) {
-
+    public void createSubject(
+            final Long userId,
+            final SubjectCreateDto subjectCreateDto
+    ) {
         User user = userRetriever.findByUserId(userId); // 유저 존재 여부까지 확인 가능
 
         // UserSubject 조회 또는 생성
@@ -72,7 +74,10 @@ public class SubjectService {
         subjectSaver.save(subject);
     }
 
-    public void deleteSubject(Long userId, SubjectDeleteDto subjectDeleteDto) {
+    public void deleteSubject(
+            final Long userId,
+            final SubjectDeleteDto subjectDeleteDto
+    ) {
         // 유저 검증
         userRetriever.findByUserId(userId);
 
@@ -96,7 +101,12 @@ public class SubjectService {
     }
 
     @Transactional
-    public void updateSubjectNameOrMotivationMessage(Long userId, Long subjectId, String options, String value) {
+    public void updateSubjectNameOrMotivationMessage(
+            final Long userId,
+            final Long subjectId,
+            final String options,
+            final String value
+    ){
         userRetriever.findByUserId(userId);
         Subject subject = subjectRetriever.findByIdAndUserId(userId, subjectId);
         switch (options) {
@@ -108,13 +118,13 @@ public class SubjectService {
 
     /**
      * 사용자와 학기 정보에 따른 과목 조회
-     *
-     * @param userId
-     * @param year
-     * @param semester
      * @return SubjectResponseDto - 사용자와 학기에 해당하는 과목 정보와 시험별 공부 현황(남은 공부, 밀린 공부)을 포함한 응답 객체
      */
-    public SubjectResponseDto getSubjectsByUserAndSemester(Long userId, int year, String semester) {
+    public SubjectResponseDto getSubjectsByUserAndSemester(
+            final Long userId,
+            final int year,
+            final String semester
+    ){
         // 사용자 검증
         userRetriever.findByUserId(userId);
 
@@ -137,12 +147,13 @@ public class SubjectService {
 
     /**
      * Exam 객체를 StudyDto로 매핑
-     *
-     * @param subjectId
-     * @param exam
      * @return StudyDto - 시험 이름, D-Day, 밀린 공부 개수, 남은 공부 개수를 포함한 DTO
      */
-    private SubjectResponseDto.SubjectDto.StudyDto mapExamToStudyDto(Long userId, Long subjectId, Exam exam) {
+    private SubjectResponseDto.SubjectDto.StudyDto mapExamToStudyDto(
+            final Long userId,
+            final Long subjectId,
+            final Exam exam
+    ){
         int dDay = (int) ChronoUnit.DAYS.between(LocalDate.now(), exam.getExamDate());
 
         // 시험별 남은 공부와 밀린 공부 조회

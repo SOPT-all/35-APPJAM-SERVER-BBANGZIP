@@ -26,12 +26,12 @@ public class SubjectRetriever {
      * @param subjectName   과목 이름
      * @return Subject 존재 여부
      */
-    public boolean existsByUserSubjectAndSubjectNameAndUserId(Long userId, Long userSubjectId, String subjectName) {
+    public boolean existsByUserSubjectAndSubjectNameAndUserId(final Long userId, final Long userSubjectId, final String subjectName) {
         return subjectRepository.existsByUserSubjectAndSubjectNameAndUserId(userId, userSubjectId, subjectName);
     }
 
     // UserSubject 조회
-    public final UserSubject findByUserIdAndYearAndSemester(Long userId, int year, String semester) {
+    public final UserSubject findByUserIdAndYearAndSemester(final Long userId, final int year, final String semester) {
         return userSubjectRepository.findByUserIdAndYearAndSemester(userId, year, semester)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_USER_SUBJECT));
     }
@@ -44,7 +44,7 @@ public class SubjectRetriever {
      * @param userId        사용자 ID
      * @return 조회된 과목 리스트
      */
-    public List<Subject> findByIdInAndUserSubjectIdAndUserId(Long userId, List<Long> subjectIds, Long userSubjectId) {
+    public List<Subject> findByIdInAndUserSubjectIdAndUserId(final Long userId, final List<Long> subjectIds, final Long userSubjectId) {
         List<Subject> subjects = subjectRepository.findByIdInAndUserSubjectIdAndUserId(userId, subjectIds, userSubjectId);
         if (subjects.isEmpty()) {
             throw new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT);
@@ -52,7 +52,7 @@ public class SubjectRetriever {
         return subjects;
     }
 
-    public Subject findByIdAndUserId(Long userId, Long subjectId) {
+    public Subject findByIdAndUserId(final Long userId, final Long subjectId) {
         return subjectRepository.findByIdAndUserId(userId, subjectId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT));
     }
@@ -65,7 +65,7 @@ public class SubjectRetriever {
      * @param semester 학기
      * @return 과목 목록
      */
-    public List<Subject> findSubjectsByUserAndSemester(Long userId, int year, String semester) {
+    public List<Subject> findSubjectsByUserAndSemester(final Long userId, final int year, final String semester) {
         return subjectRepository.findSubjectsByUserAndSemester(userId, year, semester);
     }
 }

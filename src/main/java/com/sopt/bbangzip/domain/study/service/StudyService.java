@@ -37,7 +37,10 @@ public class StudyService {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Transactional
-    public CreateStudyResponse createStudy(Long userId, StudyCreateRequestDto studyCreateRequestDto) {
+    public CreateStudyResponse createStudy(
+            final Long userId,
+            final StudyCreateRequestDto studyCreateRequestDto
+    ) {
         Subject subject = subjectRetriever.findByIdAndUserId(userId, studyCreateRequestDto.subjectId());
 
         LocalDate examDate;

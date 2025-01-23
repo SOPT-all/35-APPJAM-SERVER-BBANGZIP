@@ -42,30 +42,30 @@ public class PieceRetriever {
     /*
     Todo
      */
-    public List<Piece> findTodoPiecesByRecentOrder(Long userId, int year, String semester){
+    public List<Piece> findTodoPiecesByRecentOrder(final Long userId, final int year, final String semester){
         return  pieceRepository.findTodoPiecesByRecentOrder(userId, year, semester);
     }
 
-    public List<Piece> findTodoPiecesByLeastVolumeOrder(Long userId, int year, String semester){
+    public List<Piece> findTodoPiecesByLeastVolumeOrder(final Long userId, final int year, final String semester){
         return pieceRepository.findTodoPiecesByLeastVolumeOrder(userId, year, semester);
     }
 
-    public List<Piece> findTodoPiecesByNearestDeadlineOrder(Long userId, int year, String semester){
+    public List<Piece> findTodoPiecesByNearestDeadlineOrder(final Long userId, final int year, final String semester){
         return pieceRepository.findTodoPiecesByNearestDeadlineOrder(userId, year, semester);
     }
 
     /*
     Pending
      */
-    public List<Piece> findPendingPiecesByRecentOrder(Long userId, int year, String semester){
+    public List<Piece> findPendingPiecesByRecentOrder(final Long userId, final int year, final String semester){
         return pieceRepository.findPendingPiecesByRecentOrder(userId, year, semester);
     }
 
-    public List<Piece> findPendingPiecesByLeastVolumeOrder(Long userId, int year, String semester){
+    public List<Piece> findPendingPiecesByLeastVolumeOrder(final Long userId, final int year, final String semester){
         return pieceRepository.findPendingPiecesByLeastVolumeOrder(userId, year, semester);
     }
 
-    public List<Piece> findPendingPiecesByNearestDeadlineOrder(Long userId, int year, String semester){
+    public List<Piece> findPendingPiecesByNearestDeadlineOrder(final Long userId, final int year, final String semester){
         return pieceRepository.findPendingPiecesByNearestDeadlineOrder(userId, year, semester);
     }
 
@@ -73,19 +73,19 @@ public class PieceRetriever {
     Add Todo
      */
 
-    public int findAddTodoPieceCount(Long userId, int year, String semester){
+    public int findAddTodoPieceCount(final Long userId, final int year, final String semester){
         return pieceRepository.findAddTodoPieceCount(userId, year, semester);
     }
 
-    public List<Piece> findAddTodoPieceListByRecentOrder(Long userId, int year,  String semester){
+    public List<Piece> findAddTodoPieceListByRecentOrder(final Long userId, final int year,  final String semester){
         return pieceRepository.findAddTodoPieceListByRecentOrder(userId, year, semester);
     }
 
-    public List<Piece> findAddTodoPieceListByLeastVolumeOrder(Long userId, int year,  String semester){
+    public List<Piece> findAddTodoPieceListByLeastVolumeOrder(final Long userId, int year,  String semester){
         return pieceRepository.findAddTodoPieceListByLeastVolumeOrder(userId, year, semester);
     }
 
-    public List<Piece> findAddTodoPieceListByNearestDeadlineOrder(Long userId, int year,  String semester){
+    public List<Piece> findAddTodoPieceListByNearestDeadlineOrder(final Long userId, final int year, final String semester){
         return pieceRepository.findAddTodoPieceListByNearestDeadlineOrder(userId, year, semester);
     }
 
@@ -94,18 +94,17 @@ public class PieceRetriever {
      */
 
     // 중간고사, 기말고사 필터링
-    public List<Piece> findByStudyExamIdAndUserId(Long userId, Long examId) {
+    public List<Piece> findByStudyExamIdAndUserId(final Long userId, final Long examId) {
         return pieceRepository.findByStudyExamIdAndUserId(userId, examId);
     }
 
     // 남은 공부 가져오기
-    public int findRemainingCount(Long userId, Long subjectId, Long examId) {
+    public int findRemainingCount(final Long userId, final Long subjectId, final Long examId) {
         return pieceRepository.findRemainingCount(userId, subjectId, examId);
     }
 
     // 밀린 공부 가져오기
-    public int findPendingCount(Long userId, Long subjectId, Long examId) {
+    public int findPendingCount(final Long userId, final Long subjectId, final Long examId) {
         return pieceRepository.findPendingCount(userId, subjectId, examId);
     }
-
 }

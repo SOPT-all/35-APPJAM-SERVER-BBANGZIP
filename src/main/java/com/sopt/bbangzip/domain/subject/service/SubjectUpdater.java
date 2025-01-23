@@ -13,11 +13,11 @@ public class SubjectUpdater {
 
     private final SubjectRepository subjectRepository;
 
-    public void updateSubjectName(Subject subject, String newName) {
+    public void updateSubjectName(final Subject subject, final String newName) {
         subject.updateSubjectName(newName);
     }
 
-    public void updateMotivationMessage(Subject subject, String newMessage) {
+    public void updateMotivationMessage(final Subject subject, final String newMessage) {
         subject.updateMotivationMessage(newMessage);
     }
 }

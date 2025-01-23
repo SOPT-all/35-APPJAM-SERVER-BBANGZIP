@@ -59,7 +59,7 @@ public class BadgeService {
 //        return awardedBadges; // 조건에 맞는 모든 뱃지를 반환
 //    }
 
-    public List<BadgeResponse> getAllEligibleBadges(User user) {
+    public List<BadgeResponse> getAllEligibleBadges(final User user) {
         List<BadgeResponse> awardedBadges = new ArrayList<>();
 
         for (Badge badge : badges) {
@@ -76,7 +76,7 @@ public class BadgeService {
         return awardedBadges;
     }
 
-    private void updateUserLevel(User user) {
+    private void updateUserLevel(final User user) {
         int currentPoints = user.getPoint();
         LevelInfo levelInfo = userLevelCalculator.calculateLevelInfo(currentPoints);
         user.updateUserLevel(levelInfo.getLevel());
@@ -85,7 +85,7 @@ public class BadgeService {
     /**
      * "빵집 오픈 준비 중" 뱃지 평가
      */
-    public List<BadgeResponse> checkForPreparingOpenBakeryBadge(User user) {
+    public List<BadgeResponse> checkForPreparingOpenBakeryBadge(final User user) {
         Badge badge = badges.stream()
                 .filter(b -> b.getName().equals("빵집 오픈 준비 중"))
                 .findFirst()
@@ -101,7 +101,7 @@ public class BadgeService {
     /**
      * "빵 굽기 시작" 뱃지 평가
      */
-    public List<BadgeResponse> checkForStartBakingBreadBadge(User user) {
+    public List<BadgeResponse> checkForStartBakingBreadBadge(final User user) {
         Badge badge = badges.stream()
                 .filter(b -> b.getName().equals("빵 굽기 시작"))
                 .findFirst()
@@ -114,7 +114,7 @@ public class BadgeService {
         return List.of();
     }
 
-    private boolean isBadgeAlreadyAwarded(User user, Badge badge) {
+    private boolean isBadgeAlreadyAwarded(final User user, final Badge badge) {
         int todayCounts = pieceRetriever.countUnfinishedTodayPieces(user.getId());
         return switch (badge.getName()) {
             case "빵집 오픈 준비 중" -> user.getHasPreparingOpeningBakery() != null;
@@ -133,7 +133,7 @@ public class BadgeService {
     }
 
     // 뱃지 부여
-    private void awardBadge(User user, Badge badge) {
+    private void awardBadge(final User user, final Badge badge) {
         if (!badge.getCondition().isEligible(user) || isBadgeAlreadyAwarded(user, badge)) {
             return; // 조건 불충족 또는 이미 부여된 경우
         }
@@ -163,7 +163,7 @@ public class BadgeService {
     /**
      * 유저가 획득한 뱃지 목록을 반환
      */
-    public BadgeListResponse getBadgeList(Long userId) {
+    public BadgeListResponse getBadgeList(final Long userId) {
         User user = userRetriever.findByUserId(userId);
 
         List<BadgeListResponse.Badge> badgeList = badges.stream()
@@ -181,7 +181,7 @@ public class BadgeService {
     /**
      * 유저 조건에 따라 뱃지 잠금 여부를 판별
      */
-    private boolean isBadgeLocked(User user, Badge badge) {
+    private boolean isBadgeLocked(final User user, final Badge badge) {
         switch (badge.getName()) {
             case "빵집 오픈 준비 중":
                 return user.getHasPreparingOpeningBakery() == null;
@@ -213,7 +213,7 @@ public class BadgeService {
     /**
      * 특정 뱃지의 상세 정보 조회
      */
-    public BadgeDetailResponse getBadgeDetail(Long userId, String badgeName) {
+    public BadgeDetailResponse getBadgeDetail(final Long userId, final String badgeName) {
         User user = userRetriever.findByUserId(userId);
 
         // 특정 이름의 뱃지 검색
