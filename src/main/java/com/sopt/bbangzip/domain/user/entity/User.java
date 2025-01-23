@@ -51,11 +51,12 @@ public class User {
     private List<UserSubject> userSubjects;
 
     @Builder
-    public User(Long platformUserId, String platform, String nickname, Boolean isOnboardingComplete) {
+    public User(Long platformUserId, String platform, String nickname, Boolean isOnboardingComplete, int userLevel) {
         this.platformUserId = platformUserId;
         this.platform = platform;
         this.nickname = nickname;
         this.isOnboardingComplete = isOnboardingComplete;
+        this.userLevel = userLevel;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
