@@ -85,5 +85,11 @@ public class GlobalExceptionHandler {
                 .body(ErrorCode.DUPLICATED_SUBJECT);
     }
 
-
+    @ExceptionHandler(InvalidOptionsException.class)
+    public ResponseEntity<ErrorCode> handleDuplicateException(InvalidOptionsException e) {
+        log.error(e.getMessage(), e);
+        return ResponseEntity
+                .status(ErrorCode.INVALID_ARGUMENTS.getHttpStatus())
+                .body(ErrorCode.INVALID_ARGUMENTS);
+    }
 }
