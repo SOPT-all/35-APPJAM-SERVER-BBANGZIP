@@ -27,11 +27,7 @@ public class UserLevelCalculator {
         }
 
         // Lv 3 조건: 300 ~ 399
-        if (point < LEVEL_3_POINT) {
-            return new LevelInfo(3, LEVEL_3_POINT);
-        }
+        return new LevelInfo(3, LEVEL_3_POINT);
 
-        // Lv 4 이상: 400+
-        return null;
     }
 }
