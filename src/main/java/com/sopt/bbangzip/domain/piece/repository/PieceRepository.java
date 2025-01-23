@@ -314,7 +314,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
              WHERE e.id = :examId
                AND u.id = :userId
             """)
-    List<Piece> findByStudyExamIdAndUserId(@Param("examId") Long examId, @Param("userId") Long userId);
+    List<Piece> findByStudyExamIdAndUserId(@Param("userId") Long userId, @Param("examId") Long examId);
 
     // 남은 공부
     @Query("""

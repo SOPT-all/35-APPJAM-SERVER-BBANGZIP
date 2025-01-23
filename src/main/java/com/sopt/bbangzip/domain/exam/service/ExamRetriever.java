@@ -19,7 +19,7 @@ public class ExamRetriever {
     private final ExamRepository examRepository;
 
         public Exam findBySubjectIdAndExamNameAndUser(final Long userId, final String examName, final Long subjectId) {
-        return examRepository.findBySubjectIdAndExamNameAndUser(userId,examName, subjectId)
+        return examRepository.findBySubjectIdAndExamNameAndUser(userId, examName, subjectId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_EXAM));
     }
 

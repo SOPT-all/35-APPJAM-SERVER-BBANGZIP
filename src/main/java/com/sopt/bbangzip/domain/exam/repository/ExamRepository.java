@@ -18,10 +18,6 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
 
     /**
      * 과목 ID와 시험 이름으로 Exam 및 관련 User 조회
-     *
-     * @param subjectId 과목 ID
-     * @param examName  시험 이름 ("중간고사" 또는 "기말고사")
-     * @return Optional<Exam>
      */
     @Query("""
              SELECT e
@@ -34,12 +30,11 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
                AND u.id = :userId
             """)
     Optional<Exam> findBySubjectIdAndExamNameAndUser(
-            @Param("subjectId") Long subjectId,
+            @Param("userId") Long userId,
             @Param("examName") String examName,
-            @Param("userId") Long userId
+            @Param("subjectId") Long subjectId
     );
 
     Optional<Exam> findByExamNameAndExamDateAndSubject(String examName, LocalDate examDate, Subject subject);
-
 }
 
