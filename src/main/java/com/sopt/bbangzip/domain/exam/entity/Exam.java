@@ -1,6 +1,7 @@
 package com.sopt.bbangzip.domain.exam.entity;
 
 import com.sopt.bbangzip.common.constants.entity.ExamTableConstants;
+import com.sopt.bbangzip.domain.study.entity.Study;
 import com.sopt.bbangzip.domain.subject.entity.Subject;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -42,5 +44,8 @@ public class Exam {
         this.examDate = examDate;
         this.createdAt = LocalDateTime.now();
     }
+
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Study> studies;
 
 }
