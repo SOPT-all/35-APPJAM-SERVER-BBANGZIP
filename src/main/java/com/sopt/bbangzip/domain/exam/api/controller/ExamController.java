@@ -1,8 +1,6 @@
 package com.sopt.bbangzip.domain.exam.api.controller;
 
 import com.sopt.bbangzip.common.annotation.UserId;
-import com.sopt.bbangzip.common.exception.base.NotFoundException;
-import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.exam.api.dto.response.ExamResponseDto;
 import com.sopt.bbangzip.domain.exam.service.ExamService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,6 @@ public class ExamController {
      *
      * @param subjectId 과목 ID
      * @param examName  시험 이름 ("mid" 또는 "fin")
-     * @return ExamResponseDto
      */
     @GetMapping("/exams/{subjectId}/{examName}")
     public ResponseEntity<ExamResponseDto> getExamInfo(
