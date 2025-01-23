@@ -40,7 +40,6 @@ public class User {
     @Column(name = UserTableConstants.COLUMN_USER_LEVEL, nullable = false)
     private int userLevel = 1;
 
-
     @Column(name = UserTableConstants.COLUMN_CREATED_AT, nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
