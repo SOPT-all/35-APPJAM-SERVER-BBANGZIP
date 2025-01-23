@@ -30,7 +30,7 @@ public class UserSubject {
     @Column(name = UserSubjectTableConstants.COLUMN_SEMESTER, nullable = false)
     private String semester;
 
-    @OneToMany(mappedBy = "userSubject", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userSubject", cascade = CascadeType.REMOVE)
     private List<Subject> subjects;
 
     @Builder
