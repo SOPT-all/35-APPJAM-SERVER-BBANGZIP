@@ -1,6 +1,7 @@
 package com.sopt.bbangzip.domain.exam.repository;
 
 import com.sopt.bbangzip.domain.exam.entity.Exam;
+import com.sopt.bbangzip.domain.subject.entity.Subject;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -37,6 +38,8 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
             @Param("examName") String examName,
             @Param("userId") Long userId
     );
+
+    Optional<Exam> findByExamNameAndExamDateAndSubject(String examName, LocalDate examDate, Subject subject);
 
 }
 
