@@ -85,6 +85,6 @@ public class UserService {
     private static final List<LevelDetailData> LEVEL_DETAILS = List.of(
             new LevelDetailData(1, "허름한 돗자리", "겉으로 보기엔 너덜너덜해 보이지만\n" + "태풍이 불어도 절대 날아가지 않는 듯 하다!", "https://github.com/user-attachments/assets/593f82c8-ec6b-4a17-8e2d-4800d2264e59"),
             new LevelDetailData(2, "평범한 돗자리", "아름다운 사람은\n" + "머문 돗자리도 아름답다", "https://github.com/user-attachments/assets/01f001b2-acd8-4744-b7ed-e9d02fc85932"),
-            new LevelDetailData(3, "으리으리한 돗자리", "제 과제 빵점은 사실\n" + "돗자리 맛집이었다고 한다", "https://github.com/user-attachments/assets/4ade00bf-4384-4d0c-99d1-a0bb6e1b9a94")
+            new LevelDetailData(3, "으리으리한 돗자리", "제 과제 빵점은 사실\n" + "돗자리 맛집이었다고 한다", "https://github.com/user-attachments/assets/e9dd0f6e-9f93-4bac-8bdf-f8fc73412aee")
     );
 }
