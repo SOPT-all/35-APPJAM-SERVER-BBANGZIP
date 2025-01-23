@@ -3,6 +3,7 @@ package com.sopt.bbangzip.domain.study.service;
 import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeResponse;
 import com.sopt.bbangzip.domain.badge.service.BadgeService;
 import com.sopt.bbangzip.domain.exam.entity.Exam;
+import com.sopt.bbangzip.domain.exam.service.ExamRetriever;
 import com.sopt.bbangzip.domain.exam.service.ExamSaver;
 import com.sopt.bbangzip.domain.piece.entity.Piece;
 import com.sopt.bbangzip.domain.piece.service.PieceSaver;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class StudyService {
     private final PieceSaver pieceSaver;
+    private final ExamRetriever examRetriever;
     private final ExamSaver examSaver;
     private final StudySaver studySaver;
     private final SubjectRetriever subjectRetriever;
@@ -41,6 +43,7 @@ public class StudyService {
             final Long userId,
             final StudyCreateRequestDto studyCreateRequestDto
     ) {
+        // 과목 조회
         Subject subject = subjectRetriever.findByIdAndUserId(userId, studyCreateRequestDto.subjectId());
 
         LocalDate examDate;
@@ -50,19 +53,28 @@ public class StudyService {
             throw new IllegalArgumentException("Invalid date format. Expected format: yyyy-MM-dd");
         }
 
-        Exam exam = Exam.builder()
-                .examName(studyCreateRequestDto.examName())
-                .examDate(examDate)
-                .subject(subject)
-                .build();
-        examSaver.save(exam);
+        // 시험 조회 및 없으면 추가
+        Exam exam = examRetriever.findByExamNameAndDateAndSubject(
+                studyCreateRequestDto.examName(),
+                examDate,
+                subject
+        ).orElseGet(() -> {
+            Exam newExam = Exam.builder()
+                    .examName(studyCreateRequestDto.examName())
+                    .examDate(examDate)
+                    .subject(subject)
+                    .build();
+            return examSaver.save(newExam);
+        });
 
+        // Study 생성 및 저장
         Study study = Study.builder()
                 .exam(exam)
                 .studyContents(studyCreateRequestDto.studyContents())
                 .build();
         studySaver.save(study);
 
+        // Piece 저장
         List<Piece> pieces = studyCreateRequestDto.pieceList().stream()
                 .map(pieceDto -> {
                     LocalDate deadline = LocalDate.parse(pieceDto.deadline(), DATE_FORMATTER);
