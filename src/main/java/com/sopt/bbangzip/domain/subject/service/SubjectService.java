@@ -102,8 +102,14 @@ public class SubjectService {
     ){
         userRetriever.findByUserId(userId);
         Subject subject = subjectRetriever.findByIdAndUserId(userId, subjectId);
+
         switch (options) {
-            case "subjectName" -> subjectUpdater.updateSubjectName(subject, value);
+            case "subjectName" -> {
+                if (subjectRetriever.existsByUserIdAndSubjectName(userId, value)) {
+                    throw new NotFoundException(ErrorCode.DUPLICATED_SUBJECT);
+                }
+                subjectUpdater.updateSubjectName(subject, value);
+            }
             case "motivationMessage" -> subjectUpdater.updateMotivationMessage(subject, value);
             default -> throw new InvalidOptionsException(ErrorCode.INVALID_OPTION);
         }

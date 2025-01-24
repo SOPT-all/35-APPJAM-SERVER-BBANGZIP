@@ -68,4 +68,14 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
            """)
     List<Subject> findSubjectsByUserAndSemester(Long userId, int year, String semester);
 
+    // 동일한 과목명이 있을 경우 확인
+    @Query("""
+        SELECT CASE WHEN COUNT(s) > 0 THEN TRUE ELSE FALSE END 
+        FROM Subject s 
+        JOIN s.userSubject us
+        WHERE us.user.id = :userId AND s.subjectName = :subjectName
+       """)
+    boolean existsByUserIdAndSubjectName(@Param("userId") Long userId,
+                                         @Param("subjectName") String subjectName);
+
 }

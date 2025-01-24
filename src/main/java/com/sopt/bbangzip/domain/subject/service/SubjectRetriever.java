@@ -68,4 +68,8 @@ public class SubjectRetriever {
     public List<Subject> findSubjectsByUserAndSemester(final Long userId, final int year, final String semester) {
         return subjectRepository.findSubjectsByUserAndSemester(userId, year, semester);
     }
+
+    public boolean existsByUserIdAndSubjectName(Long userId, String subjectName) {
+        return subjectRepository.existsByUserIdAndSubjectName(userId, subjectName);
+    }
 }
