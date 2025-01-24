@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class StudyController {
     private final StudyService studyService;
 
+    // 교재 추가하기 API
     @PostMapping("/studies")
     public ResponseEntity<CreateStudyResponse> createStudy(
             @UserId final long userId,
