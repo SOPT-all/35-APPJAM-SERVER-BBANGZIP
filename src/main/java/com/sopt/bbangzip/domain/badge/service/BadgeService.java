@@ -165,6 +165,7 @@ public class BadgeService {
      */
     public BadgeListResponse getBadgeList(final Long userId) {
         User user = userRetriever.findByUserId(userId);
+        String nickname = user.getNickname();
 
         List<BadgeListResponse.Badge> badgeList = badges.stream()
                 .map(badge -> new BadgeListResponse.Badge(
@@ -174,8 +175,7 @@ public class BadgeService {
                         badge.getImage()
                 ))
                 .toList();
-
-        return new BadgeListResponse(badgeList);
+        return new BadgeListResponse(nickname, badgeList);
     }
 
     /**
