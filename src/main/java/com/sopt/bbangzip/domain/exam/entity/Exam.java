@@ -28,10 +28,13 @@ public class Exam {
     @JoinColumn(name = ExamTableConstants.COLUMN_SUBJECT_ID, nullable = false)
     private Subject subject;
 
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Study> studies;
+
     @Column(name = ExamTableConstants.COLUMN_EXAM_NAME, nullable = false)
     private String examName;
 
-    @Column(name = ExamTableConstants.COLUMN_EXAM_DATE)
+    @Column(name = ExamTableConstants.COLUMN_EXAM_DATE, nullable = true)
     private LocalDate examDate;
 
     @Column(name = ExamTableConstants.COLUMN_CREATED_AT, nullable = false, updatable = false)
@@ -45,7 +48,8 @@ public class Exam {
         this.createdAt = LocalDateTime.now();
     }
 
-    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Study> studies;
+    public void updateExamDate(LocalDate examDate) {
+        this.examDate = examDate;
+    }
 
 }

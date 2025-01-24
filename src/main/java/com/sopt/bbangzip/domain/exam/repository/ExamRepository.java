@@ -36,5 +36,23 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
     );
 
     Optional<Exam> findByExamNameAndExamDateAndSubject(String examName, LocalDate examDate, Subject subject);
+
+    @Query("""
+             SELECT e
+             FROM Exam e
+             JOIN e.subject s
+             JOIN s.userSubject us
+             JOIN us.user u
+             WHERE e.examName = :examName
+               AND e.examDate = :examDate
+               AND s = :subject
+               AND u.id = :userId
+            """)
+    Optional<Exam> findByExamNameAndExamDateAndSubjectAndUser(
+            @Param("userId") Long userId,
+            @Param("examName") String examName,
+            @Param("examDate") LocalDate examDate,
+            @Param("subject") Subject subject
+    );
 }
 
