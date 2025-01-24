@@ -160,7 +160,7 @@ public class SubjectService {
         if (examDate == null) {
             // examDate가 null인 경우 기본값 -1 설정
             log.warn("Exam date is null for exam id: {}, subject id: {}", exam.getId(), subjectId);
-            dDay = -999;
+            dDay = 999;
         } else {
             // examDate가 유효한 경우 D-Day 계산
             dDay = (int) ChronoUnit.DAYS.between(LocalDate.now(), examDate);

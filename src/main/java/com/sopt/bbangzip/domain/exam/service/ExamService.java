@@ -76,7 +76,7 @@ public class ExamService {
         return ExamResponseDto.builder()
                 .subjectName(subject.getSubjectName())
                 .motivationMessage(motivationMessage)
-                .examDday(examDday != null ? examDday : -999) // 기본값 -1 설정
+                .examDday(examDday != null ? examDday : 999) // 기본값 -1 설정
                 .examDate(exam.getExamDate() != null ? exam.getExamDate().toString() : "Not Scheduled")
                 .studyList(studyList)
                 .build();
