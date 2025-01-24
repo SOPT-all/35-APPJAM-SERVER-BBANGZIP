@@ -124,6 +124,10 @@ public class SubjectService {
         // 학기별 과목 조회
         List<Subject> subjects = subjectRetriever.findSubjectsByUserAndSemester(userId, year, semester);
 
+
+        // 유저가 과목에 등록한 시험을 찾아와서 그에 대한 정보들을 리스트로 만들어서 반환해야 함.
+
+
         // Subject 리스트 생성
         List<SubjectResponseDto.SubjectDto> subjectList = subjects.stream()
                 .map(subject -> new SubjectResponseDto.SubjectDto(
@@ -146,8 +150,19 @@ public class SubjectService {
             final Long userId,
             final Long subjectId,
             final Exam exam
-    ){
-        int dDay = (int) ChronoUnit.DAYS.between(exam.getExamDate(), LocalDate.now());
+    ) {
+        // examDate가 null인지 확인
+        LocalDate examDate = exam.getExamDate();
+        int dDay;
+
+        if (examDate == null) {
+            // examDate가 null인 경우 기본값 -1 설정
+            log.warn("Exam date is null for exam id: {}, subject id: {}", exam.getId(), subjectId);
+            dDay = -1;
+        } else {
+            // examDate가 유효한 경우 D-Day 계산
+            dDay = (int) ChronoUnit.DAYS.between(LocalDate.now(), examDate);
+        }
 
         // 시험별 남은 공부와 밀린 공부 조회
         int remainingCount = pieceRetriever.findRemainingCount(userId, subjectId, exam.getId());
