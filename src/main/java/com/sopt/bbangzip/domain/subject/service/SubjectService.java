@@ -41,6 +41,7 @@ public class SubjectService {
     private final UserSubjectSaver userSubjectSaver;
     private final SubjectUpdater subjectUpdater;
 
+    @Transactional
     public void createSubject(
             final Long userId,
             final SubjectCreateDto subjectCreateDto
@@ -72,16 +73,15 @@ public class SubjectService {
         subjectSaver.save(subject);
     }
 
+    @Transactional
     public void deleteSubject(
             final Long userId,
             final SubjectDeleteDto subjectDeleteDto
     ) {
-        // 유저 검증
         userRetriever.findByUserId(userId);
 
         // 주어진 연도와 학기에 대한 UserSubject 조회
         UserSubject userSubject = subjectRetriever.findByUserIdAndYearAndSemester(userId, subjectDeleteDto.year(), subjectDeleteDto.semester());
-
         if (userSubject == null) {throw new NotFoundException(ErrorCode.NOT_FOUND_USER_SUBJECT); }
 
         // 삭제할 과목 조회
@@ -90,8 +90,6 @@ public class SubjectService {
         if (subjects.isEmpty()) {
             throw new NotFoundException(ErrorCode.NOT_FOUND_SUBJECT);
         }
-
-        // SubjectRemover를 통해 삭제 처리
         subjectRemover.removeSubjects(subjects);
     }
 
