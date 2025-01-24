@@ -36,7 +36,7 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
                     JOIN us.user u
                     WHERE p.id IN :pieceIds AND u.id = :userId
             """)
-    List<Piece> findByPiecesIdAndUserId(@Param("pieceIds") List<Long> pieceIds, @Param("userId") Long userId);
+    List<Piece> findByPiecesIdAndUserId(@Param("userId") Long userId, @Param("pieceIds") List<Long> pieceIds);
 
 
     /**

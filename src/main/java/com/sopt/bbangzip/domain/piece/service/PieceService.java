@@ -41,7 +41,7 @@ public class PieceService {
             final PieceDeleteRequestDto pieceDeleteRequestDto
     ) {
         List<Long> pieceIds = pieceDeleteRequestDto.pieceIds();
-        List<Piece> pieces = pieceRetriever.findByPiecesIdAndUserId(pieceIds, userId);
+        List<Piece> pieces = pieceRetriever.findByPiecesIdAndUserId(userId, pieceIds);
 
 
         // 유효한 조각인지 검증
@@ -83,7 +83,7 @@ public class PieceService {
 
         // 2. Piece 조회
         List<Long> pieceIds = pieceAddRequestDto.pieceIds();
-        List<Piece> pieces = pieceRetriever.findByPiecesIdAndUserId(pieceIds, userId);
+        List<Piece> pieces = pieceRetriever.findByPiecesIdAndUserId(userId, pieceIds);
 
         // 유효한 Piece인지 검증
         if (pieces.isEmpty() || pieces.size() != pieceIds.size()) {
@@ -181,7 +181,7 @@ public class PieceService {
             final Long userId
     ) {
         List<Long> pieceIds = pieceDeleteRequestDto.pieceIds();
-        List<Piece> pieces = pieceRetriever.findByPiecesIdAndUserId(pieceIds, userId);
+        List<Piece> pieces = pieceRetriever.findByPiecesIdAndUserId(userId, pieceIds);
 
         if (pieces.isEmpty() || pieces.size() != pieceIds.size()) {
             throw new NotFoundException(ErrorCode.NOT_FOUND_PIECE);
