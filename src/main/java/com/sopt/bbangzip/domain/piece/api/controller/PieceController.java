@@ -55,7 +55,7 @@ public class PieceController {
 
     @DeleteMapping("/studies/pieces")
     public ResponseEntity<ResponseDto<List<Object>>> deletePieces(
-            @UserId final Long userId,
+            @UserId final long userId,
             @RequestBody @Valid final PieceDeleteRequestDto pieceDeleteRequestDto
     ) {
         pieceService.deletePieces(userId, pieceDeleteRequestDto);
