@@ -6,6 +6,7 @@ import java.util.List;
 
 @Builder
 public record ExamResponseDto(
+        String subjectName,
         String motivationMessage,
         int examDday,
         String examDate,
