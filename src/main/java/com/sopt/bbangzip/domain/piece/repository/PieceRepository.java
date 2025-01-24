@@ -332,9 +332,9 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
       AND p.deadline >= CURRENT_DATE
 """)
     int findRemainingCount(
+            @Param("userId") Long userId,
             @Param("subjectId") Long subjectId,
-            @Param("examId") Long examId,
-            @Param("userId") Long userId
+            @Param("examId") Long examId
     );
 
     // 밀린 공부
@@ -353,9 +353,9 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
       AND p.deadline < CURRENT_DATE
 """)
     int findPendingCount(
+            @Param("userId") Long userId,
             @Param("subjectId") Long subjectId,
-            @Param("examId") Long examId,
-            @Param("userId") Long userId
+            @Param("examId") Long examId
     );
 
 }
