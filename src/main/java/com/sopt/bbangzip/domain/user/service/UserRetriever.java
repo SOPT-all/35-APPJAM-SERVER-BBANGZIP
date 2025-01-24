@@ -23,4 +23,10 @@ public class UserRetriever {
                 () -> userRepository.save(User.builder().platformUserId(platformUserId).platform("KAKAO").isOnboardingComplete(false).userLevel(1).build())
         );
     }
+
+    public User findByPlatformUserIdiOS(final Long platformUserId) {
+        return userRepository.findByPlatformUserId(platformUserId).orElseGet(
+                () -> userRepository.save(User.builder().platformUserId(platformUserId).platform("KAKAO").isOnboardingComplete(true).userLevel(1).build())
+        );
+    }
 }

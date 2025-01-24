@@ -33,6 +33,15 @@ public class AuthController {
         return ResponseEntity.ok(authService.kakaoLogin(code));
     }
 
+    // 소셜 로그인 API (iOS)
+    @PostMapping("/user/auth/signin/ios")
+    public ResponseEntity<JwtTokensDto> iOSLogin(
+            @RequestParam final String code
+    ) {
+        return ResponseEntity.ok(authService.iOSLogin(code));
+    }
+
+
     // 리프레시 토큰 재발급 API
     @PostMapping("/user/auth/re-issue")
     public ResponseEntity<ReissueJwtTokensDto> reissueToken(
