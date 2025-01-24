@@ -101,7 +101,7 @@ public class AuthService {
         SubjectCreateDto subjectCreateDto = new SubjectCreateDto(
                 2025,
                 "1학기",
-                "경제통계학"
+                "빵집학개론"
         );
 
         try {
