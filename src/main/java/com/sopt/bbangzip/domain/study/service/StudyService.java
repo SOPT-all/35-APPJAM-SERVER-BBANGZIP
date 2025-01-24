@@ -1,5 +1,7 @@
 package com.sopt.bbangzip.domain.study.service;
 
+import com.sopt.bbangzip.common.exception.base.InvalidOptionsException;
+import com.sopt.bbangzip.common.exception.code.ErrorCode;
 import com.sopt.bbangzip.domain.badge.api.dto.response.BadgeResponse;
 import com.sopt.bbangzip.domain.badge.service.BadgeService;
 import com.sopt.bbangzip.domain.exam.entity.Exam;
@@ -50,21 +52,31 @@ public class StudyService {
         try {
             examDate = LocalDate.parse(studyCreateRequestDto.examDate(), DATE_FORMATTER);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date format. Expected format: yyyy-MM-dd");
+            throw new InvalidOptionsException(ErrorCode.INVALID_ARGUMENTS);
         }
 
-        // 시험 조회 및 없으면 추가
-        Exam exam = examRetriever.findByExamNameAndDateAndSubject(
+        // 시험 조회 및 없으면 추가 또는 업데이트
+        Exam exam = examRetriever.findByExamNameAndExamDateAndSubjectAndUser(
+                userId,
                 studyCreateRequestDto.examName(),
                 examDate,
                 subject
         ).orElseGet(() -> {
-            Exam newExam = Exam.builder()
-                    .examName(studyCreateRequestDto.examName())
-                    .examDate(examDate)
-                    .subject(subject)
-                    .build();
-            return examSaver.save(newExam);
+            // 중간/기말고사로 초기 생성된 시험인지 확인
+            Exam initialExam = examRetriever.findBySubjectIdAndExamNameAndUser(userId, studyCreateRequestDto.examName(), subject.getId());
+            if (initialExam != null && initialExam.getExamDate() == null) {
+                // examDate 업데이트
+                initialExam.updateExamDate(examDate);
+                return examSaver.save(initialExam);
+            } else {
+                // 새로운 시험 생성
+                Exam newExam = Exam.builder()
+                        .examName(studyCreateRequestDto.examName())
+                        .examDate(examDate)
+                        .subject(subject)
+                        .build();
+                return examSaver.save(newExam);
+            }
         });
 
         // Study 생성 및 저장
