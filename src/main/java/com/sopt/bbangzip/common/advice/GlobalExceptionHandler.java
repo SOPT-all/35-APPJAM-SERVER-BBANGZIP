@@ -92,4 +92,13 @@ public class GlobalExceptionHandler {
                 .status(ErrorCode.INVALID_ARGUMENTS.getHttpStatus())
                 .body(ErrorCode.INVALID_ARGUMENTS);
     }
+
+    //잘못된 인자 오류
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorCode> handleException(IllegalArgumentException e) {
+        log.error(e.getMessage(), e);
+        return ResponseEntity
+                .status(ErrorCode.INVALID_ARGUMENTS.getHttpStatus())
+                .body(ErrorCode.INVALID_ARGUMENTS);
+    }
 }
