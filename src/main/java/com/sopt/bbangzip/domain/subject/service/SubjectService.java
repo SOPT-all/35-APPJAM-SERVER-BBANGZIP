@@ -149,7 +149,7 @@ public class SubjectService {
             final Long subjectId,
             final Exam exam
     ){
-        int dDay = (int) ChronoUnit.DAYS.between(LocalDate.now(), exam.getExamDate());
+        int dDay = (int) ChronoUnit.DAYS.between(exam.getExamDate(), LocalDate.now());
 
         // 시험별 남은 공부와 밀린 공부 조회
         int remainingCount = pieceRetriever.findRemainingCount(userId, subjectId, exam.getId());
