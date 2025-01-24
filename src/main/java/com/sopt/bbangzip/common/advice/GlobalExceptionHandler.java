@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -48,6 +49,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(e.getErrorCode().getHttpStatus())
                 .body(e.getErrorCode());
+    }
+
+    // 필수 파라미터가 누락된 경우
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ErrorCode> handleException(MissingServletRequestParameterException e) {
+        log.error(e.getMessage(), e);
+        return ResponseEntity
+                .status(ErrorCode.INVALID_ARGUMENTS.getHttpStatus())
+                .body(ErrorCode.INVALID_ARGUMENTS);
     }
 
     // 기본 예외
