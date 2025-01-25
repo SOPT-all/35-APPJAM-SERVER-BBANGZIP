@@ -46,6 +46,6 @@ public class InssaBossBadge1 implements Badge {
 
     @Override
     public String getAchievementCondition() {
-        return null;
+        return "3명의 사용자와 함께 협력하여 공동 목표를 1주일 연속 달성한 경우";
     }
 }

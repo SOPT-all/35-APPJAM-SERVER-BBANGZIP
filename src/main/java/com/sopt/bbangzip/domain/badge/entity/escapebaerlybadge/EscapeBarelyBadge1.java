@@ -45,6 +45,6 @@ public class EscapeBarelyBadge1 implements Badge {
 
     @Override
     public String getAchievementCondition() {
-        return "몰라조건몰라";
+        return "하루 목표의 90% 이상을 마감 1시간 전에 완료한 경우";
     }
 }
