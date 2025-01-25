@@ -46,6 +46,6 @@ public class EscapeBadge1 implements Badge {
 
     @Override
     public String getAchievementCondition() {
-        return "몰라조건몰라";
+        return "연속 3일 동안 하루 목표를 모두 완료한 경우";
     }
 }
