@@ -71,49 +71,6 @@ public class AuthService {
         return jwtTokensDto;
     }
 
-    /**
-     * 온보딩 생략
-     */
-    @Transactional
-    public JwtTokensDto iOSLogin(final String code) {
-
-        System.out.println("Kakao Client ID: " + kakaoClientId);
-        System.out.println("Kakao Redirect URI: " + kakaoRedirectUri);
-
-        // accessToken(==code) 받아서 kakao 사용자 정보 요청
-        KakaoUserInfoResponse kakaoUserInfoResponse = kakaoService.getUserInfo(code);
-
-        User user = userRetriever.findByPlatformUserIdiOS(
-                kakaoUserInfoResponse.id()
-        );
-
-        JwtTokensDto jwtTokensDto = jwtTokenProvider.issueTokens(user.getId(), user.getIsOnboardingComplete());
-        tokenSaver.save(Token.builder().id(user.getId()).refreshToken(jwtTokensDto.refreshToken()).build());
-
-        // 유저가 가입됨과 동시에 2025년도 1학기에 새로운 과목 추가
-        addSubjectForUser(user.getId());
-
-        return jwtTokensDto;
-    }
-
-    // 2025년도 1학기에 새로운 과목 추가 메서드
-    private void addSubjectForUser(Long userId) {
-        SubjectCreateDto subjectCreateDto = new SubjectCreateDto(
-                2025,
-                "1학기",
-                "빵집학개론"
-        );
-
-        try {
-            subjectService.createSubject(userId, subjectCreateDto);
-        } catch (DuplicateSubjectException e) {
-            log.warn("User {} already has a default subject for 2025년 1학기.", userId);
-        }
-    }
-    /**
-     *
-     */
-
     @Transactional
     public ReissueJwtTokensDto reissueToken(final long userId, final String refreshToken) {
         // 리프레시 토큰인지 검증
