@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 public interface BbangzipErrorCode {
     HttpStatus getHttpStatus();
-    String getCode();
+    int getCode();
     String getMessage();
 }
 
